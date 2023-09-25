@@ -46,6 +46,7 @@ module.exports = (_, argv) => ({
       remotes: {},
       exposes: {
         "./Counter": "./src/components/Counter",
+        "./DiaryBlogSpace": "./src/components/DiaryBlogSpace",
       },
       shared: {
         ...deps,
