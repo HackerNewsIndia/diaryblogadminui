@@ -14,13 +14,13 @@ import CompanyPosts from "./CompanyPosts";
 import DashboardContent from "./DashboardContents";
 import jwt_decode from "jwt-decode";
 
-function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn }) {
+function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   // const [userDetails, setUserDetails] = useState(null);
   // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const [selectedCompany, setSelectedCompany] = useState(null);
-  const [selectedKey, setSelectedKey] = useState(null);
+  // const [selectedKey, setSelectedKey] = useState(null);
   const [companyData, setCompanyData] = useState([]);
 
   const navigate = useNavigate();
@@ -33,12 +33,12 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn }) {
     setSelectedCompany(company);
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/");
-    // Add any additional logout logic you may need.
-  };
+  // const logout = () => {
+  //   localStorage.removeItem("token");
+  //   setIsLoggedIn(false);
+  //   navigate("/");
+  //   // Add any additional logout logic you may need.
+  // };
 
   console.log("you have selected", selectedCompany);
 
@@ -112,8 +112,8 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn }) {
   console.log("Company Data:", companyData);
 
   return (
-    <div className="menu-container">
-      <div className="left-side">
+    <div className="right-side">
+      {/* <div className="left-side">
         <Menu onClick={(e) => setSelectedKey(e.key)}>
           <Menu.Item key="home" icon={<HomeOutlined />}>
             Dashboard
@@ -136,7 +136,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn }) {
             </Menu.Item>
           )}
         </Menu>
-      </div>
+      </div> */}
       {!selectedKey && (
         <div className="content-body">
           <h1 className="dashboard_heading">Welcome to Dashboard</h1>
