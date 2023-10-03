@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./DashboardContent.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 function TotalViewsThirtyDays() {
@@ -115,45 +116,69 @@ const LatestPost = () => {
 
 const DraftsList = (company, title) => {
   const [drafts, setDrafts] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch drafts when component mounts
-    fetch("http://127.0.0.1:5001/api/drafts")
-      .then((response) => response.json())
-      .then((data) => {
-        setDrafts(data);
-        console.log(data.map((draft) => draft.timestamp));
-      })
-      .catch((error) => {
-        console.error("Error fetching drafts:", error);
-      });
-  }, []);
+    // Get token from local storage
+    const token = localStorage.getItem("token");
 
-  const handleDraftDelete = (company, title) => {
-    console.log(company, title);
-    fetch(`http://127.0.0.1:5001/api/drafts/${company}/${title}`, {
-      method: "DELETE",
-    })
+    // Set up fetch options
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    // Fetch draft posts for the user
+    fetch("http://127.0.0.1:5001/api/drafts", requestOptions)
       .then((response) => {
+        // Check if response is successful
         if (!response.ok) {
-          throw new Error("Response was not okay");
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data);
+        setDrafts(data);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  }, []);
+  console.log(drafts);
+
+  // const time = draft.timestamp;
+
+  const handleDraftDelete = (draftId) => {
+    const token = localStorage.getItem("token");
+
+    fetch(`http://127.0.0.1:5001/api/drafts/${draftId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Success:", data);
+
+        // Optionally, you can remove the deleted draft from your local state here
         setDrafts((prevDrafts) =>
-          prevDrafts.filter(
-            (draft) => !(draft.title === title && draft.company === company)
-          )
+          prevDrafts.filter((draft) => draft._id !== draftId)
         );
       })
       .catch((error) => {
-        console.error("Error deleting draft:", error);
+        console.error("Error:", error);
       });
   };
-
-  // const time = draft.timestamp;
 
   return (
     <div className="drafts-container">
@@ -168,16 +193,16 @@ const DraftsList = (company, title) => {
             />
             <div className="drafts-details">
               <h6 className="drafts-title">{draft.title}</h6>
-              <p className="drafts-content">{draft.content.substring(0, 30)}</p>
+              <p className="drafts-content">
+                {draft.description.substring(0, 30)}
+              </p>
             </div>
-            <p className="drafts-time">{timeSince(draft.timestamp)}</p>
+            <p className="drafts-time">{timeSince(draft.createDate)}</p>
             <button
               className="delete-draft"
-              onClick={() => {
-                handleDraftDelete(draft.company, draft.title);
-              }}
+              onClick={() => handleDraftDelete(draft._id)}
             >
-              <i className="fas fa-trash"></i>
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </li>
         ))}
@@ -202,7 +227,7 @@ const DashboardContent = () => {
       <div className="user-and-viewposts">
         <h4 className="user">{cardData.user_id}</h4>
         <div className="viewposts-dashboard">
-          <Link className="view_posts_link" to="/diaryblog">
+          <Link className="view_posts_link" to="/diaryblogSpace">
             <i className="fas fa-edit"></i> View Posts
           </Link>
         </div>
