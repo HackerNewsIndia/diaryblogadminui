@@ -9,4 +9,13 @@ const App = () => (
     <Counter />
   </div>
 );
-ReactDOM.render(<App />, document.getElementById("app"));
+
+const renderApp = () => {
+  ReactDOM.render(<App />, document.getElementById("app"));
+};
+
+renderApp();
+
+if (module.hot) {
+  module.hot.accept("./App", renderApp);
+}
