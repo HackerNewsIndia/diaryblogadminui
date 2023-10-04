@@ -67,7 +67,7 @@
 }
 
 .create-blog-button {
-  background-color: #28a745;
+  background-color: #333;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -76,7 +76,7 @@
   transition: background-color 0.2s;
   font-size: 14px;
   margin: 20px 0;
-  margin-left: 0px;
+  margin-left: auto;
   display: block;
   /* width: 200px; */
   text-align: center;
@@ -85,7 +85,7 @@
 }
 
 .create-blog-button:hover {
-  background-color: #1e7e34;
+  background-color: #333;
 }
 
 .error {
