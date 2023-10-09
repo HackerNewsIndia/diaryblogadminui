@@ -15,7 +15,7 @@ const CompanyPosts = ({ selectedCompany }) => {
       console.error("selectedCompany.name is not set");
       return;
     }
-    fetch(`http://127.0.0.1:5001/api/posts/${selectedCompany.name}`)
+    fetch(`https://diaryblogapi.onrender.com/api/posts/${selectedCompany.name}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
