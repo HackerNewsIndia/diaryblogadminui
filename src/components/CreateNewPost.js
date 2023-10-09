@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./CreateNewPost.css";
+// import
 
 const CreateNewPost = ({
   cancelCreatingPost,
@@ -14,6 +15,7 @@ const CreateNewPost = ({
   const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [validationError, setValidationError] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState("");
 
   const currentTime = new Date().toISOString();
 
@@ -29,14 +31,17 @@ const CreateNewPost = ({
 
     const token = localStorage.getItem("token");
 
-    fetch(`http://127.0.0.1:5001/api/posts/${selectedCompany.name}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ title, description, imageUrl, category }), // This will be available in request.get_json() in your backend
-    })
+    fetch(
+      `https://diaryblogapi.onrender.com/api/posts/${selectedCompany.name}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, description, imageUrl, category }), // This will be available in request.get_json() in your backend
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
@@ -55,7 +60,7 @@ const CreateNewPost = ({
     console.log("Selected Company ID:", selectedCompany._id);
 
     fetch(
-      `http://127.0.0.1:5001/api/drafts/${selectedCompany.company}/${selectedCompany._id.$oid}`,
+      `https://diaryblogapi.onrender.com/api/drafts/${selectedCompany.company}/${selectedCompany._id.$oid}`,
       {
         method: "POST",
         headers: {
@@ -118,6 +123,22 @@ const CreateNewPost = ({
               <option value="others">others</option>
             </select>
             <label className="post-title-label">Title:</label>
+            <label className="post-content-label">Select Template:</label>
+            <select
+              className="template-dropdown"
+              value={selectedTemplate}
+              onChange={(e) => {
+                const template = TEMPLATES[e.target.value];
+                setDescription(template || "");
+              }}
+            >
+              <option value="">Select a template...</option>
+              {Object.keys(TEMPLATES).map((templateName) => (
+                <option value={templateName} key={templateName}>
+                  {templateName}
+                </option>
+              ))}
+            </select>
             <input
               className="post-title-input"
               type="text"
