@@ -4,7 +4,6 @@ const webpack = require("webpack");
 
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => ({
-  mode: "production",
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
   },
