@@ -2,7 +2,7 @@
   "name": "diaryblogadminui",
   "version": "1.0.0",
   "scripts": {
-    "build":"cd dist",
+    "build":"ls dist",
     "build:prod": "webpack --config webpack.prod.js",
     "build:dev": "webpack --mode development",
     "build:start": "cd dist && PORT=3032 npx serve",
