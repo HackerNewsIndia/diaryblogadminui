@@ -2,7 +2,7 @@
   "name": "diaryblogadminui",
   "version": "1.0.0",
   "scripts": {
-    "build":"ls dist",
+    "build": "webpack --config webpack.prod.js",
     "build:prod": "webpack --config webpack.prod.js",
     "build:dev": "webpack --mode development",
     "build:start": "cd dist && PORT=3032 npx serve",
@@ -52,6 +52,7 @@
     "react-markdown": "^8.0.7",
     "react-scripts": "5.0.1",
     "rmwc": "^8.0.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack-cli": "^4.10.0"
   }
 }
