@@ -29,7 +29,7 @@ const PostsTable = ({
     console.log(story);
 
     fetch(
-      `hhttps://diaryblogapi.onrender.com/api/posts/${selectedCompany.name}/${story._id}`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${story._id}`,
       { method: "DELETE" }
     )
       .then((response) => {
@@ -59,7 +59,7 @@ const PostsTable = ({
     console.log(story);
 
     fetch(
-      `hhttps://diaryblogapi.onrender.com/api/posts/${selectedCompany.name}/${story._id}/views`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${story._id}/views`,
       { method: "PUT" }
     )
       .then((response) => response.json())

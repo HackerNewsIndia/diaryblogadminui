@@ -10,7 +10,7 @@ function TotalViewsThirtyDays() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch(`https://diaryblogapi.onrender.com/api/blogpost/last30daysviews`, {
+    fetch(`https://diaryblogapi2.onrender.com/api/blogpost/last30daysviews`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -68,7 +68,7 @@ const LatestPost = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:5001/api/latest_post", {
+    fetch("https://diaryblogapi2.onrender.com/api/latest_post", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -132,7 +132,7 @@ const DraftsList = (company, title) => {
     };
 
     // Fetch draft posts for the user
-    fetch("https://diaryblogapi.onrender.com/api/drafts", requestOptions)
+    fetch("https://diaryblogapi2.onrender.com/api/drafts", requestOptions)
       .then((response) => {
         // Check if response is successful
         if (!response.ok) {
@@ -154,7 +154,7 @@ const DraftsList = (company, title) => {
   const handleDraftDelete = (draftId) => {
     const token = localStorage.getItem("token");
 
-    fetch(`https://diaryblogapi.onrender.com/api/drafts/${draftId}`, {
+    fetch(`https://diaryblogapi2.onrender.com/api/drafts/${draftId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -216,7 +216,7 @@ const DashboardContent = () => {
 
   useEffect(() => {
     // Fetch data from backend API
-    fetch("https://diaryblogapi.onrender.com/api/posts/latest_post")
+    fetch("https://diaryblogapi2.onrender.com/api/posts/latest_post")
       .then((response) => response.json())
       .then((data) => setCardData(data))
       .catch((error) => console.error("Error fetching data:", error));

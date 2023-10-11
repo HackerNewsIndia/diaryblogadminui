@@ -32,7 +32,7 @@ const CreateNewPost = ({
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi.onrender.com/api/posts/${selectedCompany.name}`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}`,
       {
         method: "POST",
         headers: {
@@ -60,7 +60,7 @@ const CreateNewPost = ({
     console.log("Selected Company ID:", selectedCompany._id);
 
     fetch(
-      `https://diaryblogapi.onrender.com/api/drafts/${selectedCompany.company}/${selectedCompany._id.$oid}`,
+      `https://diaryblogapi2.onrender.com/api/drafts/${selectedCompany.company}/${selectedCompany._id.$oid}`,
       {
         method: "POST",
         headers: {

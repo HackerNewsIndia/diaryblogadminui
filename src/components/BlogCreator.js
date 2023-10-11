@@ -52,7 +52,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
 
     try {
       const response = await fetch(
-        "https://diaryblogapi.onrender.com/api/diaryblog_space",
+        "https://diaryblogapi2.onrender.com/api/diaryblog_space",
         {
           method: "POST",
           headers: {
