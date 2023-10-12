@@ -27,6 +27,10 @@ module.exports = (_, argv) => ({
           loader: "babel-loader",
         },
       },
+      {
+        test: /\.md$/,
+        use: "raw-loader",
+      },
     ],
   },
 
