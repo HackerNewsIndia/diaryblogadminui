@@ -5,6 +5,18 @@ import ReactMarkdown from "react-markdown";
 import "./CreateNewPost.css";
 // import
 
+const templateContext = require.context(
+  "./markdown_blog_templates",
+  false,
+  /\.md$/
+);
+
+const TEMPLATES = templateContext.keys().reduce((templates, fileName) => {
+  const templateName = fileName.replace("./", "").replace(".md", "");
+  templates[templateName] = templateContext(fileName).default;
+  return templates;
+}, {});
+
 const CreateNewPost = ({
   cancelCreatingPost,
   selectedCompany,
@@ -18,18 +30,6 @@ const CreateNewPost = ({
   const [selectedTemplate, setSelectedTemplate] = useState("");
 
   const currentTime = new Date().toISOString();
-
-  const templateContext = require.context(
-    "./markdown_blog_templates",
-    false,
-    /\.md$/
-  );
-
-  const TEMPLATES = templateContext.keys().reduce((templates, fileName) => {
-    const templateName = fileName.replace("./", "").replace(".md", "");
-    templates[templateName] = templateContext(fileName).default;
-    return templates;
-  }, {});
 
   const handleSubmit = (event) => {
     event.preventDefault();
