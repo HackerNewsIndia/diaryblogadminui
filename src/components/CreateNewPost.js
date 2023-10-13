@@ -41,7 +41,7 @@ const CreateNewPost = ({
   // })();
 
   function fetchMarkdown(templateName) {
-    fetch(`/public/markdown_templates/${templateName}.md`)
+    fetch(`/markdown_templates${templateName}.md`)
       .then((response) => response.text())
       .then((data) => {
         // 'data' now contains the markdown content
