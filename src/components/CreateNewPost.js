@@ -4,19 +4,16 @@ import React, { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./CreateNewPost.css";
 // import
-
-const templateContext = require.context(
-  "./markdown_blog_templates",
-  false,
-  /\.md$/
-);
-
-const TEMPLATES = templateContext.keys().reduce((templates, fileName) => {
-  const templateName = fileName.replace("./", "").replace(".md", "");
-  templates[templateName] = templateContext(fileName).default;
-  return templates;
-}, {});
-
+// const templatesContext = require.context(
+//   "../markdown_blog_templates",
+//   false,
+//   /\.md$/
+// );
+// const TEMPLATES = templatesContext.keys().reduce((templates, fileName) => {
+//   const templateName = fileName.replace("./", "").replace(".md", "");
+//   templates[templateName] = templatesContext(fileName).default;
+//   return templates;
+// }, {});
 const CreateNewPost = ({
   cancelCreatingPost,
   selectedCompany,
@@ -28,6 +25,31 @@ const CreateNewPost = ({
   const [category, setCategory] = useState("");
   const [validationError, setValidationError] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("");
+
+  // const TEMPLATES = (() => {
+  //   const templatesContext = require.context(
+  //     "../markdown_blog_templates",
+  //     false,
+  //     /\.md$/
+  //   );
+
+  //   return templatesContext.keys().reduce((templates, fileName) => {
+  //     const templateName = fileName.replace("./", "").replace(".md", "");
+  //     templates[templateName] = templatesContext(fileName).default;
+  //     return templates;
+  //   }, {});
+  // })();
+
+  function fetchMarkdown(templateName) {
+    fetch(`/markdown_templates/${templateName}.md`)
+      .then((response) => response.text())
+      .then((data) => {
+        // 'data' now contains the markdown content
+        setDescription(data);
+      });
+  }
+
+  const MARKDOWN_TEMPLATES = ["universal_blog_template"];
 
   const currentTime = new Date().toISOString();
 
@@ -45,6 +67,7 @@ const CreateNewPost = ({
 
     fetch(
       `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}`,
+      // `http://127.0.0.1:5001/api/posts/${selectedCompany.name}`,
       {
         method: "POST",
         headers: {
@@ -140,12 +163,12 @@ const CreateNewPost = ({
               className="template-dropdown"
               value={selectedTemplate}
               onChange={(e) => {
-                const template = TEMPLATES[e.target.value];
-                setDescription(template || "");
+                const templateName = e.target.value;
+                fetchMarkdown(templateName);
               }}
             >
               <option value="">Select a template...</option>
-              {Object.keys(TEMPLATES).map((templateName) => (
+              {MARKDOWN_TEMPLATES.map((templateName) => (
                 <option value={templateName} key={templateName}>
                   {templateName}
                 </option>
