@@ -45,6 +45,7 @@ const CreateNewPost = ({
       .then((response) => response.text())
       .then((data) => {
         // 'data' now contains the markdown content
+        console.log(data);
         setDescription(data);
       });
   }
