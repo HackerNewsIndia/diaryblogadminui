@@ -15,7 +15,7 @@ const CreateNewPost = ({
   const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [validationError, setValidationError] = useState("");
-  // const [selectedTemplate, setSelectedTemplate] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState("");
   const [templates, setTemplates] = useState([]);
 
   console.log("Component render start");
@@ -143,15 +143,18 @@ const CreateNewPost = ({
             <label className="post-content-label">Select Template:</label>
             <select
               className="template-dropdown"
-              value={templates}
+              value={selectedTemplate}
               onChange={(e) => {
-                const templateName = e.target.value;
-                fetchMarkdown(templateName);
+                setSelectedTemplate(e.target.value);
+                // Do something with the selected template, e.g.:
+                // fetchMarkdown(e.target.value);
               }}
             >
               <option value="">Select a template...</option>
-              {templates.map((templateName) => (
-                <option value={templateName} key={templateName}></option>
+              {templates.map((template) => (
+                <option value={template.content} key={template.name}>
+                  {template.name}
+                </option>
               ))}
             </select>
             <input
