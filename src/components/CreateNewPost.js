@@ -17,21 +17,20 @@ const CreateNewPost = ({
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [templates, setTemplates] = useState([]);
 
+  console.log("Component render start");
   useEffect(() => {
-    console.log("hi");
-    // Using Fetch to get the templates
+    console.log("Inside useEffect before fetch");
     fetch("https://diaryblogapi2.onrender.com/api/md_templates")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("Data fetched", data);
         setTemplates(data); // Store the templates in state
       })
       .catch((error) =>
         console.error("There was an error fetching the templates:", error)
       );
   }, []);
-
-  console.log("templates", templates);
+  console.log("Component render end");
 
   const currentTime = new Date().toISOString();
 
