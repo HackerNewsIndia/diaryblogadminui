@@ -32,6 +32,7 @@ const CreateNewPost = ({
       );
   }, []);
   console.log("Component render end");
+  console.log("templates:", templates);
 
   const currentTime = new Date().toISOString();
 
