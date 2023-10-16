@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import "./CreateNewPost.css";
+import { template } from "@babel/core";
 
 const CreateNewPost = ({
   cancelCreatingPost,
@@ -14,7 +15,7 @@ const CreateNewPost = ({
   const [imageUrl, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [validationError, setValidationError] = useState("");
-  const [selectedTemplate, setSelectedTemplate] = useState("");
+  // const [selectedTemplate, setSelectedTemplate] = useState("");
   const [templates, setTemplates] = useState([]);
 
   console.log("Component render start");
@@ -142,17 +143,16 @@ const CreateNewPost = ({
             <label className="post-content-label">Select Template:</label>
             <select
               className="template-dropdown"
-              value={selectedTemplate}
+              value={templates}
               onChange={(e) => {
                 const templateName = e.target.value;
                 fetchMarkdown(templateName);
               }}
             >
               <option value="">Select a template...</option>
-              {/* {MARKDOWN_TEMPLATES.map((templateName) => (
-                <option value={templateName} key={templateName}>
-                </option>
-              ))} */}
+              {templates.map((templateName) => (
+                <option value={templateName} key={templateName}></option>
+              ))}
             </select>
             <input
               className="post-title-input"
