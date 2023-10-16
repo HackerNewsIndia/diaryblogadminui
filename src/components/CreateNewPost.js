@@ -17,49 +17,13 @@ const CreateNewPost = ({
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [templates, setTemplates] = useState([]);
 
-  // const TEMPLATES = (() => {
-  //   const templatesContext = require.context(
-  //     "../markdown_blog_templates",
-  //     false,
-  //     /\.md$/
-  //   );
-
-  //   return templatesContext.keys().reduce((templates, fileName) => {
-  //     const templateName = fileName.replace("./", "").replace(".md", "");
-  //     templates[templateName] = templatesContext(fileName).default;
-  //     return templates;
-  //   }, {});
-  // })();
-
-  // function fetchMarkdown(templateName) {
-  //   fetch(
-  //     `https://diaryblogadminui-9lj0.onrender.com/public/markdown_templates/${templateName}.md`
-  //   )
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.text();
-  //     })
-  //     .then((data) => {
-  //       console.log("template:", data);
-  //       setDescription(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(
-  //         "There was a problem with the fetch operation:",
-  //         error.message
-  //       );
-  //     });
-  // }
-
-  // const MARKDOWN_TEMPLATES = ["universal_blog_template"];
-
   useEffect(() => {
+    console.log("hi");
     // Using Fetch to get the templates
     fetch("https://diaryblogapi2.onrender.com/api/md_templates")
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setTemplates(data); // Store the templates in state
       })
       .catch((error) =>
@@ -234,3 +198,41 @@ const CreateNewPost = ({
 };
 
 export default CreateNewPost;
+
+// const TEMPLATES = (() => {
+//   const templatesContext = require.context(
+//     "../markdown_blog_templates",
+//     false,
+//     /\.md$/
+//   );
+
+//   return templatesContext.keys().reduce((templates, fileName) => {
+//     const templateName = fileName.replace("./", "").replace(".md", "");
+//     templates[templateName] = templatesContext(fileName).default;
+//     return templates;
+//   }, {});
+// })();
+
+// function fetchMarkdown(templateName) {
+//   fetch(
+//     `https://diaryblogadminui-9lj0.onrender.com/public/markdown_templates/${templateName}.md`
+//   )
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       return response.text();
+//     })
+//     .then((data) => {
+//       console.log("template:", data);
+//       setDescription(data);
+//     })
+//     .catch((error) => {
+//       console.error(
+//         "There was a problem with the fetch operation:",
+//         error.message
+//       );
+//     });
+// }
+
+// const MARKDOWN_TEMPLATES = ["universal_blog_template"];`
