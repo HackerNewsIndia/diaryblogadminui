@@ -186,11 +186,10 @@ const CreateNewPost = ({
               }}
             >
               <option value="">Select a template...</option>
-              {MARKDOWN_TEMPLATES.map((templateName) => (
+              {/* {MARKDOWN_TEMPLATES.map((templateName) => (
                 <option value={templateName} key={templateName}>
-                  {templateName}
                 </option>
-              ))}
+              ))} */}
             </select>
             <input
               className="post-title-input"
