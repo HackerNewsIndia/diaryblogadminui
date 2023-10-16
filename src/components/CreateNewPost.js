@@ -41,11 +41,11 @@ const CreateNewPost = ({
   // })();
 
   function fetchMarkdown(templateName) {
-    fetch(`/markdown_templates${templateName}.md`)
+    fetch(`public/markdown_templates/${templateName}.md`)
       .then((response) => response.text())
       .then((data) => {
         // 'data' now contains the markdown content
-        console.log(data);
+        console.log("template:", data);
         setDescription(data);
       });
   }
