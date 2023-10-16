@@ -105,6 +105,8 @@ const CreateNewPost = ({
       });
   };
 
+  console.log("hi");
+
   return (
     <div className="create-post-container">
       <h1 className="create-post-heading">Create New Post</h1>
