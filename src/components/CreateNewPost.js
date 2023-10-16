@@ -41,12 +41,24 @@ const CreateNewPost = ({
   // })();
 
   function fetchMarkdown(templateName) {
-    fetch(`public/markdown_templates/${templateName}.md`)
-      .then((response) => response.text())
+    fetch(
+      `https://diaryblogadminui-9lj0.onrender.com/public/markdown_templates/${templateName}.md`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.text();
+      })
       .then((data) => {
-        // 'data' now contains the markdown content
         console.log("template:", data);
         setDescription(data);
+      })
+      .catch((error) => {
+        console.error(
+          "There was a problem with the fetch operation:",
+          error.message
+        );
       });
   }
 
