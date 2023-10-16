@@ -152,7 +152,7 @@ const CreateNewPost = ({
             >
               <option value="">Select a template...</option>
               {templates.map((template) => (
-                <option value={template.content} key={template.name}>
+                <option value={template.name} key={template.name}>
                   {template.name}
                 </option>
               ))}
