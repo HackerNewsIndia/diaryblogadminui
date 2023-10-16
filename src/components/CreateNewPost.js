@@ -67,7 +67,7 @@ const CreateNewPost = ({
       );
   }, []);
 
-  console.log(templates);
+  console.log("templates", templates);
 
   const currentTime = new Date().toISOString();
 
