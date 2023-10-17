@@ -150,8 +150,12 @@ const CreateNewPost = ({
               value={selectedTemplate}
               onChange={(e) => {
                 setSelectedTemplate(e.target.value);
-                // Do something with the selected template, e.g.:
-                // fetchMarkdown(e.target.value);
+                const selectedTemplate = templates.find(
+                  (t) => t.name === e.target.value
+                );
+                if (selectedTemplate) {
+                  setDescription(selectedTemplate.content);
+                }
               }}
             >
               <option value="">Select a template...</option>
