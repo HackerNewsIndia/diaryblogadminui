@@ -34,7 +34,8 @@ const CreateNewPost = ({
   console.log("Component render end");
   console.log("templates:", templates);
   console.log("blogpost");
-
+console.log("vinoth");
+  
   const currentTime = new Date().toISOString();
 
   const handleSubmit = (event) => {
