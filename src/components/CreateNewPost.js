@@ -33,6 +33,7 @@ const CreateNewPost = ({
   }, []);
   console.log("Component render end");
   console.log("templates:", templates);
+  console.log("blogpost");
 
   const currentTime = new Date().toISOString();
 
