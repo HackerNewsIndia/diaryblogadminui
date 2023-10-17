@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import "./CreateNewPost.css";
-import { template } from "@babel/core";
 
 const CreateNewPost = ({
   cancelCreatingPost,
@@ -31,12 +30,11 @@ const CreateNewPost = ({
         console.error("There was an error fetching the templates:", error)
       );
   }, []);
- 
+
   console.log("Component render end");
   console.log("templates:", templates);
   console.log("blogpost");
 
-  
   const currentTime = new Date().toISOString();
 
   const handleSubmit = (event) => {
