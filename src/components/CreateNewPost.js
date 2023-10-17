@@ -31,7 +31,7 @@ const CreateNewPost = ({
         console.error("There was an error fetching the templates:", error)
       );
   }, []);
-  console.log("templates:", templates);
+ 
   console.log("Component render end");
   console.log("templates:", templates);
   console.log("blogpost");
