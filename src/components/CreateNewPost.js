@@ -143,7 +143,6 @@ const CreateNewPost = ({
               <option value="Psychology">Psychology</option>
               <option value="others">others</option>
             </select>
-            <label className="post-title-label">Title:</label>
             <label className="post-content-label">Select Template:</label>
             <select
               className="template-dropdown"
@@ -165,6 +164,7 @@ const CreateNewPost = ({
                 </option>
               ))}
             </select>
+            <label className="post-title-label">Title:</label>
             <input
               className="post-title-input"
               type="text"
