@@ -155,3 +155,29 @@
     -webkit-appearance: none; /* for WebKit browsers like Chrome and Safari */
     margin: 0;
 }
+
+.template-dropdown{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    width: 100%; /* Set to desired width */
+    margin: 10px 0;
+    appearance: none;
+    outline: none;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.template-dropdown:focus{
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+.template-dropdown::-ms-expand{
+    display: none; /* for IE 11 */
+}
+.template-dropdown::-webkit-inner-spin-button,
+.template-dropdown::-webkit-outer-spin-button{
+    -webkit-appearance: none; /* for WebKit browsers like Chrome and Safari */
+    margin: 0;
+}
