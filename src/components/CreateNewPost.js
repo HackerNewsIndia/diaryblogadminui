@@ -58,7 +58,13 @@ const CreateNewPost = ({
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title, description, imageUrl, category }), // This will be available in request.get_json() in your backend
+        body: JSON.stringify({
+          title,
+          description,
+          imageUrl,
+          category,
+          status: "published",
+        }), // This will be available in request.get_json() in your backend
       }
     )
       .then((response) => response.json())
@@ -92,6 +98,7 @@ const CreateNewPost = ({
           imageUrl: imageUrl,
           company: selectedCompany.company,
           timestamp: currentTime,
+          status: "draft",
         }), // This will be available in request.get_json() in your backend
       }
     )
