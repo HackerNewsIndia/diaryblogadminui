@@ -130,6 +130,7 @@ const CreateNewPost = ({
   const handleURLChange = (event) => {
     setUrl(event.target.value);
   };
+  console.log("url:", url);
 
   const fetchMarkdownFromURL = () => {
     fetch(url)
