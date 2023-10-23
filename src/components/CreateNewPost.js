@@ -179,15 +179,21 @@ const CreateNewPost = ({
               <option value="Psychology">Psychology</option>
               <option value="others">others</option>
             </select>
-            <label htmlFor="md-file">Upload .md file:</label>
+            <label htmlFor="md-file" className="post-content-label">
+              Upload .md file:
+            </label>
             <input
+              className="file-upload"
               type="file"
               id="md-file"
               accept=".md"
               onChange={handleFileChange}
             />
-            <label>Or enter the URL of the .md file:</label>
+            <label className="post-content-label">
+              Or enter the URL of the .md file:
+            </label>
             <input
+              className="url-upload"
               type="text"
               placeholder="Enter URL to .md file"
               onChange={handleURLChange}

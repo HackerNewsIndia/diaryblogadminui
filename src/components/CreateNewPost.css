@@ -181,3 +181,29 @@
     -webkit-appearance: none; /* for WebKit browsers like Chrome and Safari */
     margin: 0;
 }
+
+.file-upload{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    /* width: 100%; */
+    margin: 10px 0;
+    appearance: none;
+    outline: none;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.url-upload{
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    /* width: 100%; */
+    margin: 10px 0;
+    appearance: none;
+    outline: none;
+    color: #333;
+    background-color: #f9f9f9;
+}
