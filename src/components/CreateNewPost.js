@@ -198,7 +198,7 @@ const CreateNewPost = ({
               placeholder="Enter URL to .md file"
               onChange={handleURLChange}
             />
-            <button onClick={fetchMarkdownFromURL}>Fetch</button>
+            <button className="submit-button" onClick={fetchMarkdownFromURL}>Fetch</button>
 
             <label className="post-content-label">Select Template:</label>
             <select
