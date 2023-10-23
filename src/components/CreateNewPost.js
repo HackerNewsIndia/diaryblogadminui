@@ -16,6 +16,7 @@ const CreateNewPost = ({
   const [validationError, setValidationError] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [templates, setTemplates] = useState([]);
+  const [url, setUrl] = useState("");
 
   console.log("Component render start");
   useEffect(() => {
@@ -115,6 +116,33 @@ const CreateNewPost = ({
 
   console.log("hi");
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        setDescription(e.target.result); // Assuming setDescription updates your textarea
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const handleURLChange = (event) => {
+    setUrl(event.target.value);
+  };
+
+  const fetchMarkdownFromURL = () => {
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to fetch the file.");
+        return response.text();
+      })
+      .then((content) => {
+        setDescription(content);
+      })
+      .catch((error) => console.error("Error fetching .md file:", error));
+  };
+
   return (
     <div className="create-post-container">
       <h1 className="create-post-heading">Create New Post</h1>
@@ -150,6 +178,21 @@ const CreateNewPost = ({
               <option value="Psychology">Psychology</option>
               <option value="others">others</option>
             </select>
+            <label htmlFor="md-file">Upload .md file:</label>
+            <input
+              type="file"
+              id="md-file"
+              accept=".md"
+              onChange={handleFileChange}
+            />
+            <label>Or enter the URL of the .md file:</label>
+            <input
+              type="text"
+              placeholder="Enter URL to .md file"
+              onChange={handleURLChange}
+            />
+            <button onClick={fetchMarkdownFromURL}>Fetch</button>
+
             <label className="post-content-label">Select Template:</label>
             <select
               className="template-dropdown"
