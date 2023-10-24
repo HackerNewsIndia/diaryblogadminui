@@ -132,7 +132,8 @@ const CreateNewPost = ({
   };
   console.log("url:", url);
 
-  const fetchMarkdownFromURL = () => {
+  const fetchMarkdownFromURL = (e) => {
+    e.preventDefault();
     fetch(url)
       .then((response) => {
         if (!response.ok) throw new Error("Failed to fetch the file.");
@@ -198,7 +199,9 @@ const CreateNewPost = ({
               placeholder="Enter URL to .md file"
               onChange={handleURLChange}
             />
-            <button className="submit-button" onClick={fetchMarkdownFromURL}>Fetch</button>
+            <button className="submit-button" onClick={fetchMarkdownFromURL}>
+              Fetch
+            </button>
 
             <label className="post-content-label">Select Template:</label>
             <select
