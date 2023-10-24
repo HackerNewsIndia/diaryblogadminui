@@ -134,7 +134,11 @@ const CreateNewPost = ({
 
   const fetchMarkdownFromURL = (e) => {
     e.preventDefault();
-    fetch(url)
+    fetch(
+      `https://diaryblogapi2.onrender.com/fetch-content?url=${encodeURIComponent(
+        url
+      )}`
+    )
       .then((response) => {
         if (!response.ok) throw new Error("Failed to fetch the file.");
         return response.text();
