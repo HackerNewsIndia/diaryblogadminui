@@ -116,9 +116,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   return (
     <div className="right-side">
-    <button className="create-blog-button" onClick={toggleCreateForm}>
-          CREATE NEW TYPEIT SPACE 
-        </button>
+    
       {/* <div className="left-side">
         <Menu onClick={(e) => setSelectedKey(e.key)}>
           <Menu.Item key="home" icon={<HomeOutlined />}>
