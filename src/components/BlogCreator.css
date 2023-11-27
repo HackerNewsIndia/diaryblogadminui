@@ -95,13 +95,17 @@
 }
 
 .blogspace-list{
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 2px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
   margin-left: 2px;
   margin-right: 2px;
+  margin-top: 2px;
+  margin-bottom: 4px;
   box-shadow: 0px 0px 10px black, 0px 0px 15px rgba(0,0,0,0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  font-size: 14px;
 }
 .blogspace-list:hover {
   transform: translateY(-10px);
