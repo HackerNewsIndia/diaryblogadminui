@@ -116,6 +116,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   return (
     <div className="right-side">
+    
       {/* <div className="left-side">
         <Menu onClick={(e) => setSelectedKey(e.key)}>
           <Menu.Item key="home" icon={<HomeOutlined />}>
