@@ -1,26 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./BlogCreator.css";
+import jwt_decode from "jwt-decode";
 
-// function CreateUserBlog({ onClose, onNewBlog }) {
-//   // const [blogs, setBlogs] = useState([]);
-//   const [title, setTitle] = useState("");
-//   const [url, setUrl] = useState("");
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-
-//     // Add the new blog to the blogs array
-//     // setBlogs([...blogs, { title, url }]);
-//     onNewBlog({ title, url });
-//     // Optionally clear the form
-//     setTitle("");
-//     setUrl("");
-//   };
 function CreateTypeitSpace({ onClose, onNewBlog }) {
-  //   const [title, setTitle] = useState("");
-  //   const [url, setUrl] = useState("");
-  //   const [category, setcategory] = useState("");
-  //   const [errors, setErrors] = useState({});
   const [companyData, setCompanyData] = useState("");
 
   useEffect(() => {
