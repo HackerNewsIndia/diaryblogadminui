@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./BlogCreator.css";
 
 // function CreateUserBlog({ onClose, onNewBlog }) {
@@ -17,107 +17,81 @@ import "./BlogCreator.css";
 //     setUrl("");
 //   };
 function CreateTypeitSpace({ onClose, onNewBlog }) {
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
-  const [category, setcategory] = useState("");
-  const [errors, setErrors] = useState({});
+  //   const [title, setTitle] = useState("");
+  //   const [url, setUrl] = useState("");
+  //   const [category, setcategory] = useState("");
+  //   const [errors, setErrors] = useState({});
+  const [companyData, setCompanyData] = useState("");
 
-  function validateFields() {
-    let validationErrors = {};
-
-    // Validate title length
-    if (title.length < 3 || title.length > 30) {
-      validationErrors.title = "Title should be between 3 and 30 characters.";
-    }
-
-    // Validate URL format using a simple regex pattern
-    const urlPattern = /^https?:\/\/.+$/;
-    if (!urlPattern.test(url)) {
-      validationErrors.url = "URL must be in http format.";
-    }
-
-    return validationErrors;
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const validationErrors = validateFields();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No JWT token found in local storage.");
       return;
     }
 
-    const token = localStorage.getItem("token");
+    // Decode the JWT token to get the user_id
+    const decodedToken = jwt_decode(token);
+    const userId = decodedToken.id;
 
-    try {
-      const response = await fetch(
-        "https://diaryblogapi2.onrender.com/api/diaryblog_space",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ name: title, url: url, category: category }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Network response was not ok");
+    fetch(
+      `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Fetched data:", data);
+        setCompanyData(data);
+      })
+      .catch((error) => {
+        console.error(
+          "There was a problem with the fetch operation:",
+          error.message
+        );
+        setError(error.message);
+      });
+  }, []);
 
-      const data = await response.json();
-      console.log(data);
-      onNewBlog(data);
-      setTitle("");
-      onClose(); // Close the form after successful submission
-    } catch (error) {
-      console.error(
-        "There was a problem with the fetch operation:",
-        error.message
-      );
-    }
-  };
+  //   function validateFields() {
+  //     let validationErrors = {};
+
+  //     // Validate title length
+  //     if (title.length < 3 || title.length > 30) {
+  //       validationErrors.title = "Title should be between 3 and 30 characters.";
+  //     }
+
+  //     // Validate URL format using a simple regex pattern
+  //     const urlPattern = /^https?:\/\/.+$/;
+  //     if (!urlPattern.test(url)) {
+  //       validationErrors.url = "URL must be in http format.";
+  //     }
+
+  //     return validationErrors;
+  //   }
 
   return (
     <div className="form-container">
       <div className="form-header">
-        <h3 className="blogHeading">Create blog here</h3>
+        <h3 className="blogHeading">Create Type-It Space here</h3>
         <button className="cancel-button" onClick={onClose}>
           ❌
         </button>
       </div>
-      <form className="createBlogForm" onSubmit={handleSubmit}>
-        {/* <i class="fas fa-pencil"></i> */}
-        <input
-          type="text"
-          className="blogInput"
-          placeholder="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        {errors.title && <p className="error">{errors.title}</p>}
-        {/* <i class="fas fa-pencil"></i> */}
-        <input
-          type="url"
-          className="blogInput"
-          placeholder="url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        {errors.url && <p className="error">{errors.url}</p>}
-        <input
-          type="text"
-          className="blogInput"
-          placeholder="category"
-          value={category}
-          onChange={(e) => setcategory(e.target.value)}
-        />
-        {errors.category && <p className="error">{errors.category}</p>}
-        <button type="submit">Submit</button>
-      </form>
+      <div>
+        <ul>
+          {companyData &&
+            companyData.map((blogSpace) => <li>{blogSpace.name}</li>)}
+        </ul>
+      </div>
     </div>
   );
 }
@@ -143,3 +117,45 @@ const TypeitSpaceCreator = ({ onNewBlog }) => {
 };
 
 export default TypeitSpaceCreator;
+
+// const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     const validationErrors = validateFields();
+//     if (Object.keys(validationErrors).length > 0) {
+//       setErrors(validationErrors);
+//       return;
+//     }
+
+//     const token = localStorage.getItem("token");
+
+//     try {
+//       const response = await fetch(
+//         "https://diaryblogapi2.onrender.com/api/diaryblog_space",
+//         {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${token}`,
+//           },
+//           body: JSON.stringify({ name: title, url: url, category: category }),
+//         }
+//       );
+
+//       if (!response.ok) {
+//         const errorData = await response.json();
+//         throw new Error(errorData.error || "Network response was not ok");
+//       }
+
+//       const data = await response.json();
+//       console.log(data);
+//       onNewBlog(data);
+//       setTitle("");
+//       onClose(); // Close the form after successful submission
+//     } catch (error) {
+//       console.error(
+//         "There was a problem with the fetch operation:",
+//         error.message
+//       );
+//     }
+//   };
