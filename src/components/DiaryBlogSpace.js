@@ -12,6 +12,7 @@ import "./DiaryBlogSpace.css";
 import BlogCreator from "./BlogCreator";
 import CompanyPosts from "./CompanyPosts";
 import DashboardContent from "./DashboardContents";
+import TypeitSpaceCreator from "./TypeitSpaceCreator";
 import jwt_decode from "jwt-decode";
 
 function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
@@ -116,7 +117,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   return (
     <div className="right-side">
-    
       {/* <div className="left-side">
         <Menu onClick={(e) => setSelectedKey(e.key)}>
           <Menu.Item key="home" icon={<HomeOutlined />}>
@@ -237,7 +237,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                 </div>
                 <br />
                 <div className="row">
-                  <BlogCreator onNewBlog={handleNewBlog} />
+                  <TypeitSpaceCreator onNewBlog={handleNewBlog} />
                 </div>
                 <div className="blog-content">
                   <h3 className="blog-h3">My Blog Space</h3>
