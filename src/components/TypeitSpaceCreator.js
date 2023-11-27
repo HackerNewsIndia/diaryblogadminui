@@ -71,7 +71,9 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
       <div>
         <ul>
           {companyData &&
-            companyData.map((blogSpace) => <li>{blogSpace.name}</li>)}
+            companyData.map((blogSpace) => (
+              <li className="blogspace-list">{blogSpace.name}</li>
+            ))}
         </ul>
       </div>
     </div>

@@ -93,3 +93,17 @@
   font-size: 12px;
   margin-top: 5px;
 }
+
+.blogspace-list{
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+  box-shadow: 0px 0px 10px black, 0px 0px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.blogspace-list:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
