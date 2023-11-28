@@ -84,8 +84,9 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
           {companyData &&
             companyData.map((blogSpace) => (
               <li
+                key={blogSpace._id}
                 className="blogspace-list"
-                onClick={handlebloglist(blogSpace)}
+                onClick={() => handlebloglist(blogSpace)}
               >
                 {blogSpace.name}
               </li>
@@ -117,45 +118,3 @@ const TypeitSpaceCreator = ({ onNewBlog }) => {
 };
 
 export default TypeitSpaceCreator;
-
-// const handleSubmit = async (e) => {
-//     e.preventDefault();
-
-//     const validationErrors = validateFields();
-//     if (Object.keys(validationErrors).length > 0) {
-//       setErrors(validationErrors);
-//       return;
-//     }
-
-//     const token = localStorage.getItem("token");
-
-//     try {
-//       const response = await fetch(
-//         "https://diaryblogapi2.onrender.com/api/diaryblog_space",
-//         {
-//           method: "POST",
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${token}`,
-//           },
-//           body: JSON.stringify({ name: title, url: url, category: category }),
-//         }
-//       );
-
-//       if (!response.ok) {
-//         const errorData = await response.json();
-//         throw new Error(errorData.error || "Network response was not ok");
-//       }
-
-//       const data = await response.json();
-//       console.log(data);
-//       onNewBlog(data);
-//       setTitle("");
-//       onClose(); // Close the form after successful submission
-//     } catch (error) {
-//       console.error(
-//         "There was a problem with the fetch operation:",
-//         error.message
-//       );
-//     }
-//   };
