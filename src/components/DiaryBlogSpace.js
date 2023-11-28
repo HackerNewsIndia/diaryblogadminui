@@ -16,11 +16,10 @@ import TypeitSpaceCreator from "./TypeitSpaceCreator";
 import jwt_decode from "jwt-decode";
 
 function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
-
   const [error, setError] = useState(null);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [companyData, setCompanyData] = useState([]);
-  const [TypeitSpaceData, setTypeitSpaceData]= useState([]);
+  const [TypeitSpaceData, setTypeitSpaceData] = useState([]);
 
   const navigate = useNavigate();
 
@@ -33,7 +32,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   };
 
   console.log("you have selected", selectedCompany);
-
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -80,14 +78,11 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id;
 
-    fetch(
-      `http://127.0.0.1:5000/list_typeit_spaces/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`http://127.0.0.1:5000/list_typeit_spaces/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -106,8 +101,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
         setError(error.message);
       });
   }, []);
-
-
 
   console.log("Company Data:", companyData);
 
@@ -214,12 +207,12 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                 <div className="blog-content">
                   <h3 className="blog-h3">My Type-It Space</h3>
                   <div className="blog-card-container">
-                  {TypeitSpaceData &&
+                    {/* {TypeitSpaceData &&
                       TypeitSpaceData.map((typeitSpace) => (
                         <div>
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
-                      ))}
+                      ))} */}
                   </div>
                 </div>
               </div>
