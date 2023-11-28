@@ -43,22 +43,33 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
       });
   }, []);
 
-  //   function validateFields() {
-  //     let validationErrors = {};
+  const handlebloglist = (blogSpace) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No JWT token found in local storage.");
+      return;
+    }
 
-  //     // Validate title length
-  //     if (title.length < 3 || title.length > 30) {
-  //       validationErrors.title = "Title should be between 3 and 30 characters.";
-  //     }
+    // Decode the JWT token to get the user_id
+    const decodedToken = jwt_decode(token);
+    const userId = decodedToken.id;
 
-  //     // Validate URL format using a simple regex pattern
-  //     const urlPattern = /^https?:\/\/.+$/;
-  //     if (!urlPattern.test(url)) {
-  //       validationErrors.url = "URL must be in http format.";
-  //     }
-
-  //     return validationErrors;
-  //   }
+    fetch(`http://127.0.0.1:5000/api/create_typeit_space/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: blogSpace.name,
+        _id: blogSpace._id,
+        user_id: userId,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data)) // Handle success
+      .catch((error) => console.error("Error:", error));
+  };
 
   return (
     <div className="form-container">
@@ -72,7 +83,12 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
         <ul>
           {companyData &&
             companyData.map((blogSpace) => (
-              <li className="blogspace-list">{blogSpace.name}</li>
+              <li
+                className="blogspace-list"
+                onClick={handlebloglist(blogSpace)}
+              >
+                {blogSpace.name}
+              </li>
             ))}
         </ul>
       </div>
