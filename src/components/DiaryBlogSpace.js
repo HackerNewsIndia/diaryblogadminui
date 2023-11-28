@@ -90,7 +90,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
         return response.json();
       })
       .then((data) => {
-        console.log("Fetched data:", data);
+        console.log("Fetched typeit data:", data);
         setTypeitSpaceData(data);
       })
       .catch((error) => {
