@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./BlogCreator.css";
 import jwt_decode from "jwt-decode";
 
-function CreateTypeitSpace({ onClose, onNewBlog }) {
+function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
   const [companyData, setCompanyData] = useState("");
 
   useEffect(() => {
@@ -67,7 +67,10 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
       }),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data)) // Handle success
+      .then((data) => {
+        console.log(data); // Handle success
+        onUpdateTypeitData(); // Trigger parent component to fetch updated data
+      })
       .catch((error) => console.error("Error:", error));
   };
 
@@ -97,7 +100,7 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
   );
 }
 
-const TypeitSpaceCreator = ({ onNewBlog }) => {
+const TypeitSpaceCreator = ({ onNewBlog, onUpdateTypeitData }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
 
   const toggleCreateForm = () => {
@@ -107,7 +110,11 @@ const TypeitSpaceCreator = ({ onNewBlog }) => {
   return (
     <div>
       {showCreateForm ? (
-        <CreateTypeitSpace onClose={toggleCreateForm} onNewBlog={onNewBlog} />
+        <CreateTypeitSpace
+          onClose={toggleCreateForm}
+          onNewBlog={onNewBlog}
+          onUpdateTypeitData={onUpdateTypeitData}
+        />
       ) : (
         <button className="create-blog-button" onClick={toggleCreateForm}>
           CREATE NEW TYPE-IT SPACE

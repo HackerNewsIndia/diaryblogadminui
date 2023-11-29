@@ -102,6 +102,36 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       });
   }, []);
 
+  const fetchTypeitSpaceData = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No JWT token found in local storage.");
+      return;
+    }
+    const decodedToken = jwt_decode(token);
+    const userId = decodedToken.id;
+
+    fetch(`https://typeit-api.onrender.com/list_typeit_spaces/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Fetched updated typeit data:", data);
+        setTypeitSpaceData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching updated typeit data:", error.message);
+        setError(error.message);
+      });
+  };
+
   console.log("Company Data:", companyData);
 
   return (
@@ -202,7 +232,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                 </div>
                 <br />
                 <div className="row">
-                  <TypeitSpaceCreator onNewBlog={handleNewBlog} />
+                  <TypeitSpaceCreator
+                    onNewBlog={handleNewBlog}
+                    onUpdateTypeitData={fetchTypeitSpaceData}
+                  />
                 </div>
                 <div className="blog-content">
                   <h3 className="blog-h3">My Type-It Space</h3>
