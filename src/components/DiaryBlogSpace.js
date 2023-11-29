@@ -78,7 +78,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id;
 
-    fetch(`http://127.0.0.1:5000/list_typeit_spaces/${userId}`, {
+    fetch(`https://typeit-api.onrender.com/list_typeit_spaces/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -207,12 +207,12 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                 <div className="blog-content">
                   <h3 className="blog-h3">My Type-It Space</h3>
                   <div className="blog-card-container">
-                    {/* {TypeitSpaceData &&
+                    {TypeitSpaceData &&
                       TypeitSpaceData.map((typeitSpace) => (
                         <div>
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
-                      ))} */}
+                      ))}
                   </div>
                 </div>
               </div>
