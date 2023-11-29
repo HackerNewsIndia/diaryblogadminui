@@ -54,7 +54,7 @@ function CreateTypeitSpace({ onClose, onNewBlog }) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id;
 
-    fetch(`http://127.0.0.1:5000/api/create_typeit_space/${userId}`, {
+    fetch(`https://typeit-api.onrender.com/api/create_typeit_space/${userId}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
