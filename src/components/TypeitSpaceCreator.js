@@ -4,6 +4,8 @@ import jwt_decode from "jwt-decode";
 
 function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
   const [companyData, setCompanyData] = useState("");
+  const [createdTypeitSpaces, setCreatedTypeitSpaces] = useState([]);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -69,9 +71,14 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // Handle success
+        setCreatedTypeitSpaces((prevSpaces) => [...prevSpaces, blogSpace._id]);
+        setMessage("Typeit Space Created!");
         onUpdateTypeitData(); // Trigger parent component to fetch updated data
       })
-      .catch((error) => console.error("Error:", error));
+      .catch((error) => {
+        console.error("Error:", error);
+        setMessage("Failed to create Typeit Space.");
+      });
   };
 
   return (
@@ -91,7 +98,10 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
                 className="blogspace-list"
                 onClick={() => handlebloglist(blogSpace)}
               >
-                {blogSpace.name}
+                {blogSpace.name}{" "}
+                {createdTypeitSpaces.includes(blogSpace._id) && (
+                  <span style={{ color: "green" }}>Typeit Space Created!</span>
+                )}
               </li>
             ))}
         </ul>
@@ -102,10 +112,16 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
 
 const TypeitSpaceCreator = ({ onNewBlog, onUpdateTypeitData }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [createdTypeitSpaces, setCreatedTypeitSpaces] = useState([]);
 
   const toggleCreateForm = () => {
     setShowCreateForm(!showCreateForm);
   };
+
+  useEffect(() => {
+    // Update createdTypeitSpaces state when onUpdateTypeitData is called
+    setCreatedTypeitSpaces([]);
+  }, [onUpdateTypeitData]);
 
   return (
     <div>
@@ -114,6 +130,7 @@ const TypeitSpaceCreator = ({ onNewBlog, onUpdateTypeitData }) => {
           onClose={toggleCreateForm}
           onNewBlog={onNewBlog}
           onUpdateTypeitData={onUpdateTypeitData}
+          setCreatedTypeitSpaces={setCreatedTypeitSpaces}
         />
       ) : (
         <button className="create-blog-button" onClick={toggleCreateForm}>
