@@ -73,6 +73,10 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
         console.log(data); // Handle success
         setCreatedTypeitSpaces((prevSpaces) => [...prevSpaces, blogSpace._id]);
         setMessage("Typeit Space Created!");
+        localStorage.setItem(
+          "createdTypeitSpaces",
+          JSON.stringify(createdTypeitSpaces)
+        );
         onUpdateTypeitData(); // Trigger parent component to fetch updated data
       })
       .catch((error) => {
@@ -112,7 +116,11 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
 
 const TypeitSpaceCreator = ({ onNewBlog, onUpdateTypeitData }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
-  const [createdTypeitSpaces, setCreatedTypeitSpaces] = useState([]);
+  const [createdTypeitSpaces, setCreatedTypeitSpaces] = useState(() => {
+    // Retrieve created Typeit spaces from local storage
+    const storedSpaces = localStorage.getItem("createdTypeitSpaces");
+    return storedSpaces ? JSON.parse(storedSpaces) : [];
+  });
 
   const toggleCreateForm = () => {
     setShowCreateForm(!showCreateForm);
