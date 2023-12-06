@@ -242,9 +242,13 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                   <div className="blog-card-container">
                     {TypeitSpaceData.typeit_spaces &&
                       TypeitSpaceData.typeit_spaces.map((typeitSpace) => (
-                        <div key={typeitSpace._id} className="blog-card"
-         onClick={() => handlebloglist(blogSpace)} >
+                        <div key={typeitSpace._id} className="blog-card">
                           <h4 className="blog-title">{typeitSpace.name}</h4>
+         <li
+                key={blogSpace._id}
+                className="blogspace-list"
+                onClick={() => handlebloglist(blogSpace)}
+              >
                         </div>
                       ))}
                   </div>
