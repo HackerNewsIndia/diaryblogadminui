@@ -246,7 +246,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                           <h4 className="blog-title">{typeitSpace.name}</h4>
          
               
-                onClick={() => handlebloglist(blogSpace)}
               
                         </div>
                       ))}
