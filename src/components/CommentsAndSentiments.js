@@ -13,7 +13,7 @@ const CommentsAndSentiments = ({ postId }) => {
         setComments(data);
       })
       .catch((error) => console.error("Error fetching comments:", error));
-  }, []); // Empty dependency array to run the effect only once when the component mounts
+  }, [postId]); // Empty dependency array to run the effect only once when the component mounts
 
   return (
     <div className="container">
