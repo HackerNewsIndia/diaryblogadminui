@@ -37,8 +37,12 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const handleTypeitSpace = (typeitSpace) => {
     console.log("selectedTypeitSpace", typeitSpace);
     setSelectedTypeitSpace(typeitSpace);
-    console.log("setSelectedTypeitSpace", selectedTypeitSpace);
+    // console.log("setSelectedTypeitSpace", selectedTypeitSpace);
   };
+  useEffect(() => {
+    // This will log the updated state
+    console.log("setSelectedTypeitSpace", selectedTypeitSpace);
+  }, [selectedTypeitSpace]);
 
   console.log("you have selected", selectedCompany);
 
