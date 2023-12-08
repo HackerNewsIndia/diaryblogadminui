@@ -226,7 +226,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
         <div className="content-body">
           {selectedTypeitSpace ? (
             <div>
-              <h1 className="company_heading">{selectedTypeitSpace.name}</h1>
+              <h1 style={{ color: "red" }}>{selectedTypeitSpace.name}</h1>
               <button
                 className="back_button"
                 onClick={() => setSelectedTypeitSpace(null)}
