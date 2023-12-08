@@ -37,6 +37,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const handleTypeitSpace = (typeitSpace) => {
     console.log("selectedTypeitSpace", typeitSpace);
     setSelectedTypeitSpace(typeitSpace);
+    console.log(selectedTypeitSpace);
   };
 
   console.log("you have selected", selectedCompany);
