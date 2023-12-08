@@ -134,39 +134,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   console.log("Company Data:", companyData);
 
-  fetch(
-  `https://diaryblogapi2.onrender.com/api/posts/<string:blog_space_name>`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log("Fetched data:", data);
-
-    // Assuming "blogspace title" is a property of the returned data
-    const blogspaceTitle = data.blogspaceTitle; // Replace with the actual property name
-
-    console.log("Blogspace Title:", blogspaceTitle);
-    setCompanyData(data);
-  })
-  .catch((error) => {
-    console.error(
-      "There was a problem with the fetch operation:",
-      error.message
-    );
-    setError(error.message);
-  });
-}, []);
-
-
   return (
     <div className="right-side">
       {!selectedKey && (
@@ -275,8 +242,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                   <div className="blog-card-container">
                     {TypeitSpaceData.typeit_spaces &&
                       TypeitSpaceData.typeit_spaces.map((typeitSpace) => (
-                        <div key={typeitSpace._id} className="blog-card" 
-        onClick={() => handlebloglist(blogspace)}>
+                        <div key={typeitSpace._id} className="blog-card" >
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
                       ))}
