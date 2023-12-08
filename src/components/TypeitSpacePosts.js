@@ -6,11 +6,11 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   const [selectedStory, setSelectedStory] = useState(null);
   const [creatingPost, setCreatingPost] = useState(false);
 
-  console.log({ selectedCompany });
+  //   console.log({ selectedCompany });
 
   const fetchPosts = () => {
     if (!selectedTypeitSpace || !selectedTypeitSpace.name) {
-      console.error("selectedCompany.name is not set");
+      console.error("selectedTypeitSpace.name is not set");
       return;
     }
     fetch(
@@ -33,7 +33,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
 
   useEffect(() => {
     fetchPosts();
-  }, [selectedCompany.name]);
+  }, [selectedTypeitSpace.name]);
 
   //   const selectStory = (story) => {
   //     setSelectedStory(story);
