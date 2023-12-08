@@ -31,7 +31,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     setSelectedCompany(company);
   };
 
-  const handleCards = (TypeitSpace) => {
+  const handleSpace = (TypeitSpace) => {
     fetch(
   https://diaryblogapi2.onrender.com/api/posts/<string:blog_space_name>,
   {
