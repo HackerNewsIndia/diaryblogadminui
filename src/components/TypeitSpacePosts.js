@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./PostsTable.css";
+import CommentsAndSentiments from "./CommentsAndSentiments";
 
 const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   const [postsList, setPostsList] = useState([]);
   const [selectedStory, setSelectedStory] = useState(null);
   const [creatingPost, setCreatingPost] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   console.log({ selectedTypeitSpace });
+
+  const handlePost = (postId) => {
+    setSelectedPost(postId);
+  };
 
   const fetchPosts = () => {
     if (!selectedTypeitSpace || !selectedTypeitSpace.name) {
@@ -74,7 +80,17 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
           <tbody className="postsTable-tbody">
             {sortedPostsList.map((post) => (
               <tr className="postsTable-tr" key={post.id}>
-                <td className="postsTable-td">{post.title}</td>
+                <td
+                  className="postsTable-td"
+                  onClick={() => handlePost(post.id)}
+                >
+                  {post.title}
+                </td>
+                {selectedPost ? (
+                  <div>
+                    <CommentsAndSentiments postId={post.id} />
+                  </div>
+                ) : null}
                 {/* <td className="postsTable-td">
                   <button
                     className="postsTable-view"
