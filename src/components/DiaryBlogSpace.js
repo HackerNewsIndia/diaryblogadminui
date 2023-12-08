@@ -20,6 +20,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [companyData, setCompanyData] = useState([]);
   const [TypeitSpaceData, setTypeitSpaceData] = useState([]);
+  const [postId, setPostId] = useState(/* initial postId */);
+  const [isFetching, setIsFetching] = useState(false);
+  const [post, setPost] = useState(null);
+
 
   const navigate = useNavigate();
 
@@ -30,6 +34,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const handleCards = (company) => {
     setSelectedCompany(company);
   };
+  const handlePostClick = (blogspace_name, blogSpace, postId) => {
+    // Handle post click logic here
+  };
+  
 
   console.log("you have selected", selectedCompany);
 
@@ -133,6 +141,37 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   };
 
   console.log("Company Data:", companyData);
+
+
+  const fetchData = async () => {
+    try {
+      setIsFetching(true);
+
+      const response = await fetch(
+        `https://diaryblogapi2.onrender.com/api/companies/${selectedCompany.name}/posts/${postId}`
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const postData = await response.json();
+      setPost(postData);
+
+      // Logging blogspace to the console
+      console.log('Blogspace:', postData.blogspace);
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    } finally {
+      setIsFetching(false);
+    }
+  };
+
+  const handleClick = () => {
+    fetchData();
+  };
+   console.log("Company Data:", companyData);
+  
 
   return (
     <div className="right-side">
@@ -242,7 +281,9 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                   <div className="blog-card-container">
                     {TypeitSpaceData.typeit_spaces &&
                       TypeitSpaceData.typeit_spaces.map((typeitSpace) => (
-                        <div key={typeitSpace._id} className="blog-card">
+                        <div key={typeitSpace._id} className="blog-card"  onClick={() =>
+                  handlePostClick(blogspace_name, post.blogSpace, post._id)
+                }>
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
                       ))}
