@@ -281,9 +281,8 @@ console.log("you have selected", selectedCompany);
                   <div className="blog-card-container">
                     {TypeitSpaceData.typeit_spaces &&
                       TypeitSpaceData.typeit_spaces.map((typeitSpace) => (
-                        <div key={typeitSpace._id} className="blog-card"  onClick={() =>
-                  handlePostClick(blogspace_name, post.blogSpace, post._id)
-                }>
+                        <div key={typeitSpace._id} className="blog-card"    onClick={() => handleCards(blogSpace)}
+                >
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
                       ))}
