@@ -21,7 +21,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [companyData, setCompanyData] = useState([]);
   const [TypeitSpaceData, setTypeitSpaceData] = useState([]);
-  const [selectedTypeitSpace, setSelectedTypeitSpace] = useState([]);
+  const [selectedTypeitSpace, setSelectedTypeitSpace] = useState(null);
   // const [typeitSpacePosts, setTypeitSpacePosts] = useState([]);
 
   const navigate = useNavigate();
