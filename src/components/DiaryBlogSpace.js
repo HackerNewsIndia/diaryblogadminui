@@ -33,7 +33,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   const handleSpace = (TypeitSpace) => {
     fetch(
-  https://diaryblogapi2.onrender.com/api/posts/<string:blog_space_name>,
+  https://diaryblogapi2.onrender.com/api/posts/${TypeitSpace.name}>,
   {
     headers: {
       Authorization: Bearer ${token},
