@@ -146,6 +146,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   };
 
   console.log("Company Data:", companyData);
+  console.log("Selected Typeit Space:", selectedTypeitSpace);
 
   return (
     <div className="right-side">
