@@ -31,41 +31,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     setSelectedCompany(company);
   };
 
-  const handleSpace = (TypeitSpace) => {
-    fetch(
-  https://diaryblogapi2.onrender.com/api/posts/${TypeitSpace.name}>,
-  {
-    headers: {
-      Authorization: Bearer ${token},
-    },
-  }
-)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log("Fetched data:", data);
-
-    // Assuming "blogspace title" is a property of the returned data
-    const blogspaceTitle = data.blogspaceTitle; // Replace with the actual property name
-
-    console.log("data");
-    setCompanyData(data);
-  })
-  .catch((error) => {
-    console.error(
-      "There was a problem with the fetch operation:",
-      error.message
-    );
-    setError(error.message);
-  });
-}, []);
-
-  };
-
   console.log("you have selected", selectedCompany);
 
   useEffect(() => {
@@ -78,10 +43,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const userId = decodedToken.id;
 
     fetch(
-      https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId},
+      `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
       {
         headers: {
-          Authorization: Bearer ${token},
+          Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -113,9 +78,9 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id;
 
-    fetch(https://typeit-api.onrender.com/list_typeit_spaces/${userId}, {
+    fetch(`https://typeit-api.onrender.com/list_typeit_spaces/${userId}`, {
       headers: {
-        Authorization: Bearer ${token},
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
@@ -146,9 +111,9 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.id;
 
-    fetch(https://typeit-api.onrender.com/list_typeit_spaces/${userId}, {
+    fetch(`https://typeit-api.onrender.com/list_typeit_spaces/${userId}`, {
       headers: {
-        Authorization: Bearer ${token},
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
@@ -168,9 +133,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   };
 
   console.log("Company Data:", companyData);
-
-
-
 
   return (
     <div className="right-side">
@@ -280,8 +242,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                   <div className="blog-card-container">
                     {TypeitSpaceData.typeit_spaces &&
                       TypeitSpaceData.typeit_spaces.map((typeitSpace) => (
-                        <div key={typeitSpace._id} className="blog-card" 
-        onClick={() => handleTypeitSpaceData(TypeitSpaceData)}>
+                        <div key={typeitSpace._id} className="blog-card" >
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
                       ))}
