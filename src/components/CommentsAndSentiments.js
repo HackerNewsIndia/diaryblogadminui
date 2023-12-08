@@ -6,7 +6,7 @@ const CommentsAndSentiments = ({ postId }) => {
 
   useEffect(() => {
     // Fetch comments from the Flask backend when the component mounts
-    fetch(`https://typeit-api.onrender.com//get_comments/${postId}`)
+    fetch(`https://typeit-api.onrender.com/get_comments/${postId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

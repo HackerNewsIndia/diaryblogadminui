@@ -13,6 +13,10 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   const handlePost = (postId) => {
     setSelectedPost(postId);
   };
+  useEffect(() => {
+    // This will log the updated state
+    console.log("setSelectedPost", selectedPost);
+  }, [selectedPost]);
 
   const fetchPosts = () => {
     if (!selectedTypeitSpace || !selectedTypeitSpace.name) {
