@@ -13,6 +13,7 @@ import BlogCreator from "./BlogCreator";
 import CompanyPosts from "./CompanyPosts";
 import DashboardContent from "./DashboardContents";
 import TypeitSpaceCreator from "./TypeitSpaceCreator";
+import TypeitSpacePosts from "./TypeitSpacePosts";
 import jwt_decode from "jwt-decode";
 
 function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
@@ -20,6 +21,8 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [companyData, setCompanyData] = useState([]);
   const [TypeitSpaceData, setTypeitSpaceData] = useState([]);
+  const [selectedTypeitSpace, setSelectedTypeitSpace] = useState([]);
+  // const [typeitSpacePosts, setTypeitSpacePosts] = useState([]);
 
   const navigate = useNavigate();
 
@@ -29,6 +32,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   const handleCards = (company) => {
     setSelectedCompany(company);
+  };
+
+  const handleTypeitSpace = (typeitSpace) => {
+    setSelectedTypeitSpace(typeitSpace);
   };
 
   console.log("you have selected", selectedCompany);
@@ -210,16 +217,16 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       )}
       {selectedKey === "typeitAdmin" && (
         <div className="content-body">
-          {selectedCompany ? (
+          {selectedTypeitSpace ? (
             <div>
-              <h1 className="company_heading">{selectedCompany.company}</h1>
+              <h1 className="company_heading">{selectedTypeitSpace.name}</h1>
               <button
                 className="back_button"
-                onClick={() => setSelectedCompany(null)}
+                onClick={() => setSelectedTypeitSpace(null)}
               >
                 <i className="fas fa-arrow-left" aria-hidden="true"></i>
               </button>
-              <CompanyPosts selectedCompany={selectedCompany} />
+              <TypeitSpacePosts selectedTypeitSpace={selectedTypeitSpace} />
             </div>
           ) : (
             <React.Fragment>
@@ -242,7 +249,11 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                   <div className="blog-card-container">
                     {TypeitSpaceData.typeit_spaces &&
                       TypeitSpaceData.typeit_spaces.map((typeitSpace) => (
-                        <div key={typeitSpace._id} className="blog-card">
+                        <div
+                          key={typeitSpace._id}
+                          className="blog-card"
+                          onClick={() => handleTypeitSpace(typeitSpace)}
+                        >
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
                       ))}
