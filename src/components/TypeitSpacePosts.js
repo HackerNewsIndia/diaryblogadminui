@@ -83,10 +83,10 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
           </thead>
           <tbody className="postsTable-tbody">
             {sortedPostsList.map((post) => (
-              <tr className="postsTable-tr" key={post.id}>
+              <tr className="postsTable-tr" key={post._id}>
                 <td
                   className="postsTable-td"
-                  onClick={() => handlePost(post.id)}
+                  onClick={() => handlePost(post._id)}
                 >
                   {post.title}
                 </td>
