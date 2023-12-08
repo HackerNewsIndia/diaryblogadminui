@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PostsTable.css";
 
-const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
+const TypeitSpacePosts = (selectedTypeitSpace) => {
   const [postsList, setPostsList] = useState([]);
   const [selectedStory, setSelectedStory] = useState(null);
   const [creatingPost, setCreatingPost] = useState(false);
@@ -105,4 +105,4 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   );
 };
 
-export default TypeitSpacePosts();
+export default TypeitSpacePosts;
