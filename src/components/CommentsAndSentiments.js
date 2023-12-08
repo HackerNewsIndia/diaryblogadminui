@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 // import "./typeit.css";
+import "./CommentsAndSentiments.css";
 
 const CommentsAndSentiments = ({ postId }) => {
   const [comments, setComments] = useState([]);
+  console.log("postId:", postId);
 
   useEffect(() => {
     // Fetch comments from the Flask backend when the component mounts
