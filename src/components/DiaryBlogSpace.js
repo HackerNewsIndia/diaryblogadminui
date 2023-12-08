@@ -52,7 +52,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     // Assuming "blogspace title" is a property of the returned data
     const blogspaceTitle = data.blogspaceTitle; // Replace with the actual property name
 
-    console.log("Blogspace Title:", blogspaceTitle);
+    console.log(data);
     setCompanyData(data);
   })
   .catch((error) => {
