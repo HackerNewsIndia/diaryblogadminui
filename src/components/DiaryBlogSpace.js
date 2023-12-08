@@ -142,7 +142,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   console.log("Company Data:", companyData);
 
-
+console.log("you have selected", selectedCompany);
   const fetchData = async () => {
     try {
       setIsFetching(true);
