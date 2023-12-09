@@ -5,7 +5,7 @@
   .blog-list {
     width: 100%;
     border-collapse: collapse;
-    margin-top: -50px;
+    margin-top: 10px;
   }
   
   .blog-list th,
