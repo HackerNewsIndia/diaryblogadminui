@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./PostsTable.css";
 import CommentsAndSentiments from "./CommentsAndSentiments";
 import "./TypeitSpacePosts.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   const [postsList, setPostsList] = useState([]);
-  const [selectedStory, setSelectedStory] = useState(null);
-  const [creatingPost, setCreatingPost] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
   console.log({ selectedTypeitSpace });
@@ -15,7 +15,6 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
     setSelectedPost((prevPostId) => (prevPostId === postId ? null : postId));
   };
   useEffect(() => {
-    // This will log the updated state
     console.log("setSelectedPost", selectedPost);
   }, [selectedPost]);
 
@@ -46,30 +45,10 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
     fetchPosts();
   }, [selectedTypeitSpace.name]);
 
-  //   const selectStory = (story) => {
-  //     setSelectedStory(story);
-  //   };
-
-  //   const backToList = () => {
-  //     setSelectedStory(null);
-  //   };
-
-  //   const startCreatingPost = () => {
-  //     setCreatingPost(true);
-  //   };
-
-  //   const cancelCreatingPost = () => {
-  //     setCreatingPost(false);
-  //   };
-
-  //   const addNewStory = (newStory) => {
-  //     fetchPosts();
-  //   };
   const sortedPostsList = postsList.sort((a, b) => {
     new Date(a.createDate) - new Date(b.createDate);
   });
   console.log([sortedPostsList]);
-  // Sorting the array based on createDate in descending order
   const sortedPostsListDescending = postsList.sort(
     (a, b) => new Date(b.createDate) - new Date(a.createDate)
   );
@@ -83,9 +62,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
         <table className="story-table">
           <thead className="postsTable-thead">
             <tr className="postsTable-tr">
-              <th className="postsTable-th">Title</th>
-              {/* <th className="postsTable-th">View</th>
-              <th className="postsTable-th">Delete Post</th> */}
+              <th className="postsTable-th">Posts</th>
             </tr>
           </thead>
           <tbody className="postsTable-tbody">
@@ -96,6 +73,17 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
                     className="postsTable-td"
                     onClick={() => handlePost(post._id)}
                   >
+                    {selectedPostId === post._id ? (
+                      <FontAwesomeIcon
+                        icon={faArrowDown}
+                        className="arrow-icon"
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faArrowLeft}
+                        className="arrow-icon"
+                      />
+                    )}
                     {post.title}
                   </td>
                 </tr>
