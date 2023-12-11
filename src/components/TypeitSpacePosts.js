@@ -73,7 +73,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
                     className="postsTable-td"
                     onClick={() => handlePost(post._id)}
                   >
-                    {selectedPostId === post._id ? (
+                    {selectedPost === post._id ? (
                       <FontAwesomeIcon
                         icon={faArrowDown}
                         className="arrow-icon"
