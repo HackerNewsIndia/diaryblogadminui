@@ -31,27 +31,38 @@ const CommentsAndSentiments = ({ postId }) => {
   }, [postId]);
   return (
     <div className="container">
-      <div className="row">
-        <div className="col">
-          <table className="blog-list striped">
-            <thead>
-              <tr>
-                <th>Comments</th>
-                <th>Date</th>
-                <th>Likes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* {comments.map((comment) => (
-                <tr key={comment.timestamp}>
-                  <td>{comment.comment}</td>
-                  <td>{comment.timestamp}</td>
+      {loading && <p>Loading comments...</p>}
+      {error && <p>{error}</p>}
+      {!loading && !error && (
+        <div className="row">
+          <div className="col">
+            <table className="blog-list striped">
+              <thead>
+                <tr>
+                  <th>Comments</th>
+                  <th>Date</th>
+                  <th>Likes</th>
                 </tr>
-              ))} */}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {Array.isArray(comments.comments) &&
+                comments.comments.length > 0 ? (
+                  comments.comments.map((comment) => (
+                    <tr key={comment.timestamp}>
+                      <td>{comment.comment}</td>
+                      <td>{comment.timestamp}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="3">No comments available</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
