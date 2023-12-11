@@ -4,19 +4,31 @@ import "./CommentsAndSentiments.css";
 
 const CommentsAndSentiments = ({ postId }) => {
   const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   console.log("postId:", postId);
 
   useEffect(() => {
-    // Fetch comments from the Flask backend when the component mounts
+    setLoading(true);
+    setError(null);
+
     fetch(`https://typeit-api.onrender.com/get_comments/${postId}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
       .then((data) => {
         console.log(data);
         setComments(data);
       })
-      .catch((error) => console.error("Error fetching comments:", error));
-  }, [postId]); // Empty dependency array to run the effect only once when the component mounts
-
+      .catch((error) => {
+        console.error("Error fetching comments:", error);
+        setError("Error fetching comments. Please try again later.");
+      })
+      .finally(() => setLoading(false));
+  }, [postId]);
   return (
     <div className="container">
       <div className="row">
@@ -30,8 +42,8 @@ const CommentsAndSentiments = ({ postId }) => {
               </tr>
             </thead>
             <tbody>
-              {comments.map((comment, index) => (
-                <tr key={index}>
+              {comments.map((comment) => (
+                <tr key={comment.timestamp}>
                   <td>{comment.comment}</td>
                   <td>{comment.timestamp}</td>
                 </tr>
