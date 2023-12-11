@@ -30,14 +30,12 @@ const CommentsAndSentiments = ({ postId }) => {
               </tr>
             </thead>
             <tbody>
-              {/* {comments &&
-                comments.map((comment) => (
-                  <tr>
-                    <td>{comment.comment}</td>
-                    <td>{comment.timestamp}</td>
-                    <td className="comment-emoji">{comment.sentiment}</td>
-                  </tr>
-                ))} */}
+              {comments.map((comment, index) => (
+                <tr key={index}>
+                  <td>{comment.comment}</td>
+                  <td>{comment.timestamp}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
