@@ -12,7 +12,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   console.log({ selectedTypeitSpace });
 
   const handlePost = (postId) => {
-    setSelectedPost(selectedPost === postId ? null : postId);
+    setSelectedPost((prevPostId) => (prevPostId === postId ? null : postId));
   };
   useEffect(() => {
     // This will log the updated state
@@ -96,7 +96,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
                 {selectedPost === post.id && (
                   <tr className="postsTable-tr">
                     <td colSpan="1">
-                      <CommentsAndSentiments postId={selectedPost} />
+                      <CommentsAndSentiments postId={post.id} />
                     </td>
                   </tr>
                 )}
