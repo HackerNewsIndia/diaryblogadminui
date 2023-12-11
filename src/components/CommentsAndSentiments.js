@@ -24,20 +24,20 @@ const CommentsAndSentiments = ({ postId }) => {
           <table className="blog-list striped">
             <thead>
               <tr>
-                <th>Date & Time</th>
-                <th>Comment</th>
-                <th>Sentiment</th>
+                <th>Comments</th>
+                <th>Date</th>
+                <th>Likes</th>
               </tr>
             </thead>
             <tbody>
-              {/* {comments &&
+              {comments &&
                 comments.map((comment) => (
-                  <tr key={comment.id}>
-                    <td>{comment.date}</td>
-                    <td>{comment.text}</td>
-                    <td className="comment-emoji">{comment.sentiment}</td>
+                  <tr>
+                    <td>{comment.comment}</td>
+                    <td>{comment.timestamp}</td>
+                    {/* <td className="comment-emoji">{comment.sentiment}</td> */}
                   </tr>
-                ))} */}
+                ))}
             </tbody>
           </table>
         </div>
