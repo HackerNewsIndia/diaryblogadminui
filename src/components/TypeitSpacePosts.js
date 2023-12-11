@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./PostsTable.css";
 import CommentsAndSentiments from "./CommentsAndSentiments";
+import "./TypeitSpacePosts.css";
 
 const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   const [postsList, setPostsList] = useState([]);
@@ -11,7 +12,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   console.log({ selectedTypeitSpace });
 
   const handlePost = (postId) => {
-    setSelectedPost(postId);
+    setSelectedPost(selectedPost === postId ? null : postId);
   };
   useEffect(() => {
     // This will log the updated state
@@ -83,40 +84,23 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
           </thead>
           <tbody className="postsTable-tbody">
             {sortedPostsList.map((post) => (
-              <tr className="postsTable-tr" key={post._id}>
-                <td
-                  className="postsTable-td"
-                  onClick={() => handlePost(post._id)}
-                >
-                  {post.title}
-                </td>
-                {selectedPost ? (
-                  <div>
-                    <CommentsAndSentiments postId={post.id} />
-                  </div>
-                ) : null}
-                {/* <td className="postsTable-td">
-                  <button
-                    className="postsTable-view"
-                    onClick={() => {
-                      selectStory(story);
-                      handleIncrementViews(story);
-                    }}
+              <React.Fragment key={post.id}>
+                <tr className="postsTable-tr">
+                  <td
+                    className="postsTable-td"
+                    onClick={() => handlePost(post.id)}
                   >
-                    View
-                  </button>
-                </td> */}
-                {/* <td className="postsTable-td">
-                  <button
-                    className="post-delete"
-                    onClick={() => {
-                      handleDeletePost(story);
-                    }}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </button>
-                </td> */}
-              </tr>
+                    {post.title}
+                  </td>
+                </tr>
+                {selectedPost === post.id && (
+                  <tr className="postsTable-tr">
+                    <td colSpan="1">
+                      <CommentsAndSentiments postId={selectedPost} />
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
             ))}
           </tbody>
         </table>
