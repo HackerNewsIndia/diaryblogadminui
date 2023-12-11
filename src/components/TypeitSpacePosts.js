@@ -103,17 +103,20 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
                     className="postsTable-td"
                     onClick={() => handlePost(post._id)}
                   >
-                    {selectedPost === post._id ? (
-                      <FontAwesomeIcon icon={faCircleChevronDown} />
-                    ) : (
-                      <FontAwesomeIcon icon={faCircleChevronRight} />
-                    )}
-                    {post.title}
+                    <div className="postInfoContainer">
+                      {selectedPost === post._id ? (
+                        <FontAwesomeIcon icon={faCircleChevronDown} />
+                      ) : (
+                        <FontAwesomeIcon icon={faCircleChevronRight} />
+                      )}
+                      <span className="postTitle">{post.title}</span>
+                    </div>
                     <span className="postDate">
                       {timeSince(post.createDate)}
                     </span>
                   </td>
                 </tr>
+
                 {selectedPost === post._id && (
                   <tr className="postsTable-tr">
                     <td colSpan="1">
