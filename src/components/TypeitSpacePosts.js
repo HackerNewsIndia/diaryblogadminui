@@ -58,6 +58,33 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
 
   console.log(sortedPostsListDescending);
 
+  function timeSince(timeString) {
+    if (!timeString) return "Invalid timestamp";
+
+    const now = new Date();
+    const timestamp = new Date(timeString); // Convert the ISO string to a Date object
+
+    if (isNaN(timestamp.getTime())) return "Invalid date";
+
+    const secondsPast = Math.floor((now - timestamp) / 1000);
+
+    if (secondsPast < 60) return `${secondsPast} seconds ago`;
+    if (secondsPast < 3600)
+      return `${Math.floor(secondsPast / 60)} minutes ago`;
+    if (secondsPast <= 86400)
+      return `${Math.floor(secondsPast / 3600)} hours ago`;
+    if (secondsPast <= 86400 * 30) {
+      const days = Math.floor(secondsPast / 86400);
+      return `${days} day${days !== 1 ? "s" : ""} ago`;
+    }
+    if (secondsPast <= 86400 * 365) {
+      const months = Math.floor(secondsPast / (86400 * 30));
+      return `${months} month${months !== 1 ? "s" : ""} ago`;
+    }
+    const years = Math.floor(secondsPast / (86400 * 365));
+    return `${years} year${years !== 1 ? "s" : ""} ago`;
+  }
+
   return (
     <div>
       <h1 className="blog-heading">List Of Post</h1>
@@ -82,6 +109,9 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
                       <FontAwesomeIcon icon={faCircleChevronRight} />
                     )}
                     {post.title}
+                    <span className="postDate">
+                      {timeSince(post.createDate)}
+                    </span>
                   </td>
                 </tr>
                 {selectedPost === post._id && (
