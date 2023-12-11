@@ -84,19 +84,19 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
           </thead>
           <tbody className="postsTable-tbody">
             {sortedPostsList.map((post) => (
-              <React.Fragment key={post.id}>
+              <React.Fragment key={post._id}>
                 <tr className="postsTable-tr">
                   <td
                     className="postsTable-td"
-                    onClick={() => handlePost(post.id)}
+                    onClick={() => handlePost(post._id)}
                   >
                     {post.title}
                   </td>
                 </tr>
-                {selectedPost === post.id && (
+                {selectedPost === post._id && (
                   <tr className="postsTable-tr">
                     <td colSpan="1">
-                      <CommentsAndSentiments postId={post.id} />
+                      <CommentsAndSentiments postId={post._id} />
                     </td>
                   </tr>
                 )}
