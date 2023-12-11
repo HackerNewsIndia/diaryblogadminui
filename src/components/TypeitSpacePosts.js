@@ -66,7 +66,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   //     fetchPosts();
   //   };
   const sortedPostsList = postsList.sort((a, b) => {
-    new Date(b.createDate) - new Date(a.createDate);
+    new Date(a.createDate) - new Date(b.createDate);
   });
   console.log([sortedPostsList]);
 
