@@ -1,0 +1,12 @@
+.postsTable-tr {
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  .postsTable-td {
+    cursor: pointer;
+  }
+  
+  .postsTable-tr.opened {
+    max-height: 300px; /* Set the maximum height you want for the slide-down effect */
+  }
