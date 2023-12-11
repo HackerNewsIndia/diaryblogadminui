@@ -69,6 +69,12 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
     new Date(a.createDate) - new Date(b.createDate);
   });
   console.log([sortedPostsList]);
+  // Sorting the array based on createDate in descending order
+  const sortedPostsListDescending = postsList.sort(
+    (a, b) => new Date(b.createDate) - new Date(a.createDate)
+  );
+
+  console.log(sortedPostsListDescending);
 
   return (
     <div>
