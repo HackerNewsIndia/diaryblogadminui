@@ -3,7 +3,10 @@ import "./PostsTable.css";
 import CommentsAndSentiments from "./CommentsAndSentiments";
 import "./TypeitSpacePosts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleChevronRight,
+  faCircleChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
   const [postsList, setPostsList] = useState([]);
@@ -74,15 +77,9 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
                     onClick={() => handlePost(post._id)}
                   >
                     {selectedPost === post._id ? (
-                      <FontAwesomeIcon
-                        icon={faArrowDown}
-                        className="arrow-icon"
-                      />
+                      <FontAwesomeIcon icon={faCircleChevronDown} />
                     ) : (
-                      <FontAwesomeIcon
-                        icon={faArrowLeft}
-                        className="arrow-icon"
-                      />
+                      <FontAwesomeIcon icon={faCircleChevronRight} />
                     )}
                     {post.title}
                   </td>
