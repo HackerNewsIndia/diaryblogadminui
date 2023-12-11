@@ -42,12 +42,12 @@ const CommentsAndSentiments = ({ postId }) => {
               </tr>
             </thead>
             <tbody>
-              {comments.map((comment) => (
+              {/* {comments.map((comment) => (
                 <tr key={comment.timestamp}>
                   <td>{comment.comment}</td>
                   <td>{comment.timestamp}</td>
                 </tr>
-              ))}
+              ))} */}
             </tbody>
           </table>
         </div>
