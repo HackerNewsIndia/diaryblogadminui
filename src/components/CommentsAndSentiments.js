@@ -41,7 +41,7 @@ const CommentsAndSentiments = ({ postId }) => {
                 <tr>
                   <th>Comments</th>
                   <th>Date</th>
-                  <th>Sentiment</th>
+                  <th>Likes</th>
                   <th>Sentiment</th>
                 </tr>
               </thead>
