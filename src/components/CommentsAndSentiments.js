@@ -42,6 +42,7 @@ const CommentsAndSentiments = ({ postId }) => {
                   <th>Comments</th>
                   <th>Date</th>
                   <th>Likes</th>
+                  <th>Sentiment</th>
                 </tr>
               </thead>
               <tbody>
