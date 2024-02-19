@@ -151,6 +151,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   return (
     <div className="right-side">
+    {selectedKey === "user" && console.log("Selected Key:", selectedKey)}
       {!selectedKey && (
         <div className="content-body">
           <h1 className="dashboard_heading">Welcome to Dashboard</h1>
