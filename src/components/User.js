@@ -105,7 +105,7 @@ const User = () => {
       };
 
       const response = await axios.post(
-        "http://127.0.0.1:5000/api/update_user",
+        "https://usermgtapi3.onrender.com/api/update_user",
         userData,
         {
           headers: {
