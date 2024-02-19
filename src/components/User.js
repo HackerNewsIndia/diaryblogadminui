@@ -139,6 +139,7 @@ const User = () => {
 
   return (
     <div className="flex min-h-full items-center justify-center px-6 py-12 lg:px-8">
+     <h1 className="text-2xl font-bold mb-4">Create User Profile</h1>
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <form onSubmit={handleSubmit} className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2">
