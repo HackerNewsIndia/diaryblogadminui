@@ -172,7 +172,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       )}
    {selectedKey === "user" && (
         <div className="content-body">
-          <h1 className="dashboard_heading">Welcome to Dashboard</h1>
+          <h1 className="dairyBlogAdmin_h1">Welcome to Dashboard</h1>
           <User />  {/* Render the User component */}
         </div>
       )}
