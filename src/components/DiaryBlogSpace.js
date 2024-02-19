@@ -27,6 +27,12 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   const navigate = useNavigate();
 
+  
+  useEffect(() => {
+    console.log("Selected Key changed:", selectedKey);
+  }, [selectedKey]);
+
+
   const handleNewBlog = (newCompany) => {
     setCompanyData((prevData) => [...prevData, newCompany]);
   };
