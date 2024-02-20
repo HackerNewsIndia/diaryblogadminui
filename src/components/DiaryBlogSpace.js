@@ -14,7 +14,7 @@ import CompanyPosts from "./CompanyPosts";
 import DashboardContent from "./DashboardContents";
 import TypeitSpaceCreator from "./TypeitSpaceCreator";
 import TypeitSpacePosts from "./TypeitSpacePosts";
-import User from "./User";  
+import User from "./User";
 import jwt_decode from "jwt-decode";
 
 function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
@@ -27,11 +27,9 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     console.log("Selected Key changed:", selectedKey);
   }, [selectedKey]);
-
 
   const handleNewBlog = (newCompany) => {
     setCompanyData((prevData) => [...prevData, newCompany]);
@@ -62,6 +60,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const decodedToken = jwt_decode(token);
     const user = decodedToken.user;
     const userId = user.id;
+    console.log(userId);
 
     fetch(
       `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
@@ -97,7 +96,9 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       return;
     }
     const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id;
+    const user = decodedToken.user;
+    const userId = user.id;
+    console.log(userId);
 
     fetch(`https://typeit-api.onrender.com/list_typeit_spaces/${userId}`, {
       headers: {
@@ -129,8 +130,9 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       console.error("No JWT token found in local storage.");
       return;
     }
-    const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id;
+    const user = decodedToken.user;
+    const userId = user.id;
+    console.log(userId);
 
     fetch(`https://typeit-api.onrender.com/list_typeit_spaces/${userId}`, {
       headers: {
@@ -158,7 +160,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   return (
     <div className="right-side">
-    {selectedKey === "user" && console.log("Selected Key:", selectedKey)}
+      {selectedKey === "user" && console.log("Selected Key:", selectedKey)}
       {!selectedKey && (
         <div className="content-body">
           <h1 className="dashboard_heading">Welcome to Dashboard</h1>
@@ -171,10 +173,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
           <DashboardContent />
         </div>
       )}
-   {selectedKey === "user" && (
+      {selectedKey === "user" && (
         <div className="content-body">
           <h1 className="dashboard_heading">Welcome to Dashboard</h1>
-          <User />  {/* Render the User component */}
+          <User /> {/* Render the User component */}
         </div>
       )}
       {selectedKey === "diaryBlogAdmin" && (

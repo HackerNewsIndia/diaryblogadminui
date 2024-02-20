@@ -16,7 +16,8 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
 
     // Decode the JWT token to get the user_id
     const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id;
+    const user = decodedToken.user;
+    const userId = user.id;
 
     fetch(
       `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
@@ -54,7 +55,8 @@ function CreateTypeitSpace({ onClose, onNewBlog, onUpdateTypeitData }) {
 
     // Decode the JWT token to get the user_id
     const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id;
+    const user = decodedToken.user;
+    const userId = user.id;
 
     fetch(`https://typeit-api.onrender.com/api/create_typeit_space/${userId}`, {
       method: "POST",
