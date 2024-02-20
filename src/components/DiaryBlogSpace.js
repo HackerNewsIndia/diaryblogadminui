@@ -53,7 +53,8 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       return;
     }
     const decodedToken = jwt_decode(token);
-    const userId = decodedToken.id;
+    const user = decodedToken.user;
+    const userId = user.id;
 
     fetch(
       `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
@@ -259,9 +260,8 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                         <div
                           key={typeitSpace._id}
                           className="blog-card"
-                            onClick={() => handleTypeitSpace(typeitSpace)}
-                             
-                            >
+                          onClick={() => handleTypeitSpace(typeitSpace)}
+                        >
                           <h4 className="blog-title">{typeitSpace.name}</h4>
                         </div>
                       ))}
