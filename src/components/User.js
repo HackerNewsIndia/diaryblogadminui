@@ -1,70 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-
-const ImageUploader = ({ onImageUpload }) => {
-  const uploadedImage = React.useRef(null);
-  const imageUploader = React.useRef(null);
-
-  const handleImageUpload = (e) => {
-    const [file] = e.target.files;
-    if (file) {
-      const reader = new FileReader();
-      const { current } = uploadedImage;
-      current.file = file;
-
-      reader.onload = (e) => {
-        current.src = e.target.result;
-
-        // Get base64 representation of the image
-        const base64Image = e.target.result.split(",")[1];
-
-        // Pass base64 image data to the parent component
-        onImageUpload(base64Image);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  return (
-    <div className="flex flex-col items-center justify-center">
-      <input
-        type="file"
-        accept="image/*,application/pdf,.pdf"
-        onChange={handleImageUpload}
-        ref={imageUploader}
-        className="hidden"
-      />
-      <div
-        className="h-60 w-60 border-2 border-dashed border-black"
-        onClick={() => imageUploader.current.click()}
-      >
-        <img
-          ref={uploadedImage}
-          className="w-full h-full object-cover"
-          alt="Uploaded"
-        />
-      </div>
-      <p
-        className="mt-2 cursor-pointer text-blue-500"
-        onClick={() => imageUploader.current.click()}
-      >
-        Click to upload Image
-      </p>
-    </div>
-  );
-};
-
 const User = () => {
-  // console.log('User Token:', userToken);
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState("");
   const [newUserLinkedIn, setNewUserLinkedIn] = useState("");
   const [newUserTwitter, setNewUserTwitter] = useState("");
   const [newUserGitHub, setNewUserGitHub] = useState("");
   const [newUserImage, setNewUserImage] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          console.log("Token not found in local storage");
+          return;
+        }
+
+        const decodedToken = jwt_decode(token);
+        const userId = decodedToken.id;
+
+        const response = await axios.get(
+          `https://usermgtapi3.onrender.com/api/get_user/${userId}`
+        );
+
+        const existingUser = response.data;
+
+        setUserId(existingUser._id);
+        setNewUserLinkedIn(existingUser.linkedin || "");
+        setNewUserTwitter(existingUser.twitter || "");
+        setNewUserGitHub(existingUser.github || "");
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleLinkedInChange = (event) => {
     setNewUserLinkedIn(event.target.value);
@@ -104,43 +78,58 @@ const User = () => {
         image_base64: newUserImage,
       };
 
-      const response = await axios.post(
-        "https://usermgtapi3.onrender.com/api/update_user",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Bearer ${userId}`,
-          },
-        }
-      );
+      if (userId) {
+        const response = await axios.put(
+          `https://usermgtapi3.onrender.com/api/update_user/${userId}`,
+          userData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      const newUser = response.data;
+        const updatedUser = response.data;
 
-      setUsers((prevUsers) => [...prevUsers, newUser]);
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user._id === userId ? updatedUser : user
+          )
+        );
+
+        alert("User updated successfully!");
+      } else {
+        const response = await axios.post(
+          "https://usermgtapi3.onrender.com/api/create_user",
+          userData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const newUser = response.data;
+
+        setUsers((prevUsers) => [...prevUsers, newUser]);
+        alert("User saved successfully!");
+      }
+
+      setUserId("");
       setNewUserLinkedIn("");
       setNewUserTwitter("");
       setNewUserGitHub("");
       setNewUserImage("");
-      alert("User saved successfully!");
     } catch (error) {
-      console.error("Error adding new user:", error);
-      console.error("Error details:", error.toJSON());
-      if (error.response) {
-        console.error("Server responded with:", error.response.data);
-      } else if (error.request) {
-        console.error("No response received from the server");
-      } else {
-        console.error("Error setting up the request:", error.message);
-      }
-      alert("Error adding a new user. Please try again.");
+      console.error("Error:", error);
+      alert("Error saving/updating user. Please try again.");
     }
   };
 
   return (
     <div className="flex min-h-full items-center justify-center px-6 py-12 lg:px-8">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-    <h1 className="text-2xl font-bold mb-4">Create User Profile</h1>
+        <h1 className="text-2xl font-bold mb-4">Create User Profile</h1>
         <form onSubmit={handleSubmit} className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             LinkedIn URL:
@@ -170,13 +159,12 @@ const User = () => {
             className="w-full border border-gray-300 rounded-md py-2 px-3"
           />
 
-          {/* Add ImageUploader component */}
           <ImageUploader onImageUpload={handleImageUpload} />
 
           <div className="flex justify-center mt-4">
             <button
               type="submit"
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md "
+              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md"
             >
               Save
             </button>
@@ -219,7 +207,6 @@ const User = () => {
                 )}
               </div>
 
-              {/* Display user image */}
               {user.image && (
                 <div className="mt-4 ">
                   <img
