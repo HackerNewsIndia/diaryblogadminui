@@ -64,16 +64,17 @@ const User = () => {
   const [newUserGitHub, setNewUserGitHub] = useState("");
   const [newUserImage, setNewUserImage] = useState(null);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.log("Token not found in local storage");
-      return;
-    }
+ useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.log("Token not found in local storage");
+    return;
+  }
 
-    const decodedToken = jwt_decode(token);
-    setUserId(decodedToken.id);
-  }, []);
+  const decodedToken = jwt_decode(token);
+  setUserId(decodedToken.id);
+  console.log("User ID:", decodedToken.id);
+}, []);
 
   const handleLinkedInChange = (event) => {
     setNewUserLinkedIn(event.target.value);
@@ -102,6 +103,7 @@ const User = () => {
         github: newUserGitHub,
         image_base64: newUserImage,
       };
+      console.log("User Data:", userData);
 
       const existingUser = users.find((user) => user.user_id === userId);
 
