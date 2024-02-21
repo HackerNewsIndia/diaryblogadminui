@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-
 
 const ImageUploader = ({ onImageUpload }) => {
   const uploadedImage = React.useRef(null);
@@ -58,13 +57,16 @@ const ImageUploader = ({ onImageUpload }) => {
 };
 
 const User = () => {
-  // console.log('User Token:', userToken);
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState("");
   const [newUserLinkedIn, setNewUserLinkedIn] = useState("");
   const [newUserTwitter, setNewUserTwitter] = useState("");
   const [newUserGitHub, setNewUserGitHub] = useState("");
   const [newUserImage, setNewUserImage] = useState(null);
+
+  useEffect(() => {
+    // Fetch user data or set initial values if needed
+  }, []);
 
   const handleLinkedInChange = (event) => {
     setNewUserLinkedIn(event.target.value);
@@ -79,7 +81,6 @@ const User = () => {
   };
 
   const handleImageUpload = (base64Image) => {
-    console.log("Base64 Image Data:", base64Image);
     setNewUserImage(base64Image);
   };
 
@@ -104,27 +105,58 @@ const User = () => {
         image_base64: newUserImage,
       };
 
-      const response = await axios.post(
-        "https://usermgtapi3.onrender.com/api/update_user",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Bearer ${userId}`,
-          },
-        }
-      );
+      // Check if the user already exists to determine whether to use POST or PUT
+      const existingUser = users.find((user) => user.user_id === userId);
 
-      const newUser = response.data;
+      if (existingUser) {
+        // If user exists, update using PUT
+        const response = await axios.put(
+          `https://usermgtapi3.onrender.com/api/update_user/${userId}`,
+          userData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      setUsers((prevUsers) => [...prevUsers, newUser]);
+        const updatedUser = response.data;
+
+        // Update the state with the new user data
+        setUsers((prevUsers) =>
+          prevUsers.map((user) =>
+            user.user_id === userId ? updatedUser : user
+          )
+        );
+
+        alert("User updated successfully!");
+      } else {
+        // If user doesn't exist, create a new user using POST
+        const response = await axios.post(
+          "https://usermgtapi3.onrender.com/api/update_user",
+          userData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const newUser = response.data;
+
+        // Update the state with the new user data
+        setUsers((prevUsers) => [...prevUsers, newUser]);
+
+        alert("User saved successfully!");
+      }
+
+      // Clear form fields
       setNewUserLinkedIn("");
       setNewUserTwitter("");
       setNewUserGitHub("");
       setNewUserImage("");
-      alert("User saved successfully!");
     } catch (error) {
-      console.error("Error adding new user:", error);
+      console.error("Error updating/saving user:", error);
       console.error("Error details:", error.toJSON());
       if (error.response) {
         console.error("Server responded with:", error.response.data);
@@ -133,14 +165,14 @@ const User = () => {
       } else {
         console.error("Error setting up the request:", error.message);
       }
-      alert("Error adding a new user. Please try again.");
+      alert("Error updating/saving user. Please try again.");
     }
   };
 
   return (
     <div className="flex min-h-full items-center justify-center px-6 py-12 lg:px-8">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-    <h1 className="text-2xl font-bold mb-4">Create User Profile</h1>
+        <h1 className="text-2xl font-bold mb-4">Create User Profile</h1>
         <form onSubmit={handleSubmit} className="mb-6">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             LinkedIn URL:
