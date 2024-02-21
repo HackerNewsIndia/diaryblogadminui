@@ -100,7 +100,7 @@ const User = () => {
         alert("User updated successfully!");
       } else {
         const response = await axios.post(
-          "https://usermgtapi3.onrender.com/api/create_user",
+          "https://usermgtapi3.onrender.com/api/update_user",
           userData,
           {
             headers: {
