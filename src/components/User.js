@@ -65,7 +65,14 @@ const User = () => {
   const [newUserImage, setNewUserImage] = useState(null);
 
   useEffect(() => {
-    // Fetch user data or set initial values if needed
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not found in local storage");
+      return;
+    }
+
+    const decodedToken = jwt_decode(token);
+    setUserId(decodedToken.id);
   }, []);
 
   const handleLinkedInChange = (event) => {
@@ -88,15 +95,6 @@ const User = () => {
     event.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.log("Token not found in local storage");
-        return;
-      }
-
-      const decodedToken = jwt_decode(token);
-      const userId = decodedToken.id;
-
       const userData = {
         user_id: userId,
         linkedin: newUserLinkedIn,
@@ -105,11 +103,9 @@ const User = () => {
         image_base64: newUserImage,
       };
 
-      // Check if the user already exists to determine whether to use POST or PUT
       const existingUser = users.find((user) => user.user_id === userId);
 
       if (existingUser) {
-        // If user exists, update using PUT
         const response = await axios.put(
           `https://usermgtapi3.onrender.com/api/update_user/${userId}`,
           userData,
@@ -122,7 +118,6 @@ const User = () => {
 
         const updatedUser = response.data;
 
-        // Update the state with the new user data
         setUsers((prevUsers) =>
           prevUsers.map((user) =>
             user.user_id === userId ? updatedUser : user
@@ -131,7 +126,6 @@ const User = () => {
 
         alert("User updated successfully!");
       } else {
-        // If user doesn't exist, create a new user using POST
         const response = await axios.post(
           "https://usermgtapi3.onrender.com/api/update_user",
           userData,
@@ -144,13 +138,11 @@ const User = () => {
 
         const newUser = response.data;
 
-        // Update the state with the new user data
         setUsers((prevUsers) => [...prevUsers, newUser]);
 
         alert("User saved successfully!");
       }
 
-      // Clear form fields
       setNewUserLinkedIn("");
       setNewUserTwitter("");
       setNewUserGitHub("");
