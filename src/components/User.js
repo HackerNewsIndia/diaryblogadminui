@@ -1,238 +1,153 @@
-import React, { useState } from "react";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-
-
-const ImageUploader = ({ onImageUpload }) => {
-  const uploadedImage = React.useRef(null);
-  const imageUploader = React.useRef(null);
-
-  const handleImageUpload = (e) => {
-    const [file] = e.target.files;
-    if (file) {
-      const reader = new FileReader();
-      const { current } = uploadedImage;
-      current.file = file;
-
-      reader.onload = (e) => {
-        current.src = e.target.result;
-
-        // Get base64 representation of the image
-        const base64Image = e.target.result.split(",")[1];
-
-        // Pass base64 image data to the parent component
-        onImageUpload(base64Image);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
-
-  return (
-    <div className="flex flex-col items-center justify-center">
-      <input
-        type="file"
-        accept="image/*,application/pdf,.pdf"
-        onChange={handleImageUpload}
-        ref={imageUploader}
-        className="hidden"
-      />
-      <div
-        className="h-60 w-60 border-2 border-dashed border-black"
-        onClick={() => imageUploader.current.click()}
-      >
-        <img
-          ref={uploadedImage}
-          className="w-full h-full object-cover"
-          alt="Uploaded"
-        />
-      </div>
-      <p
-        className="mt-2 cursor-pointer text-blue-500"
-        onClick={() => imageUploader.current.click()}
-      >
-        Click to upload Image
-      </p>
-    </div>
-  );
-};
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 
 const User = () => {
-  // console.log('User Token:', userToken);
-  const [users, setUsers] = useState([]);
-  const [userId, setUserId] = useState("");
-  const [newUserLinkedIn, setNewUserLinkedIn] = useState("");
-  const [newUserTwitter, setNewUserTwitter] = useState("");
-  const [newUserGitHub, setNewUserGitHub] = useState("");
-  const [newUserImage, setNewUserImage] = useState(null);
+  const [user, setUser] = useState({
+    user_id: '',
+    linkedin: '',
+    twitter: '',
+    github: '',
+    image_base64: null,
+  });
 
-  const handleLinkedInChange = (event) => {
-    setNewUserLinkedIn(event.target.value);
-  };
+  const imageUploader = useRef(null);
 
-  const handleTwitterChange = (event) => {
-    setNewUserTwitter(event.target.value);
-  };
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
-  const handleGitHubChange = (event) => {
-    setNewUserGitHub(event.target.value);
-  };
-
-  const handleImageUpload = (base64Image) => {
-    console.log("Base64 Image Data:", base64Image);
-    setNewUserImage(base64Image);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const fetchUserData = async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.log("Token not found in local storage");
-        return;
-      }
-
-      const decodedToken = jwt_decode(token);
-      const userId = decodedToken.id;
-
-      const userData = {
-        user_id: userId,
-        linkedin: newUserLinkedIn,
-        twitter: newUserTwitter,
-        github: newUserGitHub,
-        image_base64: newUserImage,
-      };
-
-      const response = await axios.post(
-        "https://usermgtapi3.onrender.com/api/update_user",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Bearer ${userId}`,
-          },
-        }
-      );
-
-      const newUser = response.data;
-
-      setUsers((prevUsers) => [...prevUsers, newUser]);
-      setNewUserLinkedIn("");
-      setNewUserTwitter("");
-      setNewUserGitHub("");
-      setNewUserImage("");
-      alert("User saved successfully!");
+      const response = await axios.get(`https://usermgtapi3.onrender.com/api/get_user/${user_id}`);
+      setUser(response.data);
     } catch (error) {
-      console.error("Error adding new user:", error);
-      console.error("Error details:", error.toJSON());
-      if (error.response) {
-        console.error("Server responded with:", error.response.data);
-      } else if (error.request) {
-        console.error("No response received from the server");
-      } else {
-        console.error("Error setting up the request:", error.message);
-      }
-      alert("Error adding a new user. Please try again.");
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      fileToBase64(file, (base64Data) => {
+        setUser({ ...user, image_base64: base64Data });
+      });
+    }
+  };
+  function fileToBase64(file, callback) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      callback(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+  const handleCreateUser = async () => {
+    try {
+      await axios.post('https://usermgtapi3.onrender.com/api/update_user', user);
+      fetchUserData();
+      console.log('User created successfully');
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
+
+  const handleUpdateUser = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('user_id', user.user_id);
+      formData.append('linkedin', user.linkedin);
+      formData.append('twitter', user.twitter);
+      formData.append('github', user.github);
+      formData.append('image_base64', user.image_base64);
+
+      await axios.put('https://usermgtapi3.onrender.com/api/get_user/${user_id}', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true, // Add this line to include cookies
+
+      });
+
+      fetchUserData();
+      console.log('User updated successfully');
+    } catch (error) {
+      console.error('Error updating user:', error);
     }
   };
 
   return (
-    <div className="flex min-h-full items-center justify-center px-6 py-12 lg:px-8">
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-    <h1 className="text-2xl font-bold mb-4">Create User Profile</h1>
-        <form onSubmit={handleSubmit} className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            LinkedIn URL:
-          </label>
-          <input
-            type="text"
-            value={newUserLinkedIn}
-            onChange={handleLinkedInChange}
-            className="w-full border border-gray-300 rounded-md py-2 px-3"
-          />
-          <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
-            Twitter URL:
-          </label>
-          <input
-            type="text"
-            value={newUserTwitter}
-            onChange={handleTwitterChange}
-            className="w-full border border-gray-300 rounded-md py-2 px-3"
-          />
-          <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
-            GitHub URL:
-          </label>
-          <input
-            type="text"
-            value={newUserGitHub}
-            onChange={handleGitHubChange}
-            className="w-full border border-gray-300 rounded-md py-2 px-3"
-          />
-
-          {/* Add ImageUploader component */}
-          <ImageUploader onImageUpload={handleImageUpload} />
-
-          <div className="flex justify-center mt-4">
-            <button
-              type="submit"
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md "
-            >
-              Save
-            </button>
-          </div>
-        </form>
-
-        <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm-p:md:grid-cols-2">
-          {users.map((user) => (
-            <div key={user._id}>
-              <div className="flex justify-around mt-4">
-                {user.linkedin && (
-                  <a
-                    href={user.linkedin}
-                    className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    LinkedIn
-                  </a>
-                )}
-                {user.github && (
-                  <a
-                    href={user.github}
-                    className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    GitHub
-                  </a>
-                )}
-                {user.twitter && (
-                  <a
-                    href={user.twitter}
-                    className="text-blue-500 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Twitter
-                  </a>
-                )}
-              </div>
-
-              {/* Display user image */}
-              {user.image && (
-                <div className="mt-4 ">
-                  <img
-                    src={`https://usermgtapi3.onrender.com/${user.image}`}
-                    alt="User"
-                    className="w-full h-auto"
-                  />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+    <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
+      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">LinkedIn:</label>
+        <input
+          className="w-full p-2 border rounded-md"
+          type="text"
+          name="linkedin"
+          value={user.linkedin}
+          onChange={handleInputChange}
+        />
       </div>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">Twitter:</label>
+        <input
+          className="w-full p-2 border rounded-md"
+          type="text"
+          name="twitter"
+          value={user.twitter}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">Github:</label>
+        <input
+          className="w-full p-2 border rounded-md"
+          type="text"
+          name="github"
+          value={user.github}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">Image upload:</label>
+        <input
+          type="file"
+          accept="image/*,application/pdf,.pdf"
+          onChange={handleImageUpload}
+          ref={imageUploader}
+          className="hidden"
+        />
+        <button
+          onClick={() => imageUploader.current.click()}
+          className="bg-blue-500 text-white p-2 rounded-md mr-2"
+        >
+          Select File
+        </button>
+        {user.image_base64 && (
+          <img
+            className="mt-2 w-full h-auto rounded-md"
+            src={user.image_base64}
+            alt="User Preview"
+          />
+        )}
+      </div>
+      <button
+        className="bg-blue-500 text-white p-2 rounded-md mr-2"
+        onClick={handleCreateUser}
+      >
+        Create User
+      </button>
+      <button
+        className="bg-green-500 text-white p-2 rounded-md"
+        onClick={handleUpdateUser}
+      >
+        Update User
+      </button>
     </div>
   );
 };
