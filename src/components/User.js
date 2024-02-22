@@ -143,7 +143,7 @@ const User = () => {
         Create User
       </button>
       <button
-        className="bg-green-500 text-white p-2 rounded-md"
+        className="bg-blue-500 text-white p-2 rounded-md"
         onClick={handleUpdateUser}
       >
         Update User
