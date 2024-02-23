@@ -133,107 +133,94 @@ const User = () => {
   };
 
   return (
-    <div className="flex">
-      {/* Left Side Menu Bar */}
-     
-      {/* Right Side User Profile */}
-      <div className="w-2/4 p-4">
-        <div className="container mx-auto bg-gray-200 rounded-md shadow-md">
-          <h1 className="text-2xl font-bold mb-4">User Profile</h1>
-          {successMessage && (
-            <div className="mb-4 text-green-600 font-semibold">{successMessage}</div>
-          )}
-
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">LinkedIn:</label>
-            <div className="relative">
-              <input
-                className={`w-full p-2 border rounded-md ${editMode.linkedin ? 'bg-gray-100' : ''}`}
-                type="text"
-                name="linkedin"
-                value={user.linkedin}
-                onChange={handleInputChange}
-                readOnly={!editMode.linkedin}
-              />
-              <FontAwesomeIcon
-                icon={faPencilAlt}
-                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-                onClick={() => toggleEditMode('linkedin')}
-              />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Twitter:</label>
-            <div className="relative">
-              <input
-                className={`w-full p-2 border rounded-md ${editMode.twitter ? 'bg-gray-100' : ''}`}
-                type="text"
-                name="twitter"
-                value={user.twitter}
-                onChange={handleInputChange}
-                readOnly={!editMode.twitter}
-              />
-              <FontAwesomeIcon
-                icon={faPencilAlt}
-                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-                onClick={() => toggleEditMode('twitter')}
-              />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Github:</label>
-            <div className="relative">
-              <input
-                className={`w-full p-2 border rounded-md ${editMode.github ? 'bg-gray-100' : ''}`}
-                type="text"
-                name="github"
-                value={user.github}
-                onChange={handleInputChange}
-                readOnly={!editMode.github}
-              />
-              <FontAwesomeIcon
-                icon={faPencilAlt}
-                className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-                onClick={() => toggleEditMode('github')}
-              />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-sm font-semibold mb-2">Image upload:</label>
-            <input
-              type="file"
-              accept="image/*,application/pdf,.pdf"
-              onChange={handleImageUpload}
-              ref={imageUploader}
-              className="hidden"
-            />
-            <button
-              onClick={() => imageUploader.current.click()}
-              className="bg-blue-500 text-white p-2 rounded-md mr-2"
-            >
-              Select File
-            </button>
-            {user.image_base64 && (
-              <img
-                className="mt-2 w-full h-auto rounded-md"
-                src={`data:image/jpeg;base64,${user.image_base64}`}
-                alt="User Preview"
-              />
-            )}
-          </div>
-
-          <div className="mb-4 flex justify-center">
-            <button
-              className="bg-blue-500 text-white p-2 rounded-md"
-              onClick={handleSaveUser}
-            >
-              Save
-            </button>
-          </div>
+    <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
+      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
+      {successMessage && (
+        <div className="mb-4 text-green-600 font-semibold">{successMessage}</div>
+      )}
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">LinkedIn:</label>
+        <div className="relative">
+          <input
+            className={`w-full p-2 border rounded-md ${editMode.linkedin ? 'bg-gray-100' : ''}`}
+            type="text"
+            name="linkedin"
+            value={user.linkedin}
+            onChange={handleInputChange}
+            readOnly={!editMode.linkedin}
+          />
+          <FontAwesomeIcon
+            icon={faPencilAlt}
+            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+            onClick={() => toggleEditMode('linkedin')}
+          />
         </div>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">Twitter:</label>
+        <div className="relative">
+          <input
+            className={`w-full p-2 border rounded-md ${editMode.twitter ? 'bg-gray-100' : ''}`}
+            type="text"
+            name="twitter"
+            value={user.twitter}
+            onChange={handleInputChange}
+            readOnly={!editMode.twitter}
+          />
+          <FontAwesomeIcon
+            icon={faPencilAlt}
+            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+            onClick={() => toggleEditMode('twitter')}
+          />
+        </div>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">Github:</label>
+        <div className="relative">
+          <input
+            className={`w-full p-2 border rounded-md ${editMode.github ? 'bg-gray-100' : ''}`}
+            type="text"
+            name="github"
+            value={user.github}
+            onChange={handleInputChange}
+            readOnly={!editMode.github}
+          />
+          <FontAwesomeIcon
+            icon={faPencilAlt}
+            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+            onClick={() => toggleEditMode('github')}
+          />
+        </div>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-semibold mb-2">Image upload:</label>
+        <input
+          type="file"
+          accept="image/*,application/pdf,.pdf"
+          onChange={handleImageUpload}
+          ref={imageUploader}
+          className="hidden"
+        />
+        <button
+          onClick={() => imageUploader.current.click()}
+          className="bg-blue-500 text-white p-2 rounded-md mr-2"
+        >
+          Select File
+        </button>
+        {user.image_base64 && (
+          <img
+            className="mt-2 w-full h-auto rounded-md"
+            src={`data:image/jpeg;base64,${user.image_base64}`}
+            alt="User Preview"
+          />
+        )}
+      </div>
+      <div className="mb-4 flex justify-center">
+        <button
+          className="bg-blue-500 text-white p-2 rounded-md"
+          onClick={handleSaveUser}        >
+          Save
+        </button>
       </div>
     </div>
   );
