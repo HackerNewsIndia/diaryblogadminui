@@ -160,25 +160,21 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
   return (
     <div className="right-side">
-      {selectedKey === "user" && console.log("Selected Key:", selectedKey)}
-      {!selectedKey && (
-        <div className="content-body">
-          <h1 className="dashboard_heading">Welcome to Dashboard</h1>
-          <DashboardContent />
-        </div>
-      )}
+     
       {selectedKey === "home" && (
         <div className="content-body">
           <h1 className="dashboard_heading">Welcome to Dashboard</h1>
           <DashboardContent />
         </div>
       )}
+     
       {selectedKey === "user" && (
         <div className="content-body">
           <h1 className="dashboard_heading">Welcome to Dashboard</h1>
           <User /> {/* Render the User component */}
         </div>
       )}
+      
       {selectedKey === "diaryBlogAdmin" && (
         <div className="content-body">
           {selectedCompany ? (
@@ -239,7 +235,8 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
           )}
         </div>
       )}
-      {selectedKey === "typeitAdmin" && (
+      
+     {selectedKey === "typeitAdmin" && (
         <div className="content-body">
           {selectedTypeitSpace ? (
             <div>
