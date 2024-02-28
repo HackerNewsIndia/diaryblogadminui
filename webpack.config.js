@@ -10,6 +10,11 @@ module.exports = (_, argv) => ({
 
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+    fallback: {
+      path: require.resolve("path-browserify"),
+      fs: false,
+      assert: require.resolve("assert/"),
+    },
   },
 
   devServer: {
@@ -44,6 +49,11 @@ module.exports = (_, argv) => ({
       {
         test: /\.md$/,
         use: "raw-loader",
+      },
+      {
+        test: /\.json$/,
+        loader: "json-loader",
+        type: "javascript/auto",
       },
     ],
   },
