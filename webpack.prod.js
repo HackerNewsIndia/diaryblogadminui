@@ -31,6 +31,11 @@ module.exports = (_, argv) => ({
         test: /\.md$/,
         use: "raw-loader",
       },
+      {
+        test: /\.json$/,
+        loader: "json-loader",
+        type: "javascript/auto",
+      },
     ],
   },
 
