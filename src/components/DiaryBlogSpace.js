@@ -18,7 +18,7 @@ import TypeitSpacePosts from "./TypeitSpacePosts";
 import User from "./User";
 import jwt_decode from "jwt-decode";
 import { ShareIcon } from '@heroicons/react/solid';
-import Footer from "./Footer";
+//import Footer from "./Footer";
 //import { BeatLoader } from 'react-spinners';
 
 import CreateUserBlog from "./CreateUserBlog";  // Import CreateUserBlog component
