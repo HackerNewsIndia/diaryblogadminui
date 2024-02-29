@@ -67,16 +67,16 @@ function CreateUserBlog({ onClose, onNewBlog }) {
       );
     }
   };
-  return (
-<div className="form-container max-w-lg mx-auto p-4">
-      <div className="form-header flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-blue-500">Create blog space</h3>
+ return (
+    <div className="bg-white shadow-md rounded-md p-6 w-full max-w-md">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-xl font-bold text-blue-500 mb-2">Create blog </h3>
         <button className="cancel-button text-red-600" onClick={onClose}>
           ❌
         </button>
       </div>
       <form className="createBlogForm" onSubmit={handleSubmit}>
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 text-sm font-bold mb-2 sm:mb-4">
           Title:
         </label>
         <input
@@ -89,7 +89,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
         {errors.title && (
           <p className="error text-red-500">{errors.title}</p>
         )}
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 text-sm font-bold mb-2 sm:mb-4">
           URL:
         </label>
         <input
@@ -100,7 +100,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
           onChange={(e) => setUrl(e.target.value)}
         />
         {errors.url && <p className="error text-red-500">{errors.url}</p>}
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 text-sm font-bold mb-2 sm:mb-4">
           Image:
         </label>
         <input
@@ -110,11 +110,11 @@ function CreateUserBlog({ onClose, onNewBlog }) {
           value={image_Url}
           onChange={(e) => setImageUrl(e.target.value)}
         />
-        <label className="block text-gray-700 text-sm font-bold mb-2">
+        <label className="block text-gray-700 text-sm font-bold mb-2 sm:mb-4">
           Category:
         </label>
         <select
-          className="blogInput border p-2 mb-2 w-full"
+          className="blogInput border p-2 mb-2 w-full sm:mb-4"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -133,7 +133,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
         )}
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full mt-4"
         >
           Submit
         </button>
