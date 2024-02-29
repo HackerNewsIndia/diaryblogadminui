@@ -343,7 +343,7 @@ console.log("followersCounts", followersCounts);
 
                   <section className="py-6">
       <div className="container  mx-auto space-y-1 text-center">
-        <h1 className="text-3xl font-semibold leading text-center">   5 Spaces in 5 categories</h1>
+      <h1 className="text-3xl font-semibold leading text-center">{companyData.length} Blogs in 5 categories</h1>
 
         <div className="flex flex-wrap items-start justify-center">
           <p className="relative px-8 py-3 text-lg font-semibold ">Let's Start a Space</p>
