@@ -550,7 +550,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
 
 <div className="flex flex-col items-center">
-  <a href="https://diaryblog.connectingpeopletech.com/" target="_blank" rel="noopener noreferrer">
+  <a href="https://diaryblog.connectingpeopletech.com/diaryblogspace" target="_blank" rel="noopener noreferrer">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
