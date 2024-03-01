@@ -354,7 +354,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 <div className="flex flex-wrap items-start justify-center">
               <button
                 className=" bg-blue-500 px-2 py-2 text-white  font-medium"
-                onClick={handleCreateBlogSpaceClick}
+                onClick={() => handleCreateBlogSpaceClick()}
               >
                 Create Blog Space
               </button>
