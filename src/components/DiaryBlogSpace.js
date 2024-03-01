@@ -76,6 +76,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   
   const handleCreateBlogSpaceClick = () => {
     // Use the navigate function to redirect to the desired route
+    console.log("create called");
     setShowCreateUserBlog(true); // Update the route accordingly
   };
 
@@ -282,7 +283,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   console.log("Company Data:", companyData);
   console.log("Selected Typeit Space:", selectedTypeitSpace);
   console.log("totalCommentsCount:", totalCommentsCount); // Corrected the variable name
-console.log("followersCounts", followersCounts);
+  console.log("followersCounts", followersCounts);
 
   const randomImageUrls = generateRandomImageUrls(companyData.length);
 
