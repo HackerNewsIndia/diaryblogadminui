@@ -316,8 +316,13 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       )}
       {selectedKey === "diaryBlogAdmin" && (
         <div className="content-body">
-{showCreateUserBlog && <CreateUserBlog onClose={() => setShowCreateUserBlog(false)} onNewBlog={handleNewBlog} />}
-    
+          
+          {showCreateUserBlog && (
+            <CreateUserBlog
+              onClose={() => setShowCreateUserBlog(false)}
+              onNewBlog={handleNewBlog}
+            />
+          )}
 
           {selectedCompany ? (
             <div>
