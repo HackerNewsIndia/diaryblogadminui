@@ -550,8 +550,12 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
 
 <div className="flex flex-col items-center">
-  <a href="https://diaryblog.connectingpeopletech.com/diaryblogspace" target="_blank" rel="noopener noreferrer">
-    <svg
+<a
+  href={`https://diaryblog.connectingpeopletech.com/${blogSpace._id ? encodeURIComponent(blogSpace._id) : ''}/viewposts`}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+   <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -567,7 +571,6 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     </svg>
   </a>
 </div>
-
                      </div>
                             </div>
                           </div>
