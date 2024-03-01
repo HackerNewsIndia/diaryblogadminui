@@ -67,75 +67,78 @@ function CreateUserBlog({ onClose, onNewBlog }) {
       );
     }
   };
-  return (
-    <div className="form-container bg-gray-100 p-4 rounded-lg">
-      <div className="form-header flex items-center justify-between">
-        <h3 className="text-xl font-bold text-blue-500">Create blog space</h3>
-        <button className="cancel-button text-red-600" onClick={onClose}>
-          ❌
-        </button>
-      </div>
-      <form className="createBlogForm" onSubmit={handleSubmit}>
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Title:
-        </label>
-        <input
-          type="text"
-          className="blogInput border p-2 mb-2"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        {errors.title && <p className="error text-red-500">{errors.title}</p>}
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          URL:
-        </label>
-        <input
-          type="url"
-          className="blogInput border p-2 mb-2"
-          placeholder="URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        {errors.url && <p className="error text-red-500">{errors.url}</p>}
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Image:
-        </label>
-        <input
-          type="text"
-          className="blogInput border p-2 mb-2"
-          placeholder="Image URL"
-          value={image_Url}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
-
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Category:
-        </label>
-        <select
-          className="blogInput border p-2 mb-2"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="">Select a category</option>
-          <option value="Lifestyle">Lifestyle</option>
-          <option value="Travel">Technology</option>
-          <option value="Food and Recipes">Food and Recipes</option>
-          <option value="Personal Finance">Personal Finance</option>
-          <option value="Parenting and Family">Parenting and Family</option>
-        </select>
-        {errors.category && (
-          <p className="error text-red-500">{errors.category}</p>
-        )}
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  );
-}
-
-export default CreateUserBlog;
+ return (
+      <div className="form-container max-w-lg mx-auto p-4 sm:w-full">
+          <div className="form-header flex items-center justify-between mb-4">
+            <h3 className="text-xl font-bold text-blue-500 sm:text-lg">Create blog </h3>
+            <button className="cancel-button text-red-600 text-sm sm:text-base" onClick={onClose}>
+              ❌
+            </button>
+          </div>
+          <form className="createBlogForm" onSubmit={handleSubmit}>
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Title:
+            </label>
+            <input
+              type="text"
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            {errors.title && (
+              <p className="error text-red-500">{errors.title}</p>
+            )}
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              URL:
+            </label>
+            <input
+              type="url"
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              placeholder="URL"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+            {errors.url && <p className="error text-red-500">{errors.url}</p>}
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Image:
+            </label>
+            <input
+              type="text"
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              placeholder="Image URL"
+              value={image_Url}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Category:
+            </label>
+            <select
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select a category</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Travel">Technology</option>
+              <option value="Food and Recipes">Food and Recipes</option>
+              <option value="Personal Finance">Personal Finance</option>
+              <option value="Parenting and Family">Parenting and Family</option>
+            </select>
+            {errors.category && (
+              <p className="error text-red-500">{errors.category}</p>
+            )}
+           
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full sm:w-auto"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      );
+    }
+    
+    export default CreateUserBlog;
+    
