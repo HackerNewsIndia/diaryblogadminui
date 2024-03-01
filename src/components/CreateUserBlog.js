@@ -128,9 +128,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
             {errors.category && (
               <p className="error text-red-500">{errors.category}</p>
             )}
-            {success && (
-              <p className="success text-green-500">Blog space created successfully!</p>
-            )}
+           
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
