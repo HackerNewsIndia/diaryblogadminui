@@ -6,7 +6,9 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
   const [image_Url, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState(false);
 
+  
   const blogSpace = blog;
   console.log("selected blogSpace:", blogSpace);
 
@@ -100,6 +102,8 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
 
       setSuccess(true);
       onUpdateBlog();
+            setSuccess(false);
+
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
@@ -110,6 +114,11 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
 
   return (
     <div className="form-container max-w-lg mx-auto p-4">
+     {success && (
+        <div className="success-message bg-green-200 text-green-800 p-2 mb-4 rounded-md">
+          Blog updated successfully!
+        </div>
+      )}
       <div className="form-header flex items-center justify-between mb-4">
         <h3 className="text-xl font-bold text-blue-500">Edit Blog</h3>
         <button className="cancel-button text-red-600" onClick={onClose}>
