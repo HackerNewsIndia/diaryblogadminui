@@ -6,9 +6,9 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
   const [image_Url, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  
   const blogSpace = blog;
   console.log("selected blogSpace:", blogSpace);
 
@@ -19,8 +19,6 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
       const token = localStorage.getItem("token");
 
       try {
-        // console.log("Fetching blog space data...", blogSpaceId);
-
         const response = await fetch(
           `https://diaryblogapi2.onrender.com/api/blogSpace/${blogSpace._id}`,
           {
@@ -44,7 +42,7 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
         setCategory(data.category);
       } catch (error) {
         console.error("Error fetching blog space data:", error.message);
-        setErrors({ blogSpace: error.message }); // Set an error state
+        setErrors({ blogSpace: error.message });
       }
     };
 
@@ -75,6 +73,8 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
       return;
     }
 
+    setLoading(true);
+
     const token = localStorage.getItem("token");
 
     try {
@@ -102,27 +102,41 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
 
       setSuccess(true);
       onUpdateBlog();
-            setSuccess(false);
+      setLoading(false);
+
+      // Optional: You can set a timeout to hide the success message after a certain time
+      setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
 
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
         error.message
       );
+      setLoading(false);
     }
   };
 
   return (
     <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
-  {success && (
-    <div className="bg-green-200 text-green-800 p-2 mb-4 rounded-md">
-      Blog updated successfully!
-    </div>
-  )}
-  <div className="mb-4">
-    <h1 className="text-2xl font-bold text-blue-500 text-center mb-4">Edit Blog</h1>
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex flex-col mb-2">
+      {loading && <p>Loading...</p>}
+      {success && (
+        <div className="bg-green-200 text-green-800 p-2 mb-4 rounded-md">
+          Blog updated successfully!
+        </div>
+      )}
+      <div className="mb-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-blue-500 text-center mb-4">
+            Edit Blog
+          </h1>
+          <button className="cancel-button text-red-600" onClick={onClose}>
+            ❌
+          </button>
+        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex flex-col mb-2">
         <label className="block text-gray-700 text-sm font-bold mb-1">Title:</label>
         <input
           type="text"
@@ -176,17 +190,15 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
         )}
       </div>
 
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
-      >
-        Submit
-      </button>
-    </form>
-  </div>
-</div>
-
-
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 
