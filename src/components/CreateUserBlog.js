@@ -1,5 +1,4 @@
 import { Token } from "@mui/icons-material";
-import { data } from "autoprefixer";
 import React, { useState } from "react";
 
 function CreateUserBlog({ onClose, onNewBlog }) {
@@ -8,6 +7,11 @@ function CreateUserBlog({ onClose, onNewBlog }) {
   const [image_Url, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+
+
 
   function validateFields() {
     let validationErrors = {};
@@ -23,6 +27,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
 
     return validationErrors;
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,7 +38,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
     }
 
     const token = localStorage.getItem("token");
-    console.log("Token:", token);
+    console.log('Token:', token);
 
     try {
       const response = await fetch(
@@ -42,7 +47,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Replace yourExpiredToken with the correct variable
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             name: title,
@@ -58,126 +63,96 @@ function CreateUserBlog({ onClose, onNewBlog }) {
         throw new Error(errorData.error || "Network response was not ok");
       }
 
-      // Read the response once and then use it as needed
+      
+    setSuccess(true); // Set success state
+    setLoading(false); // Stop loading state
+
       const data = await response.json();
+      // Update state or trigger any other action on success
+
     } catch (error) {
-      console.error(
-        "There was a problem with the fetch operation:",
-        error.message
-      );
+      console.error("There was a problem with the fetch operation:", error.message);
     }
   };
- return (
-          <div className="flex min-h-full items-center justify-center px-6 py-12 lg:px-8">
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-              <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                  Create blog
-                </h2>
-                <button
-                      onClick={onClose}
-                      className="cancel-button text-red-600 text-sm sm:text-base"
-                    >
-                      ❌
-                  </button>
-              </div>
-          
-              <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6 createBlogForm" onSubmit={handleSubmit}>
-                  <div>
-                    <label
-                      htmlFor="title"
-                      className="block text-md font-medium leading-6 text-gray-900"
-                    >
-                      Title:
-                    </label>
-                    <input
-                      id="title"
-                      type="text"
-                      className="block w-full rounded-md border-2 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
-                      placeholder="Title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                    {errors.title && (
-                      <p className="mt-2 text-sm text-red-500">{errors.title}</p>
-                    )}
-                  </div>
-          
-                  <div>
-                    <label
-                      htmlFor="url"
-                      className="block text-md font-medium leading-6 text-gray-900"
-                    >
-                      URL:
-                    </label>
-                    <input
-                      id="url"
-                      type="url"
-                      className="block w-full rounded-md border-2 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
-                      placeholder="URL"
-                      value={url}
-                      onChange={(e) => setUrl(e.target.value)}
-                    />
-                    {errors.url && (
-                      <p className="mt-2 text-sm text-red-500">{errors.url}</p>
-                    )}
-                  </div>
-          
-                  <div>
-                    <label
-                      htmlFor="image"
-                      className="block text-md font-medium leading-6 text-gray-900"
-                    >
-                      Image:
-                    </label>
-                    <input
-                      id="image"
-                      type="text"
-                      className="block w-full rounded-md border-2 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
-                      placeholder="Image URL"
-                      value={image_Url}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                    />
-                  </div>
-          
-                  <div>
-                    <label
-                      htmlFor="category"
-                      className="block text-md font-medium leading-6 text-gray-900"
-                    >
-                      Category:
-                    </label>
-                    <select
-                      id="category"
-                      className="block w-full rounded-md border-2 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-400 sm:text-sm sm:leading-6"
-                      value={category}
-                      onChange={(e) => setCategory(e.target.value)}
-                    >
-                      <option value="">Select a category</option>
-                      <option value="Lifestyle">Lifestyle</option>
-                      <option value="Travel">Technology</option>
-                      <option value="Food and Recipes">Food and Recipes</option>
-                      <option value="Personal Finance">Personal Finance</option>
-                      <option value="Parenting and Family">Parenting and Family</option>
-                    </select>
-                    {errors.category && (
-                      <p className="mt-2 text-sm text-red-500">{errors.category}</p>
-                    )}
-                  </div>
-          
-                  <div>
-                    <button
-                      type="submit"
-                      className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-md font-semibold leading-6 text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+
+  return (
+    <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
+    {loading && <p>Loading...</p>}
+    {success && (
+      <div className="bg-green-200 text-green-800 p-2 mb-4 rounded-md">
+        Blog updated successfully!
+      </div>
+    )}
+    <div className="mb-4">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-blue-500 text-center mb-4">Create blog </h1>
+        <button className="cancel-button text-red-600" onClick={onClose}>
+            ❌
+          </button>
           </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              Title:
+            </label>
+            <input
+              type="text"
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            {errors.title && (
+              <p className="error text-red-500">{errors.title}</p>
+            )}
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              URL:
+            </label>
+            <input
+              type="url"
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              placeholder="URL"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+            />
+            {errors.url && <p className="error text-red-500">{errors.url}</p>}
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              Image:
+            </label>
+            <input
+              type="text"
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              placeholder="Image URL"
+              value={image_Url}
+              onChange={(e) => setImageUrl(e.target.value)}
+            />
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              Category:
+            </label>
+            <select
+              className="blogInput border p-2 mb-2 w-full sm:mb-1"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select a category</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Travel">Technology</option>
+              <option value="Food and Recipes">Food and Recipes</option>
+              <option value="Personal Finance">Personal Finance</option>
+              <option value="Parenting and Family">Parenting and Family</option>
+            </select>
+            {errors.category && (
+              <p className="error text-red-500">{errors.category}</p>
+            )}
+            
+            <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
+          >
+            Submit
+          </button>
+          </form>
+        </div>
+        </div>
       );
     }
     
