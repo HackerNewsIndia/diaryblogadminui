@@ -82,43 +82,38 @@ function CreateUserBlog({ onClose, onNewBlog }) {
   };
 
   return (
-    <div className="form-container">
-      <div className="form-header">
-        <h3 className="blogHeading">Create blog here</h3>
-        <button className="cancel-button" onClick={onClose}>
-          ❌
-        </button>
-      </div>
+    <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
+      <h1 className="text-2xl font-bold mb-4">Create blog here</h1>
+      <button className="cancel-button" onClick={onClose}>❌</button>
       <form className="createBlogForm" onSubmit={handleSubmit}>
-        {/* <i class="fas fa-pencil"></i> */}
         <input
           type="text"
-          className="blogInput"
-          placeholder="title"
+          className="w-full p-2 border rounded-md mb-4"
+          placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        {errors.title && <p className="error">{errors.title}</p>}
-        {/* <i class="fas fa-pencil"></i> */}
+        {errors.title && <p className="mb-4 text-red-600 font-semibold">{errors.title}</p>}
         <input
           type="url"
-          className="blogInput"
-          placeholder="url"
+          className="w-full p-2 border rounded-md mb-4"
+          placeholder="URL"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
-        {errors.url && <p className="error">{errors.url}</p>}
+        {errors.url && <p className="mb-4 text-red-600 font-semibold">{errors.url}</p>}
         <input
           type="text"
-          className="blogInput"
-          placeholder="category"
+          className="w-full p-2 border rounded-md mb-4"
+          placeholder="Category"
           value={category}
-          onChange={(e) => setcategory(e.target.value)}
+          onChange={(e) => setCategory(e.target.value)}
         />
-        {errors.category && <p className="error">{errors.category}</p>}
-        <button type="submit">Submit</button>
+        {errors.category && <p className="mb-4 text-red-600 font-semibold">{errors.category}</p>}
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded-md">Submit</button>
       </form>
     </div>
+
   );
 }
 
