@@ -325,9 +325,7 @@ import React, { useState, useEffect } from "react";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import MarkdownIt from "markdown-it";
-import PreviewPost from "./PreviewPost";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
 const mdParser = new MarkdownIt();
@@ -350,6 +348,7 @@ const CreateNewPost = ({
   const [draftPostData, setDraftPostData] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [url, setUrl] = useState("");
+  const [previewKey, setPreviewKey] = useState("");
 
   const post_data = {
     title: title,
@@ -421,6 +420,8 @@ const CreateNewPost = ({
 
   const handlePreview = (event) => {
     event.preventDefault();
+    generatePreviewKey();
+
     if (!title.trim() || !description.trim()) {
       console.log("Validation failed!");
       setValidationError("Title and Content are required!");
@@ -445,6 +446,7 @@ const CreateNewPost = ({
           imageUrl: imageUrl,
           category: category,
           status: "preview",
+          pkey: previewKey,
         }),
       }
     )
@@ -531,6 +533,12 @@ const CreateNewPost = ({
   };
 
   const currentTime = new Date().toISOString();
+
+  const generatePreviewKey = () => {
+    const key = Math.floor(1000 + Math.random() * 9000);
+    setPreviewKey(key);
+    return key;
+  };
 
   return (
     <div
@@ -682,7 +690,7 @@ const CreateNewPost = ({
               </span>
               <span>
                 <a
-                  href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost`}
+                  href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "blue", textDecoration: "underline" }}
