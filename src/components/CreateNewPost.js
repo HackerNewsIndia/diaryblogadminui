@@ -742,9 +742,12 @@ const CreateNewPost = ({
             />
           </div>
 
-          {validationError && (
-            <div className="text-red-500 mb-4">{validationError}</div>
-          )}
+          {!publishedPostData &&
+            !previewPostData &&
+            !draftPostData &&
+            validationError && (
+              <div className="text-red-500 mb-4">{validationError}</div>
+            )}
 
           {publishedPostData && (
             <div className="mb-4">
