@@ -349,6 +349,9 @@ const CreateNewPost = ({
   const [modalOpen, setModalOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [previewKey, setPreviewKey] = useState("");
+  const [isPostSavedasDraft, setIsPostSavedasDraft] = useState(false);
+
+  console.log("previewpostdata:", previewPostData);
 
   const post_data = {
     title: title,
@@ -378,17 +381,36 @@ const CreateNewPost = ({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!title.trim() || !description.trim()) {
-      setValidationError("Title and Content are required!");
+    const titleWords = title.trim().split(/\s+/).filter(Boolean);
+    if (titleWords.length < 3 || titleWords.length > 35) {
+      setValidationError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
+    if (descriptionWords.length < 100) {
+      setValidationError("Description must be at least 100 words.");
+      return;
+    }
+
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !imageUrl.trim() ||
+      !category.trim()
+    ) {
+      setValidationError(
+        "Title, Description, Image url and category are required!"
+      );
       return;
     }
 
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${draftPostData._id}`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -420,22 +442,42 @@ const CreateNewPost = ({
 
   const handlePreview = (event) => {
     event.preventDefault();
-    generatePreviewKey();
+    const pkey = generatePreviewKey();
+    console.log(pkey);
+    setPreviewKey(pkey);
+    console.log(previewKey);
 
-    if (!title.trim() || !description.trim()) {
-      console.log("Validation failed!");
-      setValidationError("Title and Content are required!");
-      console.log(validationError);
+    const titleWords = title.trim().split(/\s+/).filter(Boolean);
+    if (titleWords.length < 3 || titleWords.length > 35) {
+      setValidationError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
+    if (descriptionWords.length < 100) {
+      setValidationError("Description must be at least 100 words.");
+      return;
+    }
+
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !imageUrl.trim() ||
+      !category.trim()
+    ) {
+      setValidationError(
+        "Title, Description, Image url and category are required!"
+      );
       return;
     }
 
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${draftPostData._id}`,
       // `http://127.0.0.1:5001/api/posts/${selectedCompany.name}`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -446,7 +488,7 @@ const CreateNewPost = ({
           imageUrl: imageUrl,
           category: category,
           status: "preview",
-          pkey: previewKey,
+          pkey: pkey,
         }),
       }
     )
@@ -463,6 +505,31 @@ const CreateNewPost = ({
 
   const handleSaveDraft = (event) => {
     event.preventDefault();
+
+    const titleWords = title.trim().split(/\s+/).filter(Boolean);
+    if (titleWords.length < 3 || titleWords.length > 35) {
+      setValidationError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
+    if (descriptionWords.length < 50) {
+      setValidationError("Description must be at least 100 words.");
+      return;
+    }
+
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !imageUrl.trim() ||
+      !category.trim()
+    ) {
+      setValidationError(
+        "Title, Description, Image url and category are required!"
+      );
+      return;
+    }
+
     const token = localStorage.getItem("token");
 
     console.log("Selected Company ID:", selectedCompany._id);
@@ -487,6 +554,7 @@ const CreateNewPost = ({
       .then((response) => response.json())
       .then((data) => {
         console.log("Draft saved:", data);
+        setIsPostSavedasDraft(true);
         setDraftPostData(data);
         // cancelCreatingPost();
         // Maybe clear the form or show a notification to the user
@@ -536,9 +604,10 @@ const CreateNewPost = ({
 
   const generatePreviewKey = () => {
     const key = Math.floor(1000 + Math.random() * 9000);
-    setPreviewKey(key);
     return key;
   };
+
+  console.log("preview key:", previewKey);
 
   return (
     <div
@@ -678,12 +747,27 @@ const CreateNewPost = ({
           )}
 
           {publishedPostData && (
-            <p className="mb-4" style={{ color: "#28a745" }}>
-              Your post published successfully!!!
-            </p>
+            <div className="mb-4">
+              <span>
+                <p className="mb-4" style={{ color: "#28a745" }}>
+                  Your post published successfully!!! To view your published
+                  post:
+                </p>
+              </span>
+              <span>
+                <a
+                  href={`https://diaryblog.connectingpeopletech.com/${publishedPostData.blogSpace}/${publishedPostData._id}/post`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "blue", textDecoration: "underline" }}
+                >
+                  Click Here
+                </a>
+              </span>
+            </div>
           )}
 
-          {previewPostData && (
+          {!publishedPostData && previewPostData && (
             <div className="mb-4">
               <span>
                 Your post is on hold for review. Your review link here:
@@ -701,18 +785,30 @@ const CreateNewPost = ({
             </div>
           )}
 
-          {draftPostData && <p className="mb-4">Your post saved as Draft</p>}
+          {!publishedPostData && !previewPostData && draftPostData && (
+            <p className="mb-4">Your post saved as Draft</p>
+          )}
 
           <div className="flex flex-col space-x-2 sm:flex-row sm:justify-between">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0"
+              disabled={isPostSavedasDraft === false}
+              className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
+                isPostSavedasDraft === false
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
               Publish
             </button>
             <button
+              disabled={isPostSavedasDraft === false}
               onClick={(e) => handlePreview(e)}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0"
+              className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
+                isPostSavedasDraft === false
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
               Preview
             </button>
