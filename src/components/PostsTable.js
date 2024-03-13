@@ -12,12 +12,75 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
   const [fetchingMore, setFetchingMore] = useState(false);
   const [allPostsLoaded, setAllPostsLoaded] = useState(false);
   const [lastPostId, setLastPostId] = useState("");
+  const [previewPosts, setPreviewPosts] = useState([]);
 
   //const blogSpace = blog;
   console.log("selected blogSpace:", blogSpace);
 
+  const handleChange = (e) => {
+    setPostSearch(e.target.value);
+  };
+
+
+
+
+
   const blogSpaceId = selectedCompany._id;
   console.log("blogSpaceId", blogSpaceId);
+
+
+  useEffect(() => {
+    const fetchDrafts = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`https://diaryblogapi2.onrender.com/api/drafts/${blogSpaceId}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log('Fetched data:', data);
+        setDraftPosts(data);
+      } catch (error) {
+        console.error('Error fetching draft posts:', error.message);
+      }
+    };
+    fetchDrafts();
+  }, [blogSpaceId]); 
+   
+  
+  useEffect(() => {
+    async function fetchPreviewPosts() {
+      try {
+        const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+        const response = await fetch(`https://diaryblogapi2.onrender.com/api/preview/${blogSpaceId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch preview posts');
+        }
+
+        const data = await response.json();
+        setPreviewPosts(data);
+      } catch (error) {
+        console.error(error);
+        // Handle error, show error message to the user, etc.
+      }
+    }
+
+    fetchPreviewPosts();
+  }, [blogSpaceId]);
 
   useEffect(() => {
     const fetchBlogSpaceData = async () => {
@@ -164,7 +227,7 @@ useEffect(() => {
   }
   
   };
-
+ 
 
 
   
@@ -172,7 +235,6 @@ useEffect(() => {
 
   return (
     <div>
-     
       <section className="py-9 sm:py-12 space-y-6">
       <div className="flex flex-wrap items-stretch justify-center">
         <div className="flex flex-col space-y-1 items-center  ">
@@ -207,7 +269,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-semibold leadi text-center">157 Post in 5 categories</h1>
+          <h1 className="text-3xl font-semibold leadi text-center"> {posts.length} posts in 1 categories</h1>
          {/*} <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-4" onClick={startCreatingPost}>
         CREATE NEW POST
   </button> */}
@@ -247,8 +309,8 @@ useEffect(() => {
                   type="search"
                   name="Search"
                   placeholder="Search..."
-                  //value={blogSearch}
-                  //onChange={handleChange}
+                  value={postSearch}
+                  onChange={handleChange}
                   className="w-32 py-2 pl-10 bg-white border-2 text-sm text-slate-900 rounded-md sm:w-auto focus:outline"
                 /></div></div>
             <div className="flex flex-wrap items-start justify-center ">
@@ -270,7 +332,11 @@ useEffect(() => {
               <h2 className="text-xl font-bold">Idea</h2>
               <article>
               <ul>
-              {posts.map((post, index) => (
+              
+              {draftPosts.map((post, index) =>(
+                
+                              post.status === 'draft' && (
+
             <li key={index}>
                 <div className="flex items-center mt-8 space-x-4">
                 <img
@@ -283,13 +349,13 @@ useEffect(() => {
                 />                  <div>
                     <h2 className="text-xl font-bold"> {post.title.substring(0, 18)}</h2>
                     <h3 className="text-sm font-medium">Leroy Jenkins</h3>
-                    <time datetime="2021-02-18" className="text-sm dark:text-gray-400">Feb 18th 2021</time>
+                    <time className="text-sm dark:text-gray-400">{post.createDate}</time>
                   </div>
                 </div>
                 <div>
                   <div className="flex flex-wrap justify-between">
                     <div className="flex space-x-2 text-sm dark:text-gray-400">
-                      <button aria-label="Share this post" type="button" className="flex items-center p-1 space-x-2">
+                      <button aria-label="Share this post" type="button" className="flex items-center p-1 space-x-2" onClick={startCreatingPost}>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current dark:text-violet-400">
                           <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"></path>
                         </svg>
@@ -299,6 +365,7 @@ useEffect(() => {
                   </div>
                 </div>
                 </li>
+                              )
           ))}
         </ul>
               </article>
@@ -313,9 +380,12 @@ useEffect(() => {
        <h2 class="text-xl font-bold">Preview</h2>
 
     <article>
+
       <ul>
-          {posts.map((post, index) => (
-            <li key={index}>
+        {previewPosts.map(post => (
+                        post.status === 'preview' && (
+
+            <li key={post._id}>
                 <div className="flex items-center mt-8 space-x-4">
                 <img
                   src={
@@ -327,9 +397,8 @@ useEffect(() => {
                 />
         <div>
           <h2 class="text-xl font-bold"> {post.title.substring(0, 18)} </h2>
-          <h3 class="text-sm font-medium">Author</h3>
-          <h4 class="text-sm font-medium">Category</h4>
-          <time datetime="2021-02-18" class="text-sm dark:text-gray-400">Feb 18th 2021</time>
+          <h3 className="text-sm font-medium">Leroy Jenkins</h3>
+          <time datetime="2021-02-18" class="text-sm dark:text-gray-400">{post.createDate}</time>
         </div>
       </div>
       <div>
@@ -344,7 +413,7 @@ useEffect(() => {
               </svg>
             </button>
 
-            <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2">
+            <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2" onClick={startCreatingPost}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current dark:text-violet-400">
                 <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"></path>
               </svg>
@@ -354,8 +423,11 @@ useEffect(() => {
         </div>
       </div>
       </li>
+                  )
+
           ))}
         </ul>
+
     </article>
     
   </div>
@@ -372,6 +444,8 @@ useEffect(() => {
     <article>
     <ul>
           {posts.map((post, index) => (
+                        post.status === 'published' && (
+
             <li key={index}>
                 <div className="flex items-center mt-8 space-x-4">
                 <img
@@ -396,14 +470,17 @@ useEffect(() => {
       <div>
         <div class="flex flex-wrap justify-between">
           <div class="flex space-x-2 text-sm dark:text-gray-400">
-            <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current dark:text-violet-400">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                  <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path>
-                </svg>
-                <span>View</span>
-              </svg>
-            </button>
+          <a href={`https://diaryblog.connectingpeopletech.com/${blogSpaceId}/${post._id}/post`} target="_blank" rel="noopener noreferrer">
+  <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current dark:text-violet-400">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+        <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path>
+      </svg>
+      <span>View</span>
+    </svg>
+  </button>
+</a>
+
 
             <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2" onClick={startCreatingPost} >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current dark:text-violet-400">
@@ -439,6 +516,8 @@ useEffect(() => {
         </div>
       </div>
       </li>
+                  )
+
           ))}
         </ul>
     </article>
