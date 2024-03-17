@@ -415,8 +415,8 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                                     Leroy Jenkins
                                   </h3>
                                   <time className="text-sm dark:text-gray-400">
-                                    {post.createDate}
-                                  </time>
+{post.createDate
+? new Date( post.createDate ).toLocaleDateString() : "Loading..."}                                  </time>
                                 </div>
                               </div>
                               <div>
@@ -475,11 +475,9 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                                   <h3 className="text-sm font-medium">
                                     Leroy Jenkins
                                   </h3>
-                                  <time
-                                    datetime="2021-02-18"
-                                    class="text-sm dark:text-gray-400"
-                                  >
-                                    {post.createDate}
+                                  <time className="text-sm dark:text-gray-400">
+                                  {post.createDate
+? new Date( post.createDate ).toLocaleDateString() : "Loading..."}
                                   </time>
                                 </div>
                               </div>
@@ -557,12 +555,10 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                                   <h3 class="text-sm font-medium">
                                     Leroy Jenkins
                                   </h3>
-                                  <time
-                                    datetime={post.createDate}
-                                    className="text-xs dark:text-gray-400"
-                                  >
-                                    {post.createDate}
-                                  </time>{" "}
+                                 <time className="text-sm dark:text-gray-400">
+                                  {post.createDate
+? new Date( post.createDate ).toLocaleDateString() : "Loading..."}
+                                  </time>
                                 </div>
                               </div>
                               <div>
