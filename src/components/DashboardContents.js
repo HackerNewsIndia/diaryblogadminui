@@ -31,7 +31,7 @@ const DashboardContent = () => {
   const fetchEngagement = async () => {
     try {
       const token = localStorage.getItem('token'); // Assuming you store the JWT token in localStorage
-      const response = await fetch('http://127.0.0.1:5005/api/engagement', {
+      const response = await fetch('https://diaryblogapi2.onrender.com/api/engagement', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ useEffect(() => {
  const fetchPostsAnalytics = async () => {
   try {
     const token = localStorage.getItem('token'); // Get the JWT token from localStorage
-    const response = await fetch('http://127.0.0.1:5005/api/posts/analytics', {
+    const response = await fetch('https://diaryblogapi2.onrender.com/api/posts/analytics', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -84,7 +84,7 @@ fetchPostsAnalytics();
   useEffect(() => {
     const fetchLatestPosts = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5005/api/latest_posts", {
+        const response = await fetch("https://diaryblogapi2.onrender.com/api/latest_posts", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
