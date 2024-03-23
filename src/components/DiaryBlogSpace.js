@@ -198,7 +198,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       {selectedKey === "user" && console.log("Selected Key:", selectedKey)}
       {!selectedKey && (
         <div className="content-body">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 text-center">
             Welcome to Dashboard
           </h1>
           <DashboardContent />
@@ -206,7 +206,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
       )}
       {selectedKey === "home" && (
         <div className="content-body">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 text-center">
             Welcome to Dashboard
           </h1>
           <DashboardContent />
