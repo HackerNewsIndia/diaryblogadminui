@@ -109,13 +109,10 @@ fetchPostsAnalytics();
     <div>
  
 
-       {/* <div className="container p-6 mx-auto space-y-1 text-center">  */}
        <div className="container p-2 md:p-6 mx-auto space-y-1 text-center">
        <section class="py-9 bg-gray-800 text-gray-100 sm:py-12">
 
-   {/* <section className="p-4 my-6 md:p-8 bg-gray-800 text-gray-100 shadow sm:p-8">  */}
  
-    {/* <div className="container grid grid-cols-1 gap-6 m-4 mx-auto md:m-0 md:grid-cols-2 xl:grid-cols-4">  */}
     <div className="container grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 xl:grid-cols-4">
 
   {engagement &&(
@@ -124,7 +121,6 @@ fetchPostsAnalytics();
         <div className=" flex overflow-hidden rounded-lg bg-gray-900 text-gray-100"> 
        <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
 
-   {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800">  */} 
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" className="w-6 h-6">
             <path d="M487.938,162.108l-224-128a16,16,0,0,0-15.876,0l-224,128a16,16,0,0,0,.382,28l224,120a16,16,0,0,0,15.112,0l224-120a16,16,0,0,0,.382-28ZM256,277.849,65.039,175.548,256,66.428l190.961,109.12Z"></path>
             <path d="M263.711,394.02,480,275.061V238.539L256,361.74,32,238.539v36.522L248.289,394.02a16.005,16.005,0,0,0,15.422,0Z"></path>
@@ -170,7 +166,6 @@ fetchPostsAnalytics();
       <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
       <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
  
-        {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" className="w-6 h-6">
             <path d="M256.25,16A240,240,0,0,0,88,84.977V16H56V144H184V112H106.287A208,208,0,0,1,256.25,48C370.8,48,464,141.2,464,255.75S370.8,463.5,256.25,463.5,48.5,370.3,48.5,255.75h-32A239.75,239.75,0,0,0,425.779,425.279,239.75,239.75,0,0,0,256.25,16Z"></path>
             <polygon points="240 111.951 239.465 288 368 288 368 256 271.563 256 272 112.049 240 111.951"></polygon>
@@ -185,7 +180,6 @@ fetchPostsAnalytics();
        <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100"> 
        <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
 
-        {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" className="w-6 h-6">
             <path d="M415.313,358.7c36.453-36.452,55.906-85.231,54.779-137.353-1.112-51.375-21.964-99.908-58.715-136.66L388.75,107.314A166.816,166.816,0,0,1,438.1,222.039c.937,43.313-15.191,83.81-45.463,114.083l-48.617,49.051.044-89.165-32-.016L311.992,440H456.063V408H366.449Z"></path>
             <path d="M47.937,112h89.614L88.687,161.3c-36.453,36.451-55.906,85.231-54.779,137.352a198.676,198.676,0,0,0,58.715,136.66l22.627-22.627A166.818,166.818,0,0,1,65.9,297.962c-.937-43.314,15.191-83.811,45.463-114.083l48.617-49.051-.044,89.165,32,.015L192.008,80H47.937Z"></path>
@@ -200,7 +194,6 @@ fetchPostsAnalytics();
       <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100"> 
       <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
 
-        {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
         <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
@@ -225,7 +218,6 @@ fetchPostsAnalytics();
        <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100"> 
        <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
 
-        {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
 </svg>
@@ -240,7 +232,6 @@ fetchPostsAnalytics();
        <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100"> 
        <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
 
-        {/* <div class="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" className="w-6 h-6">
             <path d="M416,180H320V340h96a20.023,20.023,0,0,0,20-20V200A20.023,20.023,0,0,0,416,180ZM404,308H352V212h52Z"></path>
             <path d="M436.574,120H352V64H32V408a64.072,64.072,0,0,0,64,64H288a64.072,64.072,0,0,0,64-64v-8h84.574A59.493,59.493,0,0,0,496,340.574V179.426A59.493,59.493,0,0,0,436.574,120ZM464,340.574A27.457,27.457,0,0,1,436.574,368H320v40a32.036,32.036,0,0,1-32,32H96a32.036,32.036,0,0,1-32-32V96H320v56H436.574A27.457,27.457,0,0,1,464,179.426Z"></path>
@@ -301,15 +292,7 @@ fetchPostsAnalytics();
   </svg>
   <span>View</span>
 </a>
-                   {/* <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current dark:text-violet-400">
-                      <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"></path>
-                    </svg>
-
-                    <span> Edit </span>
-                  </button>  */}
-
+                  
                   <button type="button" class="flex items-center p-1 space-x-1.5">
   <svg class="w-4 h-4 mr-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -738,14 +721,8 @@ fetchPostsAnalytics();
                     </svg>
                   </button>
 
-                  {/* <button aria-label="Share this post" type="button" class="flex items-center p-1 space-x-2">
 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-4 h-4 fill-current dark:text-violet-400">
-                      <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"></path>
-                    </svg>
-
-                    <span> Edit </span>
-                  </button> */}
+                   
 
                  
                   <button type="button" class="flex items-center p-1 space-x-1.5">
