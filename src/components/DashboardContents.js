@@ -300,14 +300,15 @@ fetchPostsAnalytics();
                     {mostViewedPosts.map((post) => (
                       <li key={post.title}>
                         <div class="flex items-center mt-8 space-x-4">
-                          <img
-                            src={
-                              post.imageUrl ||
-                              "https://source.unsplash.com/random/100x100/?5"
-                            }
-                            alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
-                          />
+                         
+                          <div class="w-1/3 bg-cover bg-landscape">
+                            <img
+                              alt=""
+                              className="object-cover w-full h-52"
+                              src={post.imageUrl ||
+                                        "https://source.unsplash.com/random/100x100/?5"}
+                            />
+                          </div>    
 
                           <div>
                             <h2 class="text-xl md:text-xl font-bold">
