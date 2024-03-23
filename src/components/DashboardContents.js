@@ -108,7 +108,7 @@ fetchPostsAnalytics();
     <div className="container">
       <div className="container text-center">
         <section class="py-9 bg-gray-800 text-gray-100 sm:py-12">
-          <div className="container grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 xl:grid-cols-4">
+          <div className="container grid grid-cols-1 gap-6 m-4 mx-auto md:m-0 md:grid-cols-2 xl:grid-cols-4">
             {engagement && (
               <>
                 <div className=" flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
