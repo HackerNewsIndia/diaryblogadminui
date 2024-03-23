@@ -105,8 +105,8 @@ fetchPostsAnalytics();
   }, []);
 
   return (
-    <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
-      <div className="container p-2 md:p-6 mx-auto space-y-1 text-center">
+    <div className="container">
+      <div className="container text-center">
         <section class="py-9 bg-gray-800 text-gray-100 sm:py-12">
           <div className="container grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 xl:grid-cols-4">
             {engagement && (
