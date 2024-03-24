@@ -308,10 +308,10 @@ fetchPostsAnalytics();
                         <div class="flex items-center mt-8 space-x-4">
                          
                             <img
-                              alt="" width="100"
-                              className="w-20 mb-4 h-18 sm:h-22"
                               src={post.imageUrl ||
                                         "https://source.unsplash.com/random/100x100/?5"}
+                              alt="" 
+                              className="w-20 mb-4 h-18 sm:h-22" width="100"
                             />
                           
 
@@ -775,7 +775,7 @@ fetchPostsAnalytics();
           <div class="flex w-full flex-col-reverse mx-auto lg:flex-row ">
             <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
               <div class="space-y-2">
-                <h2 class="text-xl font-bold"> Least 3 Viewe</h2>
+                <h2 class="text-xl font-bold"> Least 3 Viewed</h2>
 
                 <article>
                   <ul>
