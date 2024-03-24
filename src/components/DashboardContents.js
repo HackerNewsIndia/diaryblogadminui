@@ -289,7 +289,11 @@ fetchPostsAnalytics();
 
 
       <section class="py-9 sm:py-12">
-        <h1 class="text-3xl font-semibold leadi text-center">Top</h1>      
+        <div className="container p-6 mx-auto space-y-8">      
+              <div className="space-y-2 text-center">
+                <h2 className="text-3xl font-bold">Top</h2>
+              </div>
+              
         <div class="flex flex-wrap items-stretch">
           <div class="flex w-full flex-col-reverse mx-auto lg:flex-row ">
           
@@ -758,11 +762,15 @@ fetchPostsAnalytics();
             </div>
           </div>
         </div>
+      </div>              
       </section>
 
      
       <section class="py-9 sm:py-12">
-         <h1 class="text-3xl font-semibold leadi text-center">Least</h1>
+        <div className="container p-6 mx-auto space-y-8">
+          <div className="space-y-2 text-center">
+            <h2 className="text-3xl font-bold">Least</h2>
+          </div>
         <div class="flex flex-wrap items-stretch">
           <div class="flex w-full flex-col-reverse mx-auto lg:flex-row ">
             <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
@@ -1230,7 +1238,9 @@ fetchPostsAnalytics();
             </div>
           </div>
         </div>
+                      </div>              
       </section>
+                      
       <section className="py-6 sm:py-12">
         <div className="container p-6 mx-auto space-y-8">
           <div className="space-y-2 text-center">
