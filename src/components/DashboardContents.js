@@ -108,10 +108,10 @@ fetchPostsAnalytics();
     <div className="container">
       <div className="container text-center">
         <section class="py-9 bg-gray-800 text-gray-100 sm:py-12">
-          <div className="container grid grid-cols-1 gap-6 m-4 mx-auto md:m-0 md:grid-cols-2 xl:grid-cols-4">
+          <div className="flex flex-wrap -m-4 text-center">
             {engagement && (
               <>
-                <div className=" flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
                     <svg
@@ -153,7 +153,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     {/* <div className="flex items-center justify-center px-4 bg-violet-400 text-gray-800"> */}
                     <svg
@@ -174,7 +174,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +194,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +214,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -264,7 +264,7 @@ fetchPostsAnalytics();
                   </div>
                 </div>
 
-                <div className="flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
+                <div className="p-4 sm:w-1/4 w-1/2 flex overflow-hidden rounded-lg bg-gray-900 text-gray-100">
                   <div className="flex items-center justify-center px-2 md:px-4 bg-violet-400 text-gray-800 text-sm md:text-base">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -303,7 +303,7 @@ fetchPostsAnalytics();
                          
                           <div class="w-1/3 bg-cover bg-landscape">
                             <img
-                              alt=""
+                              alt="" width="100"
                               className="object-cover w-full h-52"
                               src={post.imageUrl ||
                                         "https://source.unsplash.com/random/100x100/?5"}
@@ -423,7 +423,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22 " width="100"
                           />
 
                           <div>
@@ -539,7 +539,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22" width="100"
                           />
 
                           <div>
@@ -655,7 +655,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22" width="100"
                           />
 
                           <div>
@@ -778,7 +778,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22 " width="100"
                           />
 
                           <div>
@@ -894,7 +894,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22 " width="100"
                           />
 
                           <div>
@@ -1010,7 +1010,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22 " width="100"
                           />
 
                           <div>
@@ -1126,7 +1126,7 @@ fetchPostsAnalytics();
                               "https://source.unsplash.com/random/100x100/?5"
                             }
                             alt=""
-                            class="w-20 mb-4 h-18 sm:h-22 "
+                            class="w-20 mb-4 h-18 sm:h-22 " width="100"
                           />
 
                           <div>
@@ -1229,12 +1229,12 @@ fetchPostsAnalytics();
           </div>
         </div>
       </section>
-      <section className="py-6 sm:py-12 dark:bg-gray-800 dark:text-gray-100">
+      <section className="py-6 sm:py-12">
         <div className="container p-6 mx-auto space-y-8">
           <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Recently Posted</h2>
           </div>
-          <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="flex w-full flex-col mx-auto lg:flex-row">
             {latestPosts.map((post) => (
               <article
                 key={post._id}
@@ -1246,13 +1246,13 @@ fetchPostsAnalytics();
                     "https://source.unsplash.com/200x200/?fashion?1"
                   }
                   alt="image"
-                  className="object-cover w-full h-52 dark:bg-gray-500"
+                  className="object-cover w-full h-52" width="200" height="200"
                 />
-                <div className="flex flex-col flex-1 p-6">
-                  <h3 className="flex-1 py-2 text-lg font-semibold leadi">
+                <div className="container">
+                  <h3 className="flex">
                     {post.title}
                   </h3>
-                  <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs dark:text-gray-400">
+                  <div className="flex flex-wrap justify-between pt-3 space-x-2 text-xs">
                     <span>
                       {" "}
                       {post.createDate
