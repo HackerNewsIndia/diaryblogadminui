@@ -1248,7 +1248,7 @@ fetchPostsAnalytics();
                     "https://source.unsplash.com/200x200/?fashion?1"
                   }
                   alt="image"
-                  className="object-cover w-full h-52" width="200" height="200"
+                  className="w-20 mb-4 h-18 sm:h-22" 
                 />
                 <div className="container">
                   <h3 className="flex">
