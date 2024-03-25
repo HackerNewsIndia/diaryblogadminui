@@ -1324,9 +1324,9 @@ const DashboardContent = () => {
                   <img
                     src={post.imageUrl}
                     alt="image"
-                    width={250}
-                    height={250}
-                    className="rounded-md w-20 mb-4 h-18 sm:h-22"
+                    width="250"
+                    height="250"
+                    className="rounded-md w-full object-cover"
                   />
                 </div>
                 <div className="bg-gray-100 text-slate-900 flex flex-col p-4">
