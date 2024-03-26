@@ -385,18 +385,25 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
             </div>
           </div>
 
-          <div class="flex flex-wrap items-stretch ">
-            <div class="flex w-full flex-col-reverse mx-auto lg:flex-row  ">
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8  ">
+          <div class="w-full flex flex-row mx-auto items-center justify-center ">
+            <div class=" flex flex-row lg:flex-row justify-center space-x-4">
+              <div
+                className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
+                style={{
+                  maxHeight: "400px",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "transparent transparent",
+                }}
+              >
                 <div class="space-y-2">
-                  <h2 class="text-xl font-bold">Idea</h2>
+                  <h2 class="text-xl font-bold p-4">Idea</h2>
 
-                  <article>
+                  <article className="px-4">
                     <ul>
                       {draftPosts.map(
                         (post, index) =>
                           post.status === "draft" && (
-                            <li key={index}>
+                            <li key={index} className="mb-4">
                               <div className="flex items-center mt-8 space-x-4">
                                 <img
                                   src={
@@ -407,21 +414,27 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                                   className="w-16 h-16 rounded"
                                 />{" "}
                                 <div>
-                                  <h2 className="text-xl font-bold">
+                                  <h2 className="text-md font-bold">
                                     {" "}
-                                    {post.title.substring(0, 18)}
+                                    {post.title.length > 18
+                                      ? post.title.substring(0, 18) + "..."
+                                      : post.title}
                                   </h2>
                                   <h3 className="text-sm font-medium">
                                     Leroy Jenkins
                                   </h3>
                                   <time className="text-sm dark:text-gray-400">
-{post.createDate
-? new Date( post.createDate ).toLocaleDateString() : "Loading..."}                                  </time>
+                                    {post.createDate
+                                      ? new Date(
+                                          post.createDate
+                                        ).toLocaleDateString()
+                                      : "Loading..."}{" "}
+                                  </time>
                                 </div>
                               </div>
                               <div>
-                                <div className="flex flex-wrap justify-between">
-                                  <div className="flex space-x-2 text-sm dark:text-gray-400">
+                                <div className="flex flex-wrap justify-between mt-1">
+                                  <div className="flex space-x-2 text-sm dark:text-gray-400 text-center items-center justify-center">
                                     <button
                                       aria-label="Share this post"
                                       type="button"
@@ -448,16 +461,23 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                 </div>
               </div>
 
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
+              <div
+                className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
+                style={{
+                  maxHeight: "400px",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "transparent transparent",
+                }}
+              >
                 <div class="space-y-2">
-                  <h2 class="text-xl font-bold">Preview</h2>
+                  <h2 class="text-xl font-bold p-4">Preview</h2>
 
-                  <article>
+                  <article className="px-4">
                     <ul>
                       {previewPosts.map(
                         (post) =>
                           post.status === "preview" && (
-                            <li key={post._id}>
+                            <li key={post._id} className="mb-4">
                               <div className="flex items-center mt-8 space-x-4">
                                 <img
                                   src={
@@ -468,22 +488,27 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                                   className="w-16 h-16 rounded"
                                 />
                                 <div>
-                                  <h2 class="text-xl font-bold">
+                                  <h2 class="text-md font-bold">
                                     {" "}
-                                    {post.title.substring(0, 18)}{" "}
+                                    {post.title.length > 18
+                                      ? post.title.substring(0, 18) + "..."
+                                      : post.title}{" "}
                                   </h2>
                                   <h3 className="text-sm font-medium">
                                     Leroy Jenkins
                                   </h3>
                                   <time className="text-sm dark:text-gray-400">
-                                  {post.createDate
-? new Date( post.createDate ).toLocaleDateString() : "Loading..."}
+                                    {post.createDate
+                                      ? new Date(
+                                          post.createDate
+                                        ).toLocaleDateString()
+                                      : "Loading..."}
                                   </time>
                                 </div>
                               </div>
                               <div>
-                                <div class="flex flex-wrap justify-between">
-                                  <div class="flex space-x-2 text-sm dark:text-gray-400">
+                                <div class="flex flex-wrap justify-between mt-1">
+                                  <div class="flex space-x-2 text-sm dark:text-gray-400 text-center items-center justify-center">
                                     <button
                                       aria-label="Share this post"
                                       type="button"
@@ -529,16 +554,23 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                   </article>
                 </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8">
+              <div
+                className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
+                style={{
+                  maxHeight: "400px",
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "transparent transparent",
+                }}
+              >
                 <div class="space-y-2">
-                  <h2 class="text-xl font-bold">Live</h2>
+                  <h2 class="text-xl font-bold p-4">Live</h2>
 
-                  <article>
+                  <article className="px-4">
                     <ul>
                       {posts.map(
                         (post, index) =>
                           post.status === "published" && (
-                            <li key={index}>
+                            <li key={index} className="mb-4">
                               <div className="flex items-center mt-8 space-x-4">
                                 <img
                                   src={
@@ -549,21 +581,26 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                                   className="w-16 h-16 rounded"
                                 />
                                 <div>
-                                  <h2 class="text-xl font-bold">
-                                    {post.title.substring(0, 18)}
+                                  <h2 class="text-md font-bold">
+                                    {post.title.length > 18
+                                      ? post.title.substring(0, 18) + "..."
+                                      : post.title}
                                   </h2>
                                   <h3 class="text-sm font-medium">
                                     Leroy Jenkins
                                   </h3>
-                                 <time className="text-sm dark:text-gray-400">
-                                  {post.createDate
-? new Date( post.createDate ).toLocaleDateString() : "Loading..."}
+                                  <time className="text-sm dark:text-gray-400">
+                                    {post.createDate
+                                      ? new Date(
+                                          post.createDate
+                                        ).toLocaleDateString()
+                                      : "Loading..."}
                                   </time>
                                 </div>
                               </div>
                               <div>
-                                <div class="flex flex-wrap justify-between">
-                                  <div class="flex space-x-2 text-sm dark:text-gray-400">
+                                <div class="flex flex-wrap justify-between mt-1">
+                                  <div class="flex space-x-2 text-sm dark:text-gray-400 text-center items-center justify-center">
                                     <a
                                       href={`https://diaryblog.connectingpeopletech.com/${blogSpaceId}/${post._id}/post`}
                                       target="_blank"
