@@ -31,22 +31,37 @@ const CreateNewPost = ({
   const [previewKey, setPreviewKey] = useState("");
   const [isPostSavedasDraft, setIsPostSavedasDraft] = useState(false);
   const [editPostData, setEditPostData] = useState("");
+  const [sendEmailClicked, setSendEmailClicked] = useState(false);
+  const [updatedDraftPost, setUpdatedDraftPost] = useState(false);
 
-  console.log("previewpostdata:", previewPostData);
+  console.log("Edit Post Data:", post);
 
   useEffect(() => {
     if (post) {
-      setEditPostData(post);
-      setCategory(post.category);
-      setTitle(post.title);
-      setInputHtml(post.description);
-      setDescription(post.description);
-      setImageUrl(post.imageUrl);
-      if (post.status === "preview") {
+      if (post.status === "draft") {
+        setEditPostData(post);
+        setCategory(post.category);
+        setTitle(post.title);
+        setInputHtml(post.description);
+        setDescription(post.description);
+        setImageUrl(post.imageUrl);
+        // setDraftPostData(post);
+      } else if (post.status === "preview") {
+        setEditPostData(post);
+        setCategory(post.category);
+        setTitle(post.title);
+        setInputHtml(post.description);
+        setDescription(post.description);
+        setImageUrl(post.imageUrl);
         setDraftPostData(post);
         setIsPostSavedasDraft(true);
-      }
-      if (post.status === "published") {
+      } else if (post.status === "published") {
+        setEditPostData(post);
+        setCategory(post.category);
+        setTitle(post.title);
+        setInputHtml(post.description);
+        setDescription(post.description);
+        setImageUrl(post.imageUrl);
         setDraftPostData(post);
         setIsPostSavedasDraft(true);
       }
@@ -104,7 +119,9 @@ const CreateNewPost = ({
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${draftPostData._id}`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${
+        draftPostData._id || previewPostData._id || post._id
+      }`,
       {
         method: "PUT",
         headers: {
@@ -170,7 +187,9 @@ const CreateNewPost = ({
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${draftPostData._id}`,
+      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${
+        draftPostData._id || post._id
+      }`,
       // `http://127.0.0.1:5001/api/posts/${selectedCompany.name}`,
       {
         method: "PUT",
@@ -254,6 +273,7 @@ const CreateNewPost = ({
       .then((data) => {
         // addNewStory(data);
         setDraftPostData(data);
+        setUpdatedDraftPost(true);
         // cancelCreatingPost();
       })
       .catch((error) => {
@@ -367,11 +387,16 @@ const CreateNewPost = ({
 
   console.log("preview key:", previewKey);
 
+  const handleSendEmail = () => {
+    setSendEmailClicked(true);
+  };
+
   return (
     <div
       className="h-screen overflow-y-auto"
       style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
     >
+      {/* {sendEmailClicked && <SendEmail publishedPostData={publishedPostData} />} */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center ">
           <div className="bg-white rounded-lg p-8 max-w-md border-2 border-slate-400">
@@ -465,7 +490,7 @@ const CreateNewPost = ({
                 </div>
               </div>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col-reverse md:flex-row items-center text-center justify-between">
               <div className="flex flex-row space-x-4">
                 <div className="flex-row mb-4">
                   <label htmlFor="title" className="block mb-2">
@@ -492,6 +517,17 @@ const CreateNewPost = ({
                   />
                 </div>
               </div>
+              <div className="mt-4 md:mt-0 flex-end">
+                <button
+                  disabled={publishedPostData === ""}
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
+                    publishedPostData ? "" : "opacity-50 cursor-not-allowed"
+                  }`}
+                  onClick={(e) => handleSendEmail(e)}
+                >
+                  Send Email
+                </button>
+              </div>
             </div>
 
             <div className="mb-4">
@@ -507,12 +543,44 @@ const CreateNewPost = ({
               !previewPostData &&
               !draftPostData &&
               validationError && (
-                <div className="text-red-500 mb-4">{validationError}</div>
+                // <div className="text-red-500 mb-4">{validationError}</div>
+                <div
+                  className="bg-red-50 border-4 border-red-500 p-4 "
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center h-8 w-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 ">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18" />
+                          <path d="m6 6 12 12" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold">Error!</h3>
+                      <p className="text-sm text-gray-700 ">
+                        {validationError}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               )}
 
             {publishedPostData && (
               <div className="mb-4">
-                <span>
+                {/* <span>
                   <p className="mb-4" style={{ color: "#28a745" }}>
                     Your post published successfully!!! To view your published
                     post:
@@ -527,13 +595,55 @@ const CreateNewPost = ({
                   >
                     Click Here
                   </a>
-                </span>
+                </span> */}
+                <div
+                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Successfully Published.
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">
+                        <a
+                          href={`https://diaryblog.connectingpeopletech.com/${publishedPostData.blogSpace}/${publishedPostData._id}/post`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "teal", textDecoration: "underline" }}
+                        >
+                          Click here
+                        </a>{" "}
+                        to view your post
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
             {!publishedPostData && previewPostData && (
               <div className="mb-4">
-                <span>
+                {/* <span>
                   Your post is on hold for review. Your review link here:
                 </span>
                 <span>
@@ -556,34 +666,136 @@ const CreateNewPost = ({
                       Preview Link
                     </a>
                   )}
-                </span>
+                </span> */}
+
+                <div
+                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Success. Your post is on hold for review
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">
+                        <span>
+                          {previewKey ? (
+                            <a
+                              href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: "blue",
+                                textDecoration: "underline",
+                              }}
+                            >
+                              Preview Link
+                            </a>
+                          ) : (
+                            <a
+                              href={`https://diaryblog.connectingpeopletech.com/${post.blogSpace}/${post._id}/previewpost?key=${post.pkey}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: "blue",
+                                textDecoration: "underline",
+                              }}
+                            >
+                              Preview Link
+                            </a>
+                          )}
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
-            {!publishedPostData && !previewPostData && draftPostData && (
+            {/* {!publishedPostData && !previewPostData && draftPostData && (
               <p className="mb-4">Your post saved as Draft</p>
+            )} */}
+
+            {updatedDraftPost && (
+              // <p className="mb-4">Your post saved as Draft</p>
+
+              <div className="mb-4">
+                <div
+                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Success. Your post saved as Draft
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             <div className="flex flex-col space-x-2 sm:flex-row sm:justify-between">
               <button
                 type="submit"
-                disabled={isPostSavedasDraft === false}
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
-                  isPostSavedasDraft === false
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
+                // disabled={isPostSavedasDraft === false}
+                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 `}
+                // ${
+                //   isPostSavedasDraft === false
+                //     ? "opacity-50 cursor-not-allowed"
+                //     : ""
+                // }`}
               >
                 Publish
               </button>
               <button
-                disabled={isPostSavedasDraft === false}
+                disabled={post.status === "published"}
                 onClick={(e) => handlePreview(e)}
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
-                  isPostSavedasDraft === false
+                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0
+                ${
+                  post.status === "published"
                     ? "opacity-50 cursor-not-allowed"
                     : ""
-                }`}
+                }
+                `}
               >
                 Preview
               </button>
@@ -607,7 +819,7 @@ const CreateNewPost = ({
               <button
                 type="button"
                 onClick={() => cancelEditingBlog()}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-1 px-2 rounded "
+                className=" text-gray-700 font-bold py-1 px-2 rounded "
               >
                 Cancel
               </button>
@@ -666,7 +878,7 @@ const CreateNewPost = ({
                 </div>
               </div>
             </div>
-            <div className="flex justify-between">
+            <div className="flex flex-col-reverse md:flex-row items-center text-center justify-between">
               <div className="flex flex-row space-x-4">
                 <div className="flex-row mb-4">
                   <label htmlFor="title" className="block mb-2">
@@ -693,6 +905,17 @@ const CreateNewPost = ({
                   />
                 </div>
               </div>
+              <div className="mt-4 md:mt-0 flex-end">
+                <button
+                  disabled={publishedPostData === ""}
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
+                    publishedPostData ? "" : "opacity-50 cursor-not-allowed"
+                  }`}
+                  onClick={(e) => handleSendEmail(e)}
+                >
+                  Send Email
+                </button>
+              </div>
             </div>
 
             <div className="mb-4">
@@ -708,12 +931,46 @@ const CreateNewPost = ({
               !previewPostData &&
               !draftPostData &&
               validationError && (
-                <div className="text-red-500 mb-4">{validationError}</div>
+                // <div className="text-red-500 mb-4"></div>
+                <div
+                  className="bg-red-50 border-s-4 border-red-500 p-4 dark:bg-red-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 dark:border-red-900 dark:bg-red-800 dark:text-red-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18" />
+                          <path d="m6 6 12 12" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Error!
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">
+                        {validationError}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               )}
 
             {publishedPostData && (
               <div className="mb-4">
-                <span>
+                {/* <span>
                   <p className="mb-4" style={{ color: "#28a745" }}>
                     Your post published successfully!!! To view your published
                     post:
@@ -728,30 +985,163 @@ const CreateNewPost = ({
                   >
                     Click Here
                   </a>
-                </span>
+                </span> */}
+                <div
+                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Successfully Published.
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">
+                        <a
+                          href={`https://diaryblog.connectingpeopletech.com/${publishedPostData.blogSpace}/${publishedPostData._id}/post`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "teal", textDecoration: "underline" }}
+                        >
+                          Click here
+                        </a>{" "}
+                        to view your post
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
             {!publishedPostData && previewPostData && (
               <div className="mb-4">
-                <span>
+                {/* <span>
                   Your post is on hold for review. Your review link here:
                 </span>
                 <span>
-                  <a
-                    href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ color: "blue", textDecoration: "underline" }}
-                  >
-                    Preview Link
-                  </a>
-                </span>
+                  {previewKey ? (
+                    <a
+                      href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "blue", textDecoration: "underline" }}
+                    >
+                      Preview Link
+                    </a>
+                  ) : (
+                    <a
+                      href={`https://diaryblog.connectingpeopletech.com/${post.blogSpace}/${post._id}/previewpost?key=${post.pkey}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "blue", textDecoration: "underline" }}
+                    >
+                      Preview Link
+                    </a>
+                  )}
+                </span> */}
+
+                <div
+                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Success. Your post is on hold for review
+                      </h3>
+                      <p className="text-sm text-gray-700 dark:text-gray-400">
+                        <span>
+                          <a
+                            href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              color: "blue",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            Preview Link
+                          </a>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
             {!publishedPostData && !previewPostData && draftPostData && (
-              <p className="mb-4">Your post saved as Draft</p>
+              // <p className="mb-4">Your post saved as Draft</p>
+              <div className="mb-4">
+                <div
+                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold dark:text-white">
+                        Success. Your post saved as Draft
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             <div className="flex flex-col space-x-2 sm:flex-row sm:justify-between">
@@ -798,7 +1188,7 @@ const CreateNewPost = ({
               <button
                 type="button"
                 onClick={() => cancelCreatingPost()}
-                className="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-1 px-2 rounded "
+                className="text-gray-700 font-bold py-1 px-2 rounded "
               >
                 Cancel
               </button>
