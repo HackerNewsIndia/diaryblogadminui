@@ -385,10 +385,10 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
             </div>
           </div>
 
-          <div class="flex flex-row flex-wrap-reverse mx-auto items-center justify-center ">
+          <div class="flex flex-row flex-wrap-reverse mx-auto ">
             
             <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
+              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow"
               style={{
                 maxHeight: "400px",
                 scrollbarWidth: "thin",
@@ -464,7 +464,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
            
 
             <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
+              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow"
               style={{
                 maxHeight: "400px",
                 scrollbarWidth: "thin",
@@ -560,7 +560,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
           
 
             <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
+              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow"
               style={{
                 maxHeight: "400px",
                 scrollbarWidth: "thin",
