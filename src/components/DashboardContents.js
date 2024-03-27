@@ -1290,7 +1290,8 @@ const DashboardContent = () => {
               </article>
             ))}
           </div> */}
-          <div className="w-full flex flex-row space-x-4">
+  <div class="flex flex-col items-center space-y-4 sm:flex-row sm:flex-wrap sm:justify-center sm:space-x-4">
+
             {latestPosts.map((post) => (
               <article key={post._id} className="w-1/4 flex flex-col">
                 <div className="w-full">
