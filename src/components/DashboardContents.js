@@ -276,16 +276,18 @@ const DashboardContent = () => {
         </section>
       </div>
       <section class="py-9 sm:py-12">
-        <div className="container p-6 mx-auto space-y-8">
-          <div className="space-y-2 text-center">
+      <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Top</h2>
           </div>
-          <div class="flex flex-wrap items-stretch">
-            <div class="flex w-full flex-col-reverse mx-auto lg:flex-row ">
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Most 3 Viewed</h2>
-                  <article>
+      <div class="flex flex-row flex-wrap-reverse mx-auto items-center justify-center ">
+            
+            <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+              
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Most 3 Viewed</h2>
+
+                <article>
                     <ul>
                       {mostViewedPosts.map((post) => (
                         <li key={post.title}>
@@ -296,8 +298,7 @@ const DashboardContent = () => {
                                 "https://source.unsplash.com/random/100x100/?5"
                               }
                               alt=""
-                              className="w-20 mb-4 h-18 sm:h-22"
-                              width="100"
+                              className="w-16 h-16 rounded"
                             />
                             <div>
                               <h2 class="text-xl md:text-xl font-bold">
@@ -396,12 +397,18 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Most 3 Comments</h2>
-                  <article>
+            </div>
+
+           
+
+             <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+             
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Most 3 Comments</h2>
+
+                <article>
                     <ul>
                       {mostCommentedPosts.map((post) => (
                         <li key={post.title}>
@@ -412,8 +419,7 @@ const DashboardContent = () => {
                                 "https://source.unsplash.com/random/100x100/?5"
                               }
                               alt=""
-                              class="w-20 mb-4 h-18 sm:h-22 "
-                              width="100"
+                              className="w-16 h-16 rounded"
                             />
                             <div>
                               <h2 class="text-xl font-bold">
@@ -512,12 +518,18 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Most 3 Share</h2>
-                  <article>
+            </div>
+            
+          
+
+            <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+             
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Most 3 Share</h2>
+
+                <article>
                     <ul>
                       {mostSharedPosts.map((post) => (
                         <li key={post.title}>
@@ -628,12 +640,16 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Most 3 Love</h2>
-                  <article>
+            </div> 
+
+            <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+             
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Most 3 Love</h2>
+
+                <article>
                     <ul>
                       {mostLovedPosts.map((post) => (
                         <li key={post.title}>
@@ -744,23 +760,24 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-            </div>
+            </div> 
+           
           </div>
-        </div>
       </section>
-      <section class="py-9 sm:py-12">
-        <div className="container p-6 mx-auto space-y-8">
-          <div className="space-y-2 text-center">
+ <section class="py-9 sm:py-12">
+      <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Least</h2>
           </div>
-          <div class="flex flex-wrap items-stretch">
-            <div class="flex w-full flex-col-reverse mx-auto lg:flex-row ">
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Least 3 Viewed</h2>
-                  <article>
+      <div class="flex flex-row flex-wrap-reverse mx-auto items-center justify-center ">
+            
+            <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+              
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Least 3 Viewed</h2>
+
+                <article>
                     <ul>
                       {leastViewedPosts.map((post) => (
                         <li key={post.title}>
@@ -871,12 +888,18 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Least 3 Comments</h2>
-                  <article>
+            </div>
+
+           
+
+             <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+             
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Least 3 Comments</h2>
+
+                <article>
                     <ul>
                       {leastCommentedPosts.map((post) => (
                         <li key={post.title}>
@@ -987,12 +1010,18 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Least 3 Share</h2>
-                  <article>
+            </div>
+            
+          
+
+            <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+             
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Least 3 Share</h2>
+
+                <article>
                     <ul>
                       {leastSharedPosts.map((post) => (
                         <li key={post.title}>
@@ -1103,12 +1132,16 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-              <div class="flex flex-grow flex-col p-6 space-y-6 rounded shadow sm:p-8 ">
-                <div class="space-y-2">
-                  <h2 class="text-xl font-bold"> Least 3 Love</h2>
-                  <article>
+            </div> 
+
+            <div
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+             
+              <div class="space-y-2">
+                <h2 class="text-xl font-bold p-4">Least 3 Love</h2>
+
+                <article>
                     <ul>
                       {leastLovedPosts.map((post) => (
                         <li key={post.title}>
@@ -1219,12 +1252,12 @@ const DashboardContent = () => {
                       ))}
                     </ul>
                   </article>
-                </div>
               </div>
-            </div>
+            </div> 
+           
           </div>
-        </div>
       </section>
+
       <section className="py-6 sm:py-12 ">
         <div className="container px-4 mx-auto">
           <div className="text-center">
