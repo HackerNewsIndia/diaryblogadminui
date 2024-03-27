@@ -279,10 +279,10 @@ const DashboardContent = () => {
       <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Top</h2>
           </div>
-      <div class="flex flex-row flex-wrap mx-auto items-center justify-center ">
+      <div class="flex flex-row flex-wrap mx-auto  justify-center ">
             
             <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8  overflow-auto">
               
               <div class="space-y-2">
                 <h2 class="text-xl font-bold p-4">Most 3 Viewed</h2>
@@ -403,10 +403,10 @@ const DashboardContent = () => {
            
 
              <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8  overflow-auto">
              
               <div class="space-y-2">
-                <h2 class="text-xl font-bold p-4">Most 3 Comments</h2>
+                <h2 class="text-xl font-bold p-4">Most 3 Commented</h2>
 
                 <article>
                     <ul>
@@ -524,10 +524,10 @@ const DashboardContent = () => {
           
 
             <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8  overflow-auto">
              
               <div class="space-y-2">
-                <h2 class="text-xl font-bold p-4">Most 3 Share</h2>
+                <h2 class="text-xl font-bold p-4">Most 3 Shared</h2>
 
                 <article>
                     <ul>
@@ -644,10 +644,10 @@ const DashboardContent = () => {
             </div> 
 
             <div
-              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
+              className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8  overflow-auto">
              
               <div class="space-y-2">
-                <h2 class="text-xl font-bold p-4">Most 3 Love</h2>
+                <h2 class="text-xl font-bold p-4">Most 3 Loved</h2>
 
                 <article>
                     <ul>
@@ -769,7 +769,7 @@ const DashboardContent = () => {
       <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Least</h2>
           </div>
-      <div class="flex flex-row flex-wrap mx-auto items-center justify-center ">
+      <div class="flex flex-row flex-wrap mx-auto justify-center ">
             
             <div
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 overflow-auto">
@@ -897,7 +897,7 @@ const DashboardContent = () => {
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8  overflow-auto">
              
               <div class="space-y-2">
-                <h2 class="text-xl font-bold p-4">Least 3 Comments</h2>
+                <h2 class="text-xl font-bold p-4">Least 3 Commented</h2>
 
                 <article>
                     <ul>
@@ -1019,7 +1019,7 @@ const DashboardContent = () => {
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 overflow-auto">
              
               <div class="space-y-2">
-                <h2 class="text-xl font-bold p-4">Least 3 Share</h2>
+                <h2 class="text-xl font-bold p-4">Least 3 Shared</h2>
 
                 <article>
                     <ul>
@@ -1139,7 +1139,7 @@ const DashboardContent = () => {
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8  overflow-auto">
              
               <div class="space-y-2">
-                <h2 class="text-xl font-bold p-4">Least 3 Love</h2>
+                <h2 class="text-xl font-bold p-4">Least 3 Loved</h2>
 
                 <article>
                     <ul>
@@ -1290,7 +1290,7 @@ const DashboardContent = () => {
               </article>
             ))}
           </div> */}
-  <div class="flex flex-col items-center space-y-4 sm:flex-row sm:flex-wrap sm:justify-center sm:space-x-4">
+  <div class="flex flex-col items-start space-y-4 sm:flex-row sm:flex-wrap sm:justify-center sm:space-x-4">
 
             {latestPosts.map((post) => (
               <article key={post._id} className="w-1/2">
