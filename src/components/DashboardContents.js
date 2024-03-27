@@ -279,7 +279,7 @@ const DashboardContent = () => {
       <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Top</h2>
           </div>
-      <div class="flex flex-row flex-wrap-reverse mx-auto items-center justify-center ">
+      <div class="flex flex-row flex-wrap mx-auto items-center justify-center ">
             
             <div
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
@@ -769,7 +769,7 @@ const DashboardContent = () => {
       <div className="space-y-2 text-center">
             <h2 className="text-3xl font-bold">Least</h2>
           </div>
-      <div class="flex flex-row flex-wrap-reverse mx-auto items-center justify-center ">
+      <div class="flex flex-row flex-wrap mx-auto items-center justify-center ">
             
             <div
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto">
