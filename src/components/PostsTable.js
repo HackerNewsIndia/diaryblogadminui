@@ -385,9 +385,9 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
             </div>
           </div>
 
-         <div className="container grid justify-center gap-4 mx-auto lg:grid-cols-2 xl:grid-cols-3">
-
-         <div className="flex flex-col px-8 py-6">	  
+          <div class="w-full flex flex-row mx-auto items-center justify-center ">
+            <div class=" flex flex-row lg:flex-row justify-center space-x-4">
+            <div class="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0">
 				      <div
                 className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
                 style={{
@@ -461,9 +461,9 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                   </article>
                 </div>
               </div>
-            </div>              
+                            </div>              
 
-              <div class="flex flex-col px-8 py-6">
+              <div class="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0">
               <div
                 className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
                 style={{
@@ -558,8 +558,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                 </div>
               </div>
               </div>
-				  
-          <div class="flex flex-col px-8 py-6">
+          <div class="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0">
               <div
                 className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
                 style={{
