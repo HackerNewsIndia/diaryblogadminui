@@ -461,7 +461,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
               </div>
             </div>
 
-            <!--end--> 
+           
 
             <div
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
@@ -557,7 +557,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
               </div>
             </div>
             
-            <!--end--> 
+          
 
             <div
               className="flex flex-grow flex-col p-2 space-y-6 rounded shadow sm:p-8 items-center overflow-auto"
@@ -710,7 +710,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
               </div>
             </div>
 
-            <!--end--> 
+           
           </div>
         </section>
       )}
