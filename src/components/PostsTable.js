@@ -388,7 +388,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
           <div class="flex flex-row flex-wrap-reverse mx-auto ">
             
             <div
-              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow"
+              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow overflow-auto"
               style={{
                 maxHeight: "400px",
                 scrollbarWidth: "thin",
@@ -464,7 +464,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
            
 
             <div
-              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow"
+              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow overflow-auto"
               style={{
                 maxHeight: "400px",
                 scrollbarWidth: "thin",
@@ -560,7 +560,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
           
 
             <div
-              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow"
+              className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow overflow-auto"
               style={{
                 maxHeight: "400px",
                 scrollbarWidth: "thin",
