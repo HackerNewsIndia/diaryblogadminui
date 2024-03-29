@@ -4,6 +4,12 @@ import "react-markdown-editor-lite/lib/index.css";
 import MarkdownIt from "markdown-it";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faFileImport } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import EmailTemplate from "./EmailTemplate";
 
 const mdParser = new MarkdownIt();
 
@@ -387,16 +393,15 @@ const CreateNewPost = ({
 
   console.log("preview key:", previewKey);
 
-  const handleSendEmail = () => {
+  const handleSendEmail = (e) => {
+    e.preventDefault();
     setSendEmailClicked(true);
   };
 
   return (
-    <div
-      className="h-screen overflow-y-auto"
-      style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
-    >
-      {/* {sendEmailClicked && <SendEmail publishedPostData={publishedPostData} />} */}
+    <div>
+      {/* {sendEmailClicked && <SendEmail  draftPostData = {draftPostData} />} */}
+
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center ">
           <div className="bg-white rounded-lg p-8 max-w-md border-2 border-slate-400">
@@ -439,148 +444,157 @@ const CreateNewPost = ({
         </div>
       )}
       {editPostData ? (
-        <div className="container mx-auto py-10 px-4 mb-10">
-          <form onSubmit={handleSubmit}>
-            <div className="flex justify-between mb-6">
-              <h1 className="text-3xl flex-row font-bold">Create New Post</h1>
-              <div className="flex flex-row  space-x-2">
-                <select
-                  className="flex-row border-2 border-slate-800 px-1 py-0 rounded"
-                  placeholder="select category"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option className="text-gray-400">select category</option>
-                  <option value="Science">Science</option>
-                  <option value="Technology">Technology</option>
-                  <option value="Geography">A.I.</option>
-                  <option value="History">LifeStyle</option>
-                  <option value="Psychology">Travel</option>
-                  <option value="others">others</option>
-                </select>
+        sendEmailClicked === true && post.status === "published" ? (
+          <EmailTemplate draftPostData={post} />
+        ) : (
+          <div
+            className="container mx-auto py-10 px-4 mb-10 h-screen overflow-y-auto"
+            style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
+          >
+            <form onSubmit={handleSubmit}>
+              <div className="flex justify-between mb-6">
+                <h1 className="text-3xl flex-row font-bold">Create New Post</h1>
+                <div className="flex flex-row  space-x-2">
+                  <select
+                    className="flex-row border-2 border-slate-800 px-1 py-0 rounded"
+                    placeholder="select category"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option className="text-gray-400">select category</option>
+                    <option value="Science">Science</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Geography">A.I.</option>
+                    <option value="History">LifeStyle</option>
+                    <option value="Psychology">Travel</option>
+                    <option value="others">others</option>
+                  </select>
 
-                <select
-                  className="flex-row border-2 border-slate-800 px-3 py-2 rounded"
-                  placeholder=" select template"
-                  value={selectedTemplate}
-                  onChange={(e) => {
-                    setSelectedTemplate(e.target.value);
-                    const selectedTemplate = templates.find(
-                      (t) => t.name === e.target.value
-                    );
-                    if (selectedTemplate) {
-                      setDescription(selectedTemplate.content);
-                    }
-                  }}
-                >
-                  <option className="text-gray-400">
-                    Select a template...
-                  </option>
-                  {templates.map((template) => (
-                    <option value={template.name} key={template.name}>
-                      {template.name}
+                  <select
+                    className="flex-row border-2 border-slate-800 px-3 py-2 rounded"
+                    placeholder=" select template"
+                    value={selectedTemplate}
+                    onChange={(e) => {
+                      setSelectedTemplate(e.target.value);
+                      const selectedTemplate = templates.find(
+                        (t) => t.name === e.target.value
+                      );
+                      if (selectedTemplate) {
+                        setDescription(selectedTemplate.content);
+                      }
+                    }}
+                  >
+                    <option className="text-gray-400">
+                      Select a template...
                     </option>
-                  ))}
-                </select>
-                <div
-                  className="flex items-center cursor-pointer"
-                  onClick={() => handleUpload()}
-                >
-                  <FontAwesomeIcon icon={faUpload} />
+                    {templates.map((template) => (
+                      <option value={template.name} key={template.name}>
+                        {template.name}
+                      </option>
+                    ))}
+                  </select>
+                  <div
+                    className="flex items-center cursor-pointer"
+                    onClick={() => handleUpload()}
+                  >
+                    <FontAwesomeIcon icon={faUpload} />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-col-reverse md:flex-row items-center text-center justify-between">
-              <div className="flex flex-row space-x-4">
-                <div className="flex-row mb-4">
-                  <label htmlFor="title" className="block mb-2">
-                    Title:
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="border border-gray-300 px-3 py-2 rounded w-full"
-                  />
+              <div className="flex flex-col-reverse md:flex-row items-center text-center justify-between">
+                <div className="flex flex-row space-x-4">
+                  <div className="flex-row mb-4">
+                    <label htmlFor="title" className="block mb-2">
+                      Title:
+                    </label>
+                    <input
+                      type="text"
+                      id="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="border border-gray-300 px-3 py-2 rounded w-full"
+                    />
+                  </div>
+                  <div className="flex-row mb-4">
+                    <label htmlFor="image" className="block mb-2">
+                      ImageUrl:
+                    </label>
+                    <input
+                      type="url"
+                      id="image"
+                      value={imageUrl}
+                      onChange={(e) => setImageUrl(e.target.value)}
+                      className="border border-gray-300 px-3 py-2 rounded w-full"
+                    />
+                  </div>
                 </div>
-                <div className="flex-row mb-4">
-                  <label htmlFor="image" className="block mb-2">
-                    ImageUrl:
-                  </label>
-                  <input
-                    type="url"
-                    id="image"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    className="border border-gray-300 px-3 py-2 rounded w-full"
-                  />
-                </div>
-              </div>
-              <div className="mt-4 md:mt-0 flex-end">
-                <button
-                  disabled={publishedPostData === ""}
-                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
-                    publishedPostData ? "" : "opacity-50 cursor-not-allowed"
-                  }`}
+                <div className="mt-4 md:mt-0 flex-end">
+                  {/* <button
+                  disabled={post.status != "published"}
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0
+                   ${
+                     post.status === "published"
+                       ? ""
+                       : "opacity-50 cursor-not-allowed"
+                   }`}
                   onClick={(e) => handleSendEmail(e)}
                 >
                   Send Email
-                </button>
+                </button> */}
+                </div>
               </div>
-            </div>
 
-            <div className="mb-4">
-              <MdEditor
-                style={{ height: "400px" }}
-                renderHTML={(text) => mdParser.render(text)}
-                onChange={handleEditorChange}
-                value={inputHtml}
-              />
-            </div>
+              <div className="mb-4">
+                <MdEditor
+                  style={{ height: "400px" }}
+                  renderHTML={(text) => mdParser.render(text)}
+                  onChange={handleEditorChange}
+                  value={inputHtml}
+                />
+              </div>
 
-            {!publishedPostData &&
-              !previewPostData &&
-              !draftPostData &&
-              validationError && (
-                // <div className="text-red-500 mb-4">{validationError}</div>
-                <div
-                  className="bg-red-50 border-4 border-red-500 p-4 "
-                  role="alert"
-                >
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex justify-center items-center h-8 w-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 ">
-                        <svg
-                          className="flex-shrink-0 size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M18 6 6 18" />
-                          <path d="m6 6 12 12" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="ms-3">
-                      <h3 className="text-gray-800 font-semibold">Error!</h3>
-                      <p className="text-sm text-gray-700 ">
-                        {validationError}
-                      </p>
+              {!publishedPostData &&
+                !previewPostData &&
+                !draftPostData &&
+                validationError && (
+                  // <div className="text-red-500 mb-4">{validationError}</div>
+                  <div
+                    className="bg-red-50 border-4 border-red-500 p-4 "
+                    role="alert"
+                  >
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex justify-center items-center h-8 w-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 ">
+                          <svg
+                            className="flex-shrink-0 size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className="ms-3">
+                        <h3 className="text-gray-800 font-semibold">Error!</h3>
+                        <p className="text-sm text-gray-700 ">
+                          {validationError}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
-            {publishedPostData && (
-              <div className="mb-4">
-                {/* <span>
+              {publishedPostData && (
+                <div className="mb-4">
+                  {/* <span>
                   <p className="mb-4" style={{ color: "#28a745" }}>
                     Your post published successfully!!! To view your published
                     post:
@@ -596,54 +610,57 @@ const CreateNewPost = ({
                     Click Here
                   </a>
                 </span> */}
-                <div
-                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
-                  role="alert"
-                >
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
-                        <svg
-                          className="flex-shrink-0 size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                          <path d="m9 12 2 2 4-4" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="ms-3">
-                      <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Successfully Published.
-                      </h3>
-                      <p className="text-sm text-gray-700 dark:text-gray-400">
-                        <a
-                          href={`https://diaryblog.connectingpeopletech.com/${publishedPostData.blogSpace}/${publishedPostData._id}/post`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: "teal", textDecoration: "underline" }}
-                        >
-                          Click here
-                        </a>{" "}
-                        to view your post
-                      </p>
+                  <div
+                    className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                    role="alert"
+                  >
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                          <svg
+                            className="flex-shrink-0 size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                            <path d="m9 12 2 2 4-4" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className="ms-3">
+                        <h3 className="text-gray-800 font-semibold dark:text-white">
+                          Successfully Published.
+                        </h3>
+                        <p className="text-sm text-gray-700 dark:text-gray-400">
+                          <a
+                            href={`https://diaryblog.connectingpeopletech.com/${publishedPostData.blogSpace}/${publishedPostData._id}/post`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              color: "teal",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            Click here
+                          </a>{" "}
+                          to view your post
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {!publishedPostData && previewPostData && (
-              <div className="mb-4">
-                {/* <span>
+              {!publishedPostData && previewPostData && (
+                <div className="mb-4">
+                  {/* <span>
                   Your post is on hold for review. Your review link here:
                 </span>
                 <span>
@@ -668,166 +685,215 @@ const CreateNewPost = ({
                   )}
                 </span> */}
 
-                <div
-                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
-                  role="alert"
-                >
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
-                        <svg
-                          className="flex-shrink-0 size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                          <path d="m9 12 2 2 4-4" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="ms-3">
-                      <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Success. Your post is on hold for review
-                      </h3>
-                      <p className="text-sm text-gray-700 dark:text-gray-400">
-                        <span>
-                          {previewKey ? (
-                            <a
-                              href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                color: "blue",
-                                textDecoration: "underline",
-                              }}
-                            >
-                              Preview Link
-                            </a>
-                          ) : (
-                            <a
-                              href={`https://diaryblog.connectingpeopletech.com/${post.blogSpace}/${post._id}/previewpost?key=${post.pkey}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                color: "blue",
-                                textDecoration: "underline",
-                              }}
-                            >
-                              Preview Link
-                            </a>
-                          )}
+                  <div
+                    className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                    role="alert"
+                  >
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                          <svg
+                            className="flex-shrink-0 size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                            <path d="m9 12 2 2 4-4" />
+                          </svg>
                         </span>
-                      </p>
+                      </div>
+                      <div className="ms-3">
+                        <h3 className="text-gray-800 font-semibold dark:text-white">
+                          Success. Your post is on hold for review
+                        </h3>
+                        <p className="text-sm text-gray-700 dark:text-gray-400">
+                          <span>
+                            {previewKey ? (
+                              <a
+                                href={`https://diaryblog.connectingpeopletech.com/${previewPostData.blogSpace}/${previewPostData._id}/previewpost?key=${previewKey}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  color: "blue",
+                                  textDecoration: "underline",
+                                }}
+                              >
+                                Preview Link
+                              </a>
+                            ) : (
+                              <a
+                                href={`https://diaryblog.connectingpeopletech.com/${post.blogSpace}/${post._id}/previewpost?key=${post.pkey}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  color: "blue",
+                                  textDecoration: "underline",
+                                }}
+                              >
+                                Preview Link
+                              </a>
+                            )}
+                          </span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* {!publishedPostData && !previewPostData && draftPostData && (
+              {/* {!publishedPostData && !previewPostData && draftPostData && (
               <p className="mb-4">Your post saved as Draft</p>
             )} */}
 
-            {updatedDraftPost && (
-              // <p className="mb-4">Your post saved as Draft</p>
+              {updatedDraftPost && (
+                // <p className="mb-4">Your post saved as Draft</p>
 
-              <div className="mb-4">
-                <div
-                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
-                  role="alert"
-                >
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
-                        <svg
-                          className="flex-shrink-0 size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                          <path d="m9 12 2 2 4-4" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="ms-3">
-                      <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Success. Your post saved as Draft
-                      </h3>
+                <div className="mb-4">
+                  <div
+                    className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                    role="alert"
+                  >
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                          <svg
+                            className="flex-shrink-0 size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                            <path d="m9 12 2 2 4-4" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className="ms-3">
+                        <h3 className="text-gray-800 font-semibold dark:text-white">
+                          Success. Your post saved as Draft
+                        </h3>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <div className="flex flex-col space-x-2 sm:flex-row sm:justify-between">
-              <button
-                type="submit"
-                // disabled={isPostSavedasDraft === false}
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 `}
-                // ${
-                //   isPostSavedasDraft === false
-                //     ? "opacity-50 cursor-not-allowed"
-                //     : ""
-                // }`}
-              >
-                Publish
-              </button>
-              <button
-                disabled={post.status === "published"}
-                onClick={(e) => handlePreview(e)}
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0
+              <div className="flex flex-row space-x-2 sm:flex-row sm:justify-between items-center text-center">
+                <button
+                  type="submit"
+                  // disabled={isPostSavedasDraft === false}
+                  aria-label="Publish Post"
+                  title="Publish Post"
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  space-x-2 sm:mb-0 flex items-center justify-center `}
+                  // ${
+                  //   isPostSavedasDraft === false
+                  //     ? "opacity-50 cursor-not-allowed"
+                  //     : ""
+                  // }`}
+                >
+                  <FontAwesomeIcon
+                    icon={faFileImport}
+                    className="hidden sm:inline"
+                  />
+                  <span className="hidden sm:inline">Publish</span>
+                </button>
+                <button
+                  disabled={post.status === "published"}
+                  aria-label="Preview Post"
+                  title="Preview Post"
+                  onClick={(e) => handlePreview(e)}
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  space-x-2 sm:mb-0 flex items-center justify-center
                 ${
                   post.status === "published"
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }
                 `}
-              >
-                Preview
-              </button>
-              <button
-                onClick={(e) => handleUpdateDraft(e)}
-                disabled={
-                  post.status === "preview" || post.status === "published"
-                }
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
-                  post.status === "preview"
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                } ${
-                  post.status === "published"
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
-              >
-                Save as Draft
-              </button>
-              <button
-                type="button"
-                onClick={() => cancelEditingBlog()}
-                className=" text-gray-700 font-bold py-1 px-2 rounded "
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+                >
+                  <FontAwesomeIcon icon={faEye} className="hidden sm:inline" />
+
+                  <span className="hidden sm:inline">Preview</span>
+                </button>
+                <button
+                  onClick={(e) => handleUpdateDraft(e)}
+                  aria-label="Update Draft"
+                  title="Update Draft"
+                  disabled={
+                    post.status === "preview" || post.status === "published"
+                  }
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  space-x-2 sm:mb-0 flex items-center justify-center ${
+                    post.status === "preview"
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  } ${
+                    post.status === "published"
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={faFloppyDisk}
+                    className="hidden sm:inline"
+                  />
+
+                  <span className="hidden sm:inline">Save as Draft</span>
+                </button>
+
+                <button
+                  disabled={post.status != "published"}
+                  aria-label="Send Email"
+                  title="Send Email"
+                  className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded  sm:mb-0 flex items-center justify-center
+                   ${
+                     post.status === "published"
+                       ? ""
+                       : "opacity-50 cursor-not-allowed"
+                   }`}
+                  onClick={(e) => handleSendEmail(e)}
+                >
+                  <FontAwesomeIcon
+                    icon={faEnvelope}
+                    className="hidden sm:inline"
+                  />
+                  <span className="hidden sm:inline">Send Email</span>
+                </button>
+
+                <button
+                  type="button"
+                  aria-label="Cancel"
+                  title="Cancel"
+                  onClick={() => cancelEditingBlog()}
+                  className=" text-gray-700 font-bold py-1 px-2 rounded-lg space-x-2 flex items-center justify-center"
+                >
+                  <FontAwesomeIcon
+                    icon={faXmark}
+                    className="hidden sm:inline"
+                  />
+                  <span className="hidden sm:inline">Cancel</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        )
+      ) : sendEmailClicked === true && publishedPostData ? (
+        <EmailTemplate draftPostData={publishedPostData} />
       ) : (
-        <div className="container mx-auto py-10 px-4 mb-10">
+        <div
+          className="container mx-auto py-10 px-4 mb-10 h-screen overflow-y-auto"
+          style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
+        >
           <form onSubmit={handleSubmit}>
             <div className="flex justify-between mb-6">
               <h1 className="text-3xl flex-row font-bold">Create New Post</h1>
@@ -906,7 +972,7 @@ const CreateNewPost = ({
                 </div>
               </div>
               <div className="mt-4 md:mt-0 flex-end">
-                <button
+                {/* <button
                   disabled={publishedPostData === ""}
                   className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
                     publishedPostData ? "" : "opacity-50 cursor-not-allowed"
@@ -914,7 +980,7 @@ const CreateNewPost = ({
                   onClick={(e) => handleSendEmail(e)}
                 >
                   Send Email
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -1144,53 +1210,95 @@ const CreateNewPost = ({
               </div>
             )}
 
-            <div className="flex flex-col space-x-2 sm:flex-row sm:justify-between">
+            <div className="flex flex-row space-x-2 sm:flex-row sm:justify-between items-center text-center">
               <button
                 type="submit"
                 disabled={isPostSavedasDraft === false}
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
+                aria-label="Publish Post"
+                title="Publish Post"
+                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  sm:mb-0 flex items-center justify-center ${
                   isPostSavedasDraft === false
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }`}
               >
-                Publish
+                <FontAwesomeIcon
+                  icon={faFileImport}
+                  className="hidden sm:inline"
+                />
+                <span className="hidden sm:inline">Publish</span>
               </button>
               <button
                 disabled={isPostSavedasDraft === false}
                 onClick={(e) => handlePreview(e)}
-                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0 ${
+                aria-label="Preview Post"
+                title="Preview Post"
+                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  sm:mb-0 flex items-center justify-center ${
                   isPostSavedasDraft === false
                     ? "opacity-50 cursor-not-allowed"
                     : ""
                 }`}
               >
-                Preview
+                <FontAwesomeIcon icon={faEye} className="hidden sm:inline" />
+
+                <span className="hidden sm:inline">Preview</span>
               </button>
               {isPostSavedasDraft === true ? (
                 <button
                   onClick={(e) => handleUpdateDraft(e)}
+                  aria-label="Update Draft"
+                  title="Update Draft"
                   // disabled={post.status==="preview"|| post.status==="published"}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0"
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  sm:mb-0 flex items-center justify-center"
                 >
-                  Save as Draft
+                  <FontAwesomeIcon
+                    icon={faFloppyDisk}
+                    className="hidden sm:inline"
+                  />
+
+                  <span className="hidden sm:inline">Save as Draft</span>
                 </button>
               ) : (
                 <button
                   onClick={(e) => handleSaveDraft(e)}
+                  aria-label="Save as Draft"
+                  title="Save as Draft"
                   // disabled={post.status==="preview"|| post.status==="published"}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded mb-2 sm:mb-0"
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-lg  sm:mb-0 flex items-center justify-center"
                 >
-                  Save as Draft
+                  <FontAwesomeIcon
+                    icon={faFloppyDisk}
+                    className="hidden sm:inline"
+                  />
+
+                  <span className="hidden sm:inline">Save as Draft</span>
                 </button>
               )}
 
               <button
-                type="button"
-                onClick={() => cancelCreatingPost()}
-                className="text-gray-700 font-bold py-1 px-2 rounded "
+                disabled={publishedPostData === ""}
+                aria-label="Send Email"
+                type="Send Email"
+                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded  sm:mb-0 flex items-center justify-center
+                   ${publishedPostData ? "" : "opacity-50 cursor-not-allowed"}`}
+                onClick={(e) => handleSendEmail(e)}
               >
-                Cancel
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="hidden sm:inline"
+                />
+                <span className="hidden sm:inline">Send Email</span>
+              </button>
+
+              <button
+                type="button"
+                aria-label="Cancel"
+                title="Cancel"
+                onClick={() => cancelCreatingPost()}
+                className="text-gray-700 font-bold py-1 px-2 rounded-lg flex items-center justify-center"
+              >
+                <FontAwesomeIcon icon={faXmark} className="hidden sm:inline" />
+                <span className="hidden sm:inline">Cancel</span>
               </button>
             </div>
           </form>
