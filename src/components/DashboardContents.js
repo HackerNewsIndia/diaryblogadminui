@@ -1300,7 +1300,7 @@ const DashboardContent = () => {
   <div class="flex flex-col items-start space-y-4 sm:flex-row sm:flex-wrap sm:justify-center sm:space-x-4">
 
             {latestPosts.map((post) => (
-              <article key={post._id} className="w-1/2">
+              <article key={post._id} className="w-1/4 flex flex-co">
                 <div className="w-full">
                   <img
                     src={post.imageUrl}
