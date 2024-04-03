@@ -39,6 +39,7 @@ const CreateNewPost = ({
   const [editPostData, setEditPostData] = useState("");
   const [sendEmailClicked, setSendEmailClicked] = useState(false);
   const [updatedDraftPost, setUpdatedDraftPost] = useState(false);
+  const [cacheKey, setCacheKey] = useState("");
 
   console.log("Edit Post Data:", post);
 
@@ -393,8 +394,27 @@ const CreateNewPost = ({
 
   console.log("preview key:", previewKey);
 
-  const handleSendEmail = (e) => {
+  const handleSendEmail = (e, blogId) => {
     e.preventDefault();
+    fetch(
+      `https://diaryblogapi2.onrender.com/api/email_preview`,
+      // `http://127.0.0.1:5001/api/email_preview`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          blogId: blogId,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("cacheKey:", data);
+        setCacheKey(data);
+      })
+      .catch((error) => console.error("Error fetching .md file:", error));
     setSendEmailClicked(true);
   };
 
@@ -445,7 +465,7 @@ const CreateNewPost = ({
       )}
       {editPostData ? (
         sendEmailClicked === true && post.status === "published" ? (
-          <EmailTemplate draftPostData={post} />
+          <EmailTemplate draftPostData={post} cacheKey={cacheKey} />
         ) : (
           <div
             className="container mx-auto py-10 px-4 mb-10 h-screen overflow-y-auto"
@@ -861,7 +881,7 @@ const CreateNewPost = ({
                        ? ""
                        : "opacity-50 cursor-not-allowed"
                    }`}
-                  onClick={(e) => handleSendEmail(e)}
+                  onClick={(e) => handleSendEmail(e, post.blogSpace)}
                 >
                   <FontAwesomeIcon
                     icon={faEnvelope}
@@ -888,7 +908,7 @@ const CreateNewPost = ({
           </div>
         )
       ) : sendEmailClicked === true && publishedPostData ? (
-        <EmailTemplate draftPostData={publishedPostData} />
+        <EmailTemplate draftPostData={publishedPostData} cacheKey={cacheKey} />
       ) : (
         <div
           className="container mx-auto py-10 px-4 mb-10 h-screen overflow-y-auto"
@@ -1281,7 +1301,7 @@ const CreateNewPost = ({
                 type="Send Email"
                 className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded  sm:mb-0 flex items-center justify-center
                    ${publishedPostData ? "" : "opacity-50 cursor-not-allowed"}`}
-                onClick={(e) => handleSendEmail(e)}
+                onClick={(e) => handleSendEmail(e, publishedPostData.blogSpace)}
               >
                 <FontAwesomeIcon
                   icon={faEnvelope}
