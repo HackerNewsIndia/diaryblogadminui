@@ -35,7 +35,7 @@ const DashboardContent = () => {
 
  if (response.status === 401) {
           localStorage.removeItem("token");
-          window.location.replace("#/logout"); 
+          window.location.replace("/#/logout"); 
           return;
         }
         
