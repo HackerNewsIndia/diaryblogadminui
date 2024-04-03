@@ -32,6 +32,13 @@ const DashboardContent = () => {
             },
           }
         );
+
+ if (response.status === 401) {
+          localStorage.removeItem("token");
+          window.location.replace("/#/logout"); 
+          return;
+        }
+        
         const data = await response.json();
         console.log("Engagement metrics:", data);
         setEngagement(data);
