@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Markdown from "markdown-to-jsx";
 
-const EmailTemplate = ({ draftPostData }) => {
+const EmailTemplate = ({ draftPostData, cacheKey }) => {
   console.log("draftPostData", draftPostData);
   const postTitle = draftPostData.title;
   const postDescription = draftPostData.description;
@@ -18,6 +18,9 @@ const EmailTemplate = ({ draftPostData }) => {
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [recipients, setRecipients] = useState([]);
+  const [recipientInput, setRecipientInput] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     const markdownToJSX = (postDescription) => {
@@ -136,22 +139,47 @@ const EmailTemplate = ({ draftPostData }) => {
     fetchBlogData();
   }, [blogId]);
 
+  useEffect(() => {
+    const followersEmails = async () => {
+      fetch(
+        `https://diaryblogapi2.onrender.com/api/blogSpace/${blogId}/followers`,
+        {
+          method: "GET",
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("followersData", data);
+          console.log("emails:", data.userEmails);
+          setRecipients(data.userEmails);
+        })
+        .catch((error) => {
+          console.error("Error incrementing views:", error);
+        });
+    };
+    followersEmails();
+  }, [blogId]);
+
   const MAX_LINES = 15;
 
-  // function truncateDescription(description) {
-  //   // Split the description into lines
-  //   const lines = description.split("\n");
+  const handleRecipientChange = (e) => {
+    setRecipientInput(e.target.value);
+  };
 
-  //   // Take the first MAX_LINES lines
-  //   const truncatedLines = lines.slice(0, MAX_LINES);
+  const handleRecipientKeyDown = (e) => {
+    if (e.key === "Enter" && recipientInput.trim() !== "") {
+      e.preventDefault();
+      // Add recipient to the list
+      setRecipients([recipientInput.trim(), ...recipients]);
+      setRecipientInput("");
+    }
+  };
 
-  //   // Join the truncated lines back into a string
-  //   const truncatedDescription = truncatedLines.join("\n");
-
-  //   return truncatedDescription;
-  // }
-
-  // truncateDescription(postDescription);
+  const removeRecipient = (index) => {
+    const updatedRecipients = [...recipients];
+    updatedRecipients.splice(index, 1);
+    setRecipients(updatedRecipients);
+  };
 
   const handleSendEmail = async () => {
     try {
@@ -159,6 +187,7 @@ const EmailTemplate = ({ draftPostData }) => {
 
       const response = await fetch(
         "https://diaryblogapi2.onrender.com/api/send_email_new_post",
+        // "http://127.0.0.1:5001/api/send_email_new_post",
         {
           method: "POST",
           headers: {
@@ -175,12 +204,15 @@ const EmailTemplate = ({ draftPostData }) => {
             // blogSpaceImageUrl: blogSpaceImageUrl,
             blogSpaceName: blogSpaceName,
             userId: userId,
+            cacheKey: cacheKey,
           }),
         }
       );
 
       if (response.ok) {
         setEmailSent(true);
+        const responseData = await response.json();
+        setSuccessMessage(responseData.message || "Email sent successfully.");
       } else {
         throw new Error("Failed to send email.");
       }
@@ -385,44 +417,91 @@ const EmailTemplate = ({ draftPostData }) => {
             </tr>
           </tbody>
         </table>
-        <button
-          onClick={handleSendEmail}
-          className="flex w-56 justify-center rounded-md bg-indigo-600 mt-4 px-3 py-1.5 text-md font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          disabled={loading || emailSent}
+        <form
+          className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-4 space-y-2"
+          id="emailForm"
         >
-          {loading ? (
-            <span className="flex items-center">
-              <span className="mr-2">Loading</span>
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            </span>
-          ) : emailSent ? (
-            "Email Sent"
-          ) : (
-            "Send Email"
-          )}
-        </button>
+          <div className="flex-grow flex flex-wrap">
+            <div
+              className="overflow-auto flex flex-row flex-grow flex-wrap border-2 border-gray-500 rounded-md items-center text-center justify-center"
+              style={{
+                maxHeight: "90px",
+                scrollbarWidth: "thin",
+                scrollbarColor: "transparent transparent",
+              }}
+            >
+              {recipients.map((recipient, index) => (
+                <div
+                  key={index}
+                  className="flex items-center bg-gray-300 rounded-lg px-3 py-1 m-1 space-x-2"
+                >
+                  <span className="text-sm">{recipient}</span>
+                  <button
+                    type="button"
+                    onClick={() => removeRecipient(index)}
+                    className="text-white ml-1"
+                  >
+                    &#10005;
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className=" flex flex-col md:flex-row lg:flex-row items-center align-center justify-center space-x-2">
+            <input
+              type="text"
+              id="emailInput"
+              className=" rounded-md py-2 px-3 border-1 border-b-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300"
+              placeholder="Enter email recipients"
+              value={recipientInput}
+              onChange={handleRecipientChange}
+              onKeyDown={handleRecipientKeyDown}
+            />
+            <button
+              onClick={handleSendEmail}
+              className="w-1/4 ml-2 rounded-md bg-indigo-600 px-3 py-1.5 text-md font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              disabled={loading || emailSent}
+            >
+              {loading ? (
+                <span className="flex items-center">
+                  <span className="mr-2">Loading</span>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </span>
+              ) : emailSent ? (
+                "Send Email"
+              ) : (
+                "Send Email"
+              )}
+            </button>
+          </div>
+        </form>
         {errorMessage && (
           <p className="mt-2" style={{ color: "red" }}>
             {errorMessage}
+          </p>
+        )}
+        {successMessage && (
+          <p className="mt-2" style={{ color: "green" }}>
+            {successMessage}
           </p>
         )}
       </body>
