@@ -220,6 +220,15 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
           <User /> {/* Render the User component */}
         </div>
       )}
+
+    {selectedKey === "followAdmin" && (
+        <div className="content-body">
+          <h1 className="text-2xl font-bold text-gray-800 text-center">
+          DiaryBlog Follower
+          </h1>
+          <FollowSpace /> {/* Render the User component */}
+        </div>
+      )}
       {selectedKey === "diaryBlogAdmin" && (
         <div className="content-body">
           {showCreateUserBlog && (
