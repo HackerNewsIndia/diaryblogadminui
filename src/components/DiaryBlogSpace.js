@@ -24,6 +24,7 @@ import Footer from "./Footer";
 import CreateUserBlog from "./CreateUserBlog"; // Import CreateUserBlog component
 
 import UpdateUserBlog from "./UpdateUserBlog"; // Import the UpdateUserBlog component
+import FollowSpace from "./FollowSpace";
 
 function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const [error, setError] = useState(null);
