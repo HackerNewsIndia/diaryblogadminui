@@ -4,11 +4,15 @@ import axios from 'axios';
 const Followers = ({ companyData, blogSpaceId }) => {
   const [emailList, setEmailList] = useState([]);
 
+  const [importedEmails, setImportedEmails] = useState([]);
+  const [successMessage, setSuccessMessage] = useState(''); // Define successMessage state
 
   const [followers, setFollowers] = useState([]);
    //console.log("blogSpaceId", blogSpaceId);
    console.log("Received companyData:", companyData);
    console.log("Received blogSpaceId:", blogSpaceId);
+
+
    const handleOnFileChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -26,6 +30,10 @@ const Followers = ({ companyData, blogSpaceId }) => {
       const contents = event.target.result;
       const emails = contents.split('\n').map((line) => line.trim());
       setEmailList(emails);
+      setImportedEmails(emails); // Update importedEmails state
+
+      console.log('Emails read from file:', emails); // Log the emails after reading
+
     };
     reader.readAsText(file);
   };
@@ -37,10 +45,43 @@ const Followers = ({ companyData, blogSpaceId }) => {
     setEmailList([]); // Clear the email list
   };
   
-  const handleImport = () => {
-    console.log('Imported Email List:', emailList);
-  };
 
+
+  const handleImport = () => {
+     console.log('Emails to import:', emailList); // Log the emailList before attempting to add followers
+     if (emailList.length === 0) {
+       console.error('No emails to import.');
+       return;
+     }
+  
+     // Filter out invalid or empty emails
+     const validEmails = emailList.filter((email) => {
+       // Check if the email is a valid format
+       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     return emailRegex.test(email);
+     });
+  
+     if (validEmails.length === 0) {
+       console.error('No valid emails to import.');
+       // Display an error message to the user
+       alert('No valid emails found in the imported list.');
+       return;
+     }
+  
+     const newFollowers = validEmails.map((email) => ({ email }));
+     console.log('New followers to add:', newFollowers); // Log the new followers to be added
+     setFollowers((prevFollowers) => [...prevFollowers, ...newFollowers]);
+     setEmailList([]); // Clear the imported email list after adding to followers
+   };
+  
+
+  // const handleImport = () => {
+  //   setFollowers((prevFollowers) => [
+  //     ...prevFollowers,
+  //     ...emailList.map((email, index) => ({  email })),
+  //   ]);
+  //   setEmailList([]); // Clear the imported email list after adding to followers
+  // };
   const handleExport = () => {
     const csvData = followers.map((follower) => follower.email).join('\n');
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8' });
@@ -52,32 +93,43 @@ const Followers = ({ companyData, blogSpaceId }) => {
     link.click();
     document.body.removeChild(link);
   };
-  
 
   const handleAddToFollower = async () => {
     try {
-      // Map the email list to follower objects
-      const newFollowers = emailList.map((email, index) => ({
-        id: index + 1,
-        email,
-        subscription: '',
-        type: '',
-        amount: 0,
-        subscribedDate: '',
-        paidDate: ''
-      }));
-  
+      if (importedEmails.length === 0) {
+        console.error('No imported emails to add.');
+        return;
+      }
+    
       // Send a POST request to your backend API to add followers
-      const response = await axios.post('https://diaryblogapi2.onrender.com/api/followers', {
-        followers: newFollowers,
-        blogSpaceId: blogSpaceId // Include the blogSpaceId in the request body
+      const response = await axios.post(`https://diaryblogapi2.onrender.com/api/followers`, {
+        blogSpaceId: blogSpaceId,
+        followers: importedEmails.map((email) => ({ email })),
       });
   
-      // Handle the response
       console.log('Added followers:', response.data);
-  
-      // Clear the email list after adding to followers
-      setEmailList([]);
+      setFollowers((prevFollowers) => {
+        if (!Array.isArray(prevFollowers)) {
+          console.error('Previous followers is not an array:', prevFollowers);
+          return prevFollowers; // Return the existing state without modification
+        }
+        
+        if (!Array.isArray(response.data)) {
+          console.error('Response data is not an array:', response.data);
+          return prevFollowers; // Return the existing state without modification
+        }
+      
+        return [...prevFollowers, ...response.data];
+      });
+      
+      setSuccessMessage('Followers added successfully');
+
+      setTimeout(() => {
+        setSuccessMessage(''); // Clear the success message after 3 seconds
+      }, 3000); // Clear after 3 seconds
+
+      // Clear imported emails after adding to followers
+      setImportedEmails([]);
     } catch (error) {
       console.error('Error adding followers:', error);
     }
@@ -92,7 +144,7 @@ const Followers = ({ companyData, blogSpaceId }) => {
           return; // If blogSpaceId is null, do not proceed with fetching followers
          }
         // if (!blogSpaceId) return;
-        const response = await fetch(`https://diaryblogapi2.onrender.com/api/followers/${blogSpaceId}/followers`);
+        const response = await fetch(` https://diaryblogapi2.onrender.com/api/followers/${blogSpaceId}/followers`);
         if (!response.ok) {
           throw new Error('Failed to fetch followers');
         }
@@ -116,7 +168,11 @@ const Followers = ({ companyData, blogSpaceId }) => {
 
   return (
     <div>
-      
+       {successMessage && (
+        <div className="bg-blue-200 text-blue-800 p-3 rounded-md mb-4">
+          {successMessage}
+        </div>
+      )}
       <section className="py-9 sm:py-12 space-y-6">
         <div className="flex flex-wrap items-start justify-center">
           <div className="space-y-2">
@@ -211,7 +267,7 @@ const Followers = ({ companyData, blogSpaceId }) => {
   {followers.map((follower, index) => (
     <tr key={index} className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
       <td className="p-3">{index + 1}</td>
-      <td className="p-3">{follower.email}</td>
+      <td className="p-3">{follower.email && typeof follower.email === 'object' ? follower.email.email : follower.email}</td>
       <td className="p-3">{follower.subscription}</td>
       <td className="p-3">{follower.type}</td>
       <td className="p-3 text-right">{follower.amount}</td>
