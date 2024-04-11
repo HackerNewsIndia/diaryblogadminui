@@ -37,6 +37,11 @@ function FollowSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
    };
   
  
+// Back button click handler
+const handleBackClick = () => {
+  setShowFollowers(false); // Hide Followers component
+  setSelectedSpace(null); // Clear selected space
+};
 
  
   console.log("you have selected", selectedCompany);
@@ -86,8 +91,15 @@ function FollowSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     <div>
  
  {showFollowers  ? (
-  <Followers companyData={companyData}  blogSpaceId={selectedSpace ? selectedSpace.blogSpace : null}/>
-) : (
+<div>
+ <button
+   className="bg-blue-500 text-white px-4 py-2 rounded"
+   onClick={handleBackClick}
+ >
+   <i className="fas fa-arrow-left" aria-hidden="true"></i> Back
+ </button>
+ <Followers companyData={companyData} blogSpaceId={selectedSpace ? selectedSpace.blogSpace : null} />
+</div>) : (
     <section class="py-9 sm:py-12 space-y-6">
      
    
