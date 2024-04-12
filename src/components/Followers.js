@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Followers = ({ companyData, blogSpaceId }) => {
+const Followers = ({ companyData, blogSpaceId, space }) => {
   const [emailList, setEmailList] = useState([]);
 
   const [importedEmails, setImportedEmails] = useState([]);
@@ -179,22 +179,22 @@ const Followers = ({ companyData, blogSpaceId }) => {
             {/* <h2 className="text-xl font-bold">DiaryBlog Follower</h2> */}
             
 
-            {companyData.map((company) => (
-              <article key={company._id || company.blogSpace}>
+            {space && (
+              <article>
               <div className="flex max-w-md overflow-hidden bg-white rounded-lg shadow-lg text-center">
                 <div className="w-1/3 bg-cover bg-landscape">
-                  <img alt="" className="object-cover w-full h-52" src={company.image_url || "default_image_url"} />
+                  <img alt="" className="object-cover w-full h-52" src={space.image_url || "default_image_url"} />
                 </div>
                 <div className="w-2/3 p-4">
-                  <h1 className="text-2xl font-bold text-gray-900">{company.name}</h1>
-                  <p className="mt-2 text-sm text-gray-600"> <strong>category:</strong> {company.category}</p>
+                  <h1 className="text-2xl font-bold text-gray-900">{space.name}</h1>
+                  <p className="mt-2 text-sm text-gray-600"> <strong>category:</strong> {space.category}</p>
                   <div className="flex flex-wrap justify-between">
                     <div className="flex space-x-2 text-sm dark:text-gray-400">
                       <button aria-label="Share this post" type="button" className="flex items-center p-1 space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current dark:text-violet-400">
                           <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"></path>
                         </svg>
-                        <span> {company.followers} Follower </span>
+                        <span> {space.followers} Follower </span>
                       </button>
                       {/* <button aria-label="Share this post" type="button" className="flex items-center p-1 space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current dark:text-violet-400">
@@ -206,14 +206,14 @@ const Followers = ({ companyData, blogSpaceId }) => {
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 fill-current dark:text-violet-400">
                           <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path>
                         </svg>
-                        <span>{company.views} View </span>
+                        <span>{space.views} View </span>
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
             </article>
-            ))}
+          )}
           </div>
         </div>
 
