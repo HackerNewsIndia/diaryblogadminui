@@ -98,7 +98,7 @@ const handleBackClick = () => {
  >
    <i className="fas fa-arrow-left" aria-hidden="true"></i> Back
  </button>
- <Followers companyData={companyData} blogSpaceId={selectedSpace ? selectedSpace.blogSpace : null} />
+ <Followers companyData={companyData} blogSpaceId={selectedSpace ? selectedSpace.blogSpace : null} space={selectedSpace}/>
 </div>) : (
     <section class="py-9 sm:py-12 space-y-6">
      
