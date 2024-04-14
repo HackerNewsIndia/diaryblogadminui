@@ -25,6 +25,7 @@ import DigitalMarketingSpace from "./DigitalMarketingSpace";
 import CreateUserBlog from "./CreateUserBlog"; // Import CreateUserBlog component
 
 import UpdateUserBlog from "./UpdateUserBlog"; // Import the UpdateUserBlog component
+import FollowSpace from "./FollowSpace";
 
 function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const [error, setError] = useState(null);
@@ -219,6 +220,15 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
             Welcome to Dashboard
           </h1>
           <User /> {/* Render the User component */}
+        </div>
+      )}
+
+    {selectedKey === "followAdmin" && (
+        <div className="content-body">
+          <h1 className="text-2xl font-bold text-gray-800 text-center">
+          DiaryBlog Follower
+          </h1>
+          <FollowSpace /> {/* Render the User component */}
         </div>
       )}
       {selectedKey === "diaryBlogAdmin" && (
