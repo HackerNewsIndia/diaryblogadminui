@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import CreateDigitalCampaign from "./CreateDigitalCampaign";
 import jwt_decode from "jwt-decode";
+import { BeatLoader } from "react-spinners";
 
 const DigitalMarketingSpace = () => {
   const [state, setState] = useState("");
+  const [loading, setLoading] = useState(true);
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
   const [editButtonClicked, setEditButtonClicked] = useState(false);
   const [marketSpace, setMarketSpace] = useState("");
@@ -50,8 +52,14 @@ const DigitalMarketingSpace = () => {
         return response.json();
       })
       .then((data) => {
+        setLoading(false);
         console.log("MarketSpace data:", data);
-        setMarketSpaceData(data);
+        const sortedData = data.sort((a, b) => {
+          const dateA = new Date(a.createDate);
+          const dateB = new Date(b.createDate);
+          return dateB - dateA;
+        });
+        setMarketSpaceData(sortedData);
       })
       .catch((error) => {
         console.error(
@@ -98,6 +106,11 @@ const DigitalMarketingSpace = () => {
               Create Digital Campaign
             </button>
           </div>
+          {loading && (
+            <div className="flex justify-center items-center py-5">
+              <BeatLoader color="hsla(168, 4%, 75%, 1)" />
+            </div>
+          )}
           <div className="grid grid-cols-1 gap-4  md:grid-cols-2 lg:grid-cols-2">
             {marketSpaceData.map((marketSpace, index) => (
               <article
@@ -113,7 +126,7 @@ const DigitalMarketingSpace = () => {
                   </p>
                 </div>
                 <div className="relative flex items-center justify-center w-full dark:text-gray-900">
-                  <div className="flex items-center justify-start w-full h-full gap-6 py-4 mx-auto overflow-auto lg:gap-8">
+                  <div className="flex items-center justify-start w-full h-full gap-6 py-2 mx-auto overflow-auto lg:gap-8">
                     {/* {marketSpace.image_url &&
                       marketSpace.image_url.map((image, i) => (
                         <div
@@ -159,15 +172,15 @@ const DigitalMarketingSpace = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex-grow flex flex-col justify-between bg-white dark:bg-slate-800 p-6">
+                <div className="flex-grow flex flex-col justify-between bg-white dark:bg-slate-800 p-6 pt-2 pb-2">
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold leading-7 text-gray-900 dark:text-white ">
                       {marketSpace.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                    {/* <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
                       {marketSpace.campaignAbout}
-                    </p>
-                    <p>
+                    </p> */}
+                    <p className="pb-2">
                       <strong>category:</strong> {marketSpace.category}
                     </p>
                   </div>
