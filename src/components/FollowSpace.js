@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Followers from "./Followers"; // Import the Followers component
-
+import { BeatLoader } from "react-spinners";
 import jwt_decode from "jwt-decode";
 
 function FollowSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
@@ -9,6 +9,7 @@ function FollowSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   // const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showFollowers, setShowFollowers] = useState(false); // State to track if Followers component should be shown
+  const [loading, setLoading] = useState(true);
 
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -76,6 +77,8 @@ const handleBackClick = () => {
       .then((data) => {
         console.log("Fetched data:", data);
         setCompanyData(data);
+                setLoading(false); // Set loading to false after data is fetched
+
       })
       .catch((error) => {
         console.error(
@@ -89,7 +92,11 @@ const handleBackClick = () => {
 
   return (
     <div>
- 
+ {loading && (
+            <div className="flex justify-center items-center py-5">
+              <BeatLoader color="hsla(168, 4%, 75%, 1)" />
+            </div>
+          )}
  {showFollowers  ? (
 <div>
  <button
