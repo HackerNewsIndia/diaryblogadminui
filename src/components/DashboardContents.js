@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { BeatLoader } from "react-spinners";
+
 const DashboardContent = () => {
+    const [loading, setLoading] = useState(true);
   const [latestPosts, setLatestPosts] = useState([]);
   const [engagement, setEngagement] = useState(null);
   const [mostViewedPosts, setMostViewedPosts] = useState([]);
@@ -44,6 +47,8 @@ const DashboardContent = () => {
         setEngagement(data);
       } catch (error) {
         console.error("Failed to fetch engagement metrics:", error);
+      } finally {
+        setLoading(false); // Update loading state after data fetching is complete
       }
     };
     fetchEngagement();
@@ -105,6 +110,11 @@ const DashboardContent = () => {
   }, []);
   return (
     <div className="container">
+     {loading && (
+            <div className="flex justify-center items-center py-5">
+              <BeatLoader color="hsla(168, 4%, 75%, 1)" />
+            </div>
+          )}
       <div className="container text-center">
         <section class="py-9 bg-gray-800 text-gray-100 sm:py-12">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
