@@ -376,7 +376,8 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                                 {blogSpace.name}
                               </h3>
                               <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
-                                {blogSpace.description}
+                               <strong>description:</strong> {blogSpace.description.substring(0, 18)}{" "}
+
                               </p>
                               <p>
                                 <strong>category:</strong> {blogSpace.category}
