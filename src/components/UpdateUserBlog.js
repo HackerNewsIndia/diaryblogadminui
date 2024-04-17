@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
   const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
   const [image_Url, setImageUrl] = useState("");
   const [category, setCategory] = useState("");
   const [errors, setErrors] = useState({});
@@ -37,7 +37,7 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
         const data = await response.json();
         console.log(data);
         setTitle(data.name);
-        setUrl(data.url);
+        setDescription(data.description || ""); // Set description from fetched data
         setImageUrl(data.image_url);
         setCategory(data.category);
       } catch (error) {
@@ -56,11 +56,12 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
       validationErrors.title = "Title should be between 3 and 30 characters.";
     }
 
+   
     const urlPattern = /^https?:\/\/.+$/;
-    if (!urlPattern.test(url)) {
-      validationErrors.url = "URL must be in http format.";
+    if (image_Url.trim() !== "" && !urlPattern.test(image_Url)) {
+      validationErrors.image_Url = "Icon URL must be in http format."; // Changed from 'icon' to 'image_Url'
     }
-
+  
     return validationErrors;
   }
 
@@ -88,7 +89,7 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
           },
           body: JSON.stringify({
             name: title,
-            url: url,
+            description: description,
             image_url: image_Url,
             category: category,
           }),
@@ -148,26 +149,39 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
       </div>
 
       <div className="flex flex-col mb-2">
-        <label className="block text-gray-700 text-sm font-bold mb-1">URL:</label>
-        <input
-          type="url"
-          className="p-2 border rounded-md"
-          placeholder="URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-        {errors.url && <p className="text-red-500">{errors.url}</p>}
+      <label className="block text-gray-700 text-sm font-bold mb-1">
+            Description:
+          </label>
+          <textarea
+            className="p-2 border rounded-md"
+            placeholder="Description (optional)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
       </div>
-
-      <div className="flex flex-col mb-2">
-        <label className="block text-gray-700 text-sm font-bold mb-1">Image:</label>
-        <input
-          type="text"
-          className="p-2 border rounded-md"
-          placeholder="Image URL"
-          value={image_Url}
-          onChange={(e) => setImageUrl(e.target.value)}
-        />
+      <label className="block text-gray-700 text-sm font-bold mb-1">
+  Icon URL:
+</label>
+      <div className="flex items-center"> {/* Added flex container */}
+          <input
+            type="text"
+            className="w-full p-2 border rounded-md"
+            placeholder="Icon URL"
+            value={image_Url}
+            onChange={(e) => setImageUrl(e.target.value)}
+          />
+           {image_Url && ( // Updated variable name
+  <div className="ml-2">
+    <img
+      src={image_Url} // Updated variable name
+      alt="Icon Preview"
+      className="w-6 h-6 rounded-md mt-1" 
+    />
+  </div>
+)}
+          {errors.image_Url && (
+            <p className="text-red-500">{errors.image_Url}</p>
+          )}
       </div>
 
       <div className="flex flex-col mb-2">
