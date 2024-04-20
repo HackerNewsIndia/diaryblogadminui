@@ -3,6 +3,9 @@ import { BeatLoader } from "react-spinners";
 
 const DashboardContent = () => {
     const [loading, setLoading] = useState(true);
+     const [loadingEngagement, setLoadingEngagement] = useState(true);
+  const [loadingPostsAnalytics, setLoadingPostsAnalytics] = useState(true);
+  const [loadingLatestPosts, setLoadingLatestPosts] = useState(true);
   const [latestPosts, setLatestPosts] = useState([]);
   const [engagement, setEngagement] = useState(null);
   const [mostViewedPosts, setMostViewedPosts] = useState([]);
@@ -108,6 +111,11 @@ const DashboardContent = () => {
     };
     fetchLatestPosts();
   }, []);
+     useEffect(() => {
+    // Update main loading state based on individual loading states
+    setLoading(loadingEngagement || loadingPostsAnalytics || loadingLatestPosts);
+  }, [loadingEngagement, loadingPostsAnalytics, loadingLatestPosts]);
+
   return (
     <div className="container">
      {loading && (
