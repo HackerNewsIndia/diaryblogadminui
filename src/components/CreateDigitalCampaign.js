@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft} from "@fortawesome/free-solid-svg-icons";
+
 
 const CreateDigitalCampaign = ({ onClose, marketSpace }) => {
   const [title, setTitle] = useState("");
@@ -163,6 +165,12 @@ const CreateDigitalCampaign = ({ onClose, marketSpace }) => {
     }
   };
 
+
+  const handleBack = () => {
+    onClose(); // Call the onClose function to go back
+  };
+
+
   return (
     <div className="container mx-auto p-4 bg-gray-200 max-w-md mt-10 rounded-md shadow-md">
       {success === true && (
@@ -180,6 +188,7 @@ const CreateDigitalCampaign = ({ onClose, marketSpace }) => {
           )}
         </div>
       )}
+          {!success && (
       <div className="mb-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-2xl font-bold text-blue-500">
@@ -292,7 +301,18 @@ const CreateDigitalCampaign = ({ onClose, marketSpace }) => {
           )}
         </form>
       </div>
-    </div>
+       )}
+      {success && (
+        <div className="mb-4 flex justify-center">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            onClick={handleBack}
+          >
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
+          </button>
+        </div>
+      )}
+      </div>
   );
 };
 
