@@ -1339,7 +1339,7 @@ const DashboardContent = () => {
      <div className="text-center">
       <h2 className="text-3xl font-bold mb-4">Recently Posted</h2>
     </div>
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-4 gap-4 md:grid-cols-2 lg:grid-cols-4">
        {latestPosts.map((post) => (
          <article key={post._id} className="flex flex-col border-2 border-slate-200 rounded-md cursor-pointer">
            <img
