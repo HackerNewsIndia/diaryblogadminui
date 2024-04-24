@@ -1290,38 +1290,14 @@ const DashboardContent = () => {
           </div>
       </section>
 
-      <section className="py-6 sm:py-12 ">
+    
+
+      {/* <section className="py-6 sm:py-12 ">
         <div className="container px-4 mx-auto">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Recently Posted</h2>
           </div>
-          {/* <div className="flex flex-row-1 space-x-4">
-            {latestPosts.map((post) => (
-              <article key={post._id} className="flex flex-col">
-                <div className="aspect-w-1 aspect-h-1">
-                  <img
-                    src={
-                      post.imageUrl ||
-                      "https://source.unsplash.com/200x200/?fashion?1"
-                    }
-                    alt="image"
-                    className="object-cover w-full h-full mb-2 rounded-lg"
-                  />
-                </div>
-                <div className="bg-gray-100 dark:bg-gray-900 rounded-lg p-4">
-                  <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-                  <div className="flex justify-between text-xs">
-                    <span>
-                      {post.createDate
-                        ? new Date(post.createDate).toLocaleDateString()
-                        : "Loading..."}
-                    </span>
-                    <span>{post.views} views</span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div> */}
+    
   <div class="flex flex-col items-start space-y-4 sm:flex-row sm:flex-wrap sm:justify-center sm:space-x-4">
 
             {latestPosts.map((post) => (
@@ -1347,14 +1323,50 @@ const DashboardContent = () => {
                         : "Loading..."}
                     </span>
                     <span>{post.views} views</span>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+               </div>
+</div>
+            </article>
+           ))}
         </div>
-      </section>
-    </div>
+       </div>
+    </section>
+   </div>
   );
-};
+}; */}
+
+       <section className="py-6 sm:py-12">
+  <div className="container mx-auto max-w-screen-xl">
+     <div className="text-center">
+      <h2 className="text-3xl font-bold mb-4">Recently Posted</h2>
+    </div>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+       {latestPosts.map((post) => (
+         <article key={post._id} className="flex flex-col border-2 border-slate-200 rounded-md cursor-pointer">
+           <img
+             src={post.imageUrl}
+             alt="image"
+             className="object-cover w-full h-52 sm:h-64"
+           />
+           <div className="flex flex-col flex-1 p-4">
+             <h3 className="flex-1 py-2 text-lg font-semibold leading-5 text-slate-900 truncate">
+               {post.title}
+             </h3>
+             <div className="flex flex-row justify-between text-xs">
+               <span>
+                 {post.createDate
+                   ? new Date(post.createDate).toLocaleDateString()
+                   : "Loading..."}
+               </span>
+               <span>{post.views} views</span>
+             </div>
+           </div>
+         </article>
+       ))}
+     </div>
+   </div>
+ </section>
+
+     </div>
+   );
+ };
 export default DashboardContent;
