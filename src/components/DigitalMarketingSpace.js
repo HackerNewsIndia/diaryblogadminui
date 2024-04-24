@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import CreateDigitalCampaign from "./CreateDigitalCampaign";
 import jwt_decode from "jwt-decode";
 import { BeatLoader } from "react-spinners";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import CampaignSpace from "./CampaignSpace";
 
 const DigitalMarketingSpace = () => {
-  const [state, setState] = useState("");
   const [loading, setLoading] = useState(true);
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
-  const [editButtonClicked, setEditButtonClicked] = useState(false);
   const [marketSpace, setMarketSpace] = useState("");
   const [error, setError] = useState("");
   const [marketSpaceData, setMarketSpaceData] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [viewButtonClicked, setViewButtonClicked] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleCreateCampaign = () => {
     setCreateButtonClicked(true);
@@ -25,6 +27,15 @@ const DigitalMarketingSpace = () => {
   const onClose = () => {
     setCreateButtonClicked(false);
     setMarketSpace("");
+  };
+
+  const onCampaignClose = () => {
+    setViewButtonClicked(false);
+  };
+
+  const handleView = (marketSpace) => {
+    setViewButtonClicked(true);
+    // navigate(`/#/digital_marketing/${marketSpace.title}`);
   };
 
   useEffect(() => {
@@ -94,9 +105,13 @@ const DigitalMarketingSpace = () => {
 
   return (
     <div>
-      {createButtonClicked ? (
+      {createButtonClicked == true && (
         <CreateDigitalCampaign onClose={onClose} marketSpace={marketSpace} />
-      ) : (
+      )}
+      {viewButtonClicked == true && (
+        <CampaignSpace onCampaignClose={onCampaignClose} />
+      )}
+      {createButtonClicked == false && viewButtonClicked == false && (
         <div className="flex flex-col items-center text-center">
           <div className="flex flex-row mb-4 mx-auto">
             <button
@@ -190,11 +205,7 @@ const DigitalMarketingSpace = () => {
                         aria-label="Share this post"
                         type="button"
                         className="flex items-center p-1 space-x-2 cursor-pointer hover:bg-slate-500 rounded"
-                        onClick={() => {
-                          setShowUpdateUserBlog(false);
-                          setShowCreateUserBlog(false);
-                          handleCards(marketSpace);
-                        }}
+                        onClick={() => handleView(marketSpace)}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
