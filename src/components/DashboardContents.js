@@ -1334,7 +1334,7 @@ const DashboardContent = () => {
   );
 }; */}
 
-       <section className="py-6 sm:py-12">
+        <section className="py-6 sm:py-12">
   <div className="container mx-auto max-w-screen-xl">
      <div className="text-center">
       <h2 className="text-3xl font-bold mb-4">Recently Posted</h2>
