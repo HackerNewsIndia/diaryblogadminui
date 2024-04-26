@@ -472,11 +472,13 @@ const CreateNewPost = ({
             style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
           >
             <form onSubmit={handleSubmit}>
-              <div className="flex justify-between mb-6">
-                <h1 className="text-3xl flex-row font-bold">Create New Post</h1>
-                <div className="flex flex-row  space-x-2">
+              <div className="flex flex-col items-center justify-between md:flex-row lg:flex-row space-y-2  mb-6">
+                <h1 className="text-3xl w-full flex-row font-bold">
+                  Edit Post
+                </h1>
+                <div className="flex flex-col w-full items-center justify-center md:flex-row lg:flex-row space-y-2 md:space-y-0 lg:space-y-0 space-x-2">
                   <select
-                    className="flex-row border-2 border-slate-800 px-1 py-0 rounded"
+                    className="flex-row border-2 border-slate-800 px-3 py-2 md:px-1 md:py-0 lg:px-1 lg:py-0 rounded"
                     placeholder="select category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
@@ -489,35 +491,36 @@ const CreateNewPost = ({
                     <option value="Psychology">Travel</option>
                     <option value="others">others</option>
                   </select>
-
-                  <select
-                    className="flex-row border-2 border-slate-800 px-3 py-2 rounded"
-                    placeholder=" select template"
-                    value={selectedTemplate}
-                    onChange={(e) => {
-                      setSelectedTemplate(e.target.value);
-                      const selectedTemplate = templates.find(
-                        (t) => t.name === e.target.value
-                      );
-                      if (selectedTemplate) {
-                        setDescription(selectedTemplate.content);
-                      }
-                    }}
-                  >
-                    <option className="text-gray-400">
-                      Select a template...
-                    </option>
-                    {templates.map((template) => (
-                      <option value={template.name} key={template.name}>
-                        {template.name}
+                  <div className="w-auto flex flex-row items-center space-x-2">
+                    <select
+                      className="flex-row border-2 border-slate-800 px-3 py-2 rounded"
+                      placeholder=" select template"
+                      value={selectedTemplate}
+                      onChange={(e) => {
+                        setSelectedTemplate(e.target.value);
+                        const selectedTemplate = templates.find(
+                          (t) => t.name === e.target.value
+                        );
+                        if (selectedTemplate) {
+                          setDescription(selectedTemplate.content);
+                        }
+                      }}
+                    >
+                      <option className="text-gray-400">
+                        Select a template...
                       </option>
-                    ))}
-                  </select>
-                  <div
-                    className="flex items-center cursor-pointer"
-                    onClick={() => handleUpload()}
-                  >
-                    <FontAwesomeIcon icon={faUpload} />
+                      {templates.map((template) => (
+                        <option value={template.name} key={template.name}>
+                          {template.name}
+                        </option>
+                      ))}
+                    </select>
+                    <div
+                      className="flex items-center cursor-pointer"
+                      onClick={() => handleUpload()}
+                    >
+                      <FontAwesomeIcon icon={faUpload} />
+                    </div>
                   </div>
                 </div>
               </div>
