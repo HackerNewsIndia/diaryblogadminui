@@ -6,7 +6,7 @@ import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import EmailTemplateEditor from "./EmailTemplateEditor";
 import FacebookTemplateEditor from "./FacebookTemplateEditor";
 
-const CampaignSpace = ({ onCampaignClose }) => {
+const CampaignSpace = ({ onCampaignClose, marketSpace }) => {
   const [isEmailTabActive, setIsEmailTabActive] = useState(true);
   const [isFacebookTabActive, SetIsFacebookTabActive] = useState(false);
   return (
@@ -45,7 +45,12 @@ const CampaignSpace = ({ onCampaignClose }) => {
         </div>
       </div>
       <div className="mx-2 my-1 p-1">
-        {isEmailTabActive && <EmailTemplateEditor />}
+        {isEmailTabActive && (
+          <EmailTemplateEditor
+            marketSpace={marketSpace}
+            onCampaignClose={onCampaignClose}
+          />
+        )}
         {isFacebookTabActive && <FacebookTemplateEditor />}
       </div>
     </>

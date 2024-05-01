@@ -35,6 +35,7 @@ const DigitalMarketingSpace = () => {
 
   const handleView = (marketSpace) => {
     setViewButtonClicked(true);
+    setMarketSpace(marketSpace);
     // navigate(`/#/digital_marketing/${marketSpace.title}`);
   };
 
@@ -109,7 +110,10 @@ const DigitalMarketingSpace = () => {
         <CreateDigitalCampaign onClose={onClose} marketSpace={marketSpace} />
       )}
       {viewButtonClicked == true && (
-        <CampaignSpace onCampaignClose={onCampaignClose} />
+        <CampaignSpace
+          onCampaignClose={onCampaignClose}
+          marketSpace={marketSpace}
+        />
       )}
       {createButtonClicked == false && viewButtonClicked == false && (
         <div className="flex flex-col items-center text-center">
