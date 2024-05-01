@@ -13,9 +13,9 @@ const CampaignSpace = ({ onCampaignClose, marketSpace }) => {
     <>
       <div className="flex flex-col mx-2 my-1 mb-4">
         <div className="flex flex-row">
-          <button className="px-2 py-2" onClick={onCampaignClose}>
+          {/* <button className="px-2 py-2" onClick={onCampaignClose}>
             <FontAwesomeIcon icon={faArrowLeft} />
-          </button>
+          </button> */}
           <div className="flex items-center mx-auto overflow-x-auto overflow-y-hidden sm:justify-center flex-nowrap">
             <button
               className={`flex items-center flex-shrink-0 px-4 py-2 space-x-2  ${

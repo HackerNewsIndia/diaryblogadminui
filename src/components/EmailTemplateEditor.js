@@ -151,7 +151,7 @@ const EmailTemplateEditor = ({ marketSpace, onCampaignClose }) => {
         />
       ) : (
         <div className="flex flex-col">
-          <EmailEditor ref={editorRef} onLoad={onLoad} />
+          <EmailEditor ref={editorRef} onLoad={onLoad} mobile={true} />
           <div className="flex flex-row items-center my-4 justify-between">
             <div>
               <button
@@ -159,7 +159,7 @@ const EmailTemplateEditor = ({ marketSpace, onCampaignClose }) => {
                 onClick={onCampaignClose}
               >
                 <FontAwesomeIcon icon={faArrowLeft} />
-                <p>Back</p>
+                <p className="sm:hidden">Back</p>
               </button>
             </div>
             <div className="flex flex-row items-center justify-center space-x-2">

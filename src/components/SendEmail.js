@@ -224,7 +224,7 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
                     onClick={emailPreviewClose}
                   >
                     <FontAwesomeIcon icon={faArrowLeft} />
-                    <p>Back</p>
+                    <p className="sm:hidden">Back</p>
                   </button>
                 </div>
                 <div className="w-full flex items-center justify-center space-x-2">
