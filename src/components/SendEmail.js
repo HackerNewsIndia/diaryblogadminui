@@ -13,6 +13,7 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
   const [recipientAdded, setRecipientAdded] = useState(false);
   const [recipientAdding, setRecipientAdding] = useState(false);
   const [blogSpaceData, setBlogSpaceData] = useState([]);
+  const [emailSubject, setEmailSubject] = useState("");
 
   const handleRecipientChange = (e) => {
     setRecipientInput(e.target.value);
@@ -78,47 +79,54 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
 
   const handleSendEmail = async () => {
     if (recipientAdded == true) {
-      try {
-        setLoading(true);
+      if (emailSubject.length >= 10) {
+        try {
+          setLoading(true);
 
-        const response = await fetch(
-          "https://diaryblogapi2.onrender.com/api/send_email_for_digital_marketing",
-          // "http://127.0.0.1:5001/api/send_email_for_digital_marketing",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              // post_title: postTitle,
-              // post_description: markdownDescription,
-              // post_imageUrl: postImageUrl,
-              // blogId: blogId,
-              // postId: postId,
-              // // imageBase64: imageBase64,
-              // username: username,
-              // // blogSpaceImageUrl: blogSpaceImageUrl,
-              // blogSpaceName: blogSpaceName,
-              // userId: userId,
-              // cacheKey: cacheKey,
-              exportedHtmlData: exportedHtmlData,
-              recipients: recipients,
-            }),
+          const response = await fetch(
+            // "https://diaryblogapi2.onrender.com/api/send_email_for_digital_marketing",
+            "http://127.0.0.1:5001/api/send_email_for_digital_marketing",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                // post_title: postTitle,
+                // post_description: markdownDescription,
+                // post_imageUrl: postImageUrl,
+                // blogId: blogId,
+                // postId: postId,
+                // // imageBase64: imageBase64,
+                // username: username,
+                // // blogSpaceImageUrl: blogSpaceImageUrl,
+                // blogSpaceName: blogSpaceName,
+                // userId: userId,
+                // cacheKey: cacheKey,
+                exportedHtmlData: exportedHtmlData,
+                recipients: recipients,
+                email_subject: emailSubject,
+              }),
+            }
+          );
+
+          if (response.ok) {
+            setEmailSent(true);
+            const responseData = await response.json();
+            setSuccessMessage(
+              responseData.message || "Email sent successfully."
+            );
+          } else {
+            throw new Error("Failed to send email.");
           }
-        );
-
-        if (response.ok) {
-          setEmailSent(true);
-          const responseData = await response.json();
-          setSuccessMessage(responseData.message || "Email sent successfully.");
-        } else {
-          throw new Error("Failed to send email.");
+        } catch (error) {
+          setErrorMessage("Failed to send email. Please try again later.");
+          console.error("Error sending email:", error.message);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        setErrorMessage("Failed to send email. Please try again later.");
-        console.error("Error sending email:", error.message);
-      } finally {
-        setLoading(false);
+      } else {
+        setErrorMessage(`Subject should contain minimum 10 characters.`);
       }
     } else {
       setErrorMessage(
@@ -168,6 +176,15 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
             className="flex flex-col items-center w-full mt-4 space-y-2"
             id="emailForm"
           >
+            <div className="flex flex-col">
+              {/* <label className="mb-1">Enter email subject</label> */}
+              <input
+                className="mb-2 px-1 py-2 border-2 border-slate-800 rounded"
+                onChange={(e) => setEmailSubject(e.target.value)}
+                value={emailSubject}
+                placeholder=" Enter email subject"
+              />
+            </div>
             <div>
               <select
                 className="flex-row border-2 border-slate-800 px-3 py-2 md:px-1 md:py-0 lg:px-1 lg:py-0 rounded"
