@@ -21,6 +21,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
   const [recipients, setRecipients] = useState([]);
   const [recipientInput, setRecipientInput] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  // const [emailSubject, setEmailSubject] = useState("");
 
   useEffect(() => {
     const markdownToJSX = (postDescription) => {
@@ -143,6 +144,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
     const followersEmails = async () => {
       fetch(
         `https://diaryblogapi2.onrender.com/api/blogSpace/${blogId}/followers`,
+        // `http://127.0.0.1:5001/api/blogSpace/${blogId}/followers`,
         {
           method: "GET",
         }
@@ -204,6 +206,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
             // blogSpaceImageUrl: blogSpaceImageUrl,
             blogSpaceName: blogSpaceName,
             userId: userId,
+            // email_subject: emailSubject,
             cacheKey: cacheKey,
           }),
         }
@@ -421,6 +424,14 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
           className="flex flex-col w-full md:w-1/2 lg:w-1/2 mt-4 space-y-2"
           id="emailForm"
         >
+          {/* <div>
+            <input
+              className="w-full px-1 py-2 overflow-auto flex flex-row flex-grow flex-wrap border-2 border-gray-500 rounded-md items-center text-center justify-center"
+              placeholder="Enter email subjext"
+              onChange={(e) => setEmailSubject(e.target.value)}
+              value={emailSubject}
+            />
+          </div> */}
           <div className="flex-grow flex flex-wrap">
             <div
               className="overflow-auto flex flex-row flex-grow flex-wrap border-2 border-gray-500 rounded-md items-center text-center justify-center"
@@ -447,7 +458,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
               ))}
             </div>
           </div>
-          <div className=" flex flex-col md:flex-row lg:flex-row items-center align-center justify-center space-x-2">
+          <div className=" flex flex-col md:flex-row lg:flex-row items-center align-center justify-between space-x-2">
             <input
               type="text"
               id="emailInput"
