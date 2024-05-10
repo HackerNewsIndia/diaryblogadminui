@@ -84,8 +84,8 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
           setLoading(true);
 
           const response = await fetch(
-            // "https://diaryblogapi2.onrender.com/api/send_email_for_digital_marketing",
-            "http://127.0.0.1:5001/api/send_email_for_digital_marketing",
+            "https://diaryblogapi2.onrender.com/api/send_email_for_digital_marketing",
+            // "http://127.0.0.1:5001/api/send_email_for_digital_marketing",
             {
               method: "POST",
               headers: {
