@@ -39,6 +39,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const [blogSearch, setBlogSearch] = useState("");
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [showUpdateUserBlog, setShowUpdateUserBlog] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedBlogSpaceForEdit, setSelectedBlogSpaceForEdit] =
     useState(null);
 
