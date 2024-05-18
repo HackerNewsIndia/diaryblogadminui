@@ -201,7 +201,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
   const randomImageUrls = generateRandomImageUrls(companyData.length);
 
   return (
-    <div className="right-side ">
+   <div className="right-side ">
       {selectedKey === "user" && console.log("Selected Key:", selectedKey)}
       {!selectedKey && (
         <div className="content-body">
@@ -302,7 +302,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                         />
                       </div>
 
-                        <div className="flex flex-wrap items-start justify-center">
+                      <div className="flex flex-wrap items-start justify-center">
   <button
     type="button"
     className={`relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50 ${
@@ -473,14 +473,19 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                         blogSpace.name
                           .toLowerCase()
                           .includes(blogSearch.toLowerCase())
-                      )
+                        )
+                        .filter((blogSpace) =>
+                          selectedCategory
+                            ? (blogSpace.category && blogSpace.category.includes(selectedCategory))
+                            : true
+                        )
                       .map((blogSpace, index) => (
                         <article
                           key={blogSpace._id || blogSpace.name}
                           style={{ borderWidth: "1vh" }}
                           className=" flex flex-col border-slate-200 rounded-md divide-slate-900  mb-4"
                         >
-                           {/* <div className="flex flex-col space-y-1">
+                         {/* <div className="flex flex-col space-y-1">
   <p>
     <strong>Created Date:</strong>{" "}
     {blogSpace.createDate
