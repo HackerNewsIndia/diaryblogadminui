@@ -297,37 +297,166 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                         />
                       </div>
 
-                      <div className="flex flex-wrap items-start justify-center">
-                        <button
-                          type="button"
-                          className="relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50"
-                        >
-                          Lifetyle
-                        </button>
-                        <button
-                          type="button"
-                          className="relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50"
-                        >
-                          Technology
-                        </button>
-                        <button
-                          type="button"
-                          className="relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50"
-                        >
-                          Food and Recipies
-                        </button>
-                        <button
-                          type="button"
-                          className="relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50"
-                        >
-                          Personal Finance
-                        </button>
-                        <button
-                          type="button"
-                          className="relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50"
-                        >
-                          Parenting and Family
-                        </button>
+                        <div className="flex flex-wrap items-start justify-center">
+  <button
+    type="button"
+    className={`relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50 ${
+      selectedCategory === "Lifestyle" ? "bg-blue-500 text-white" : ""
+    }`}
+    onClick={() => handleCategorySelect("Lifestyle")}
+  >
+    <span className="flex items-center">
+      Lifestyle
+      {selectedCategory === "Lifestyle" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 ml-1 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the button click event from triggering
+            handleCategorySelect(null); // Deselect the category
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      )}
+    </span>
+  </button>
+        <button
+          type="button"
+          className={`relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50 ${
+            selectedCategory === "Technology" ? "bg-blue-500 text-white" : ""
+          }`}
+          onClick={() => handleCategorySelect("Technology")}
+        >
+          <span className="flex items-center">
+          Technology
+      {selectedCategory === "Technology" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 ml-1 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the button click event from triggering
+            handleCategorySelect(null); // Deselect the category
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      )}
+    </span>
+  </button>    
+      <button
+          type="button"
+          className={`relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50 ${
+            selectedCategory === "Food and Recipes" ? "bg-blue-500 text-white" : ""
+          }`}
+          onClick={() => handleCategorySelect("Food and Recipes")}
+        >
+        
+
+         <span className="flex items-center">
+         Food and Recipes
+      {selectedCategory === "Food and Recipes" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 ml-1 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the button click event from triggering
+            handleCategorySelect(null); // Deselect the category
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      )}
+    </span>
+  </button> 
+          <button
+          type="button"
+          className={`relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50 ${
+            selectedCategory === "Personal Finance" ? "bg-blue-500 text-white" : ""
+          }`}
+          onClick={() => handleCategorySelect("Personal Finance")}
+        >
+          
+          <span className="flex items-center">
+          Personal Finance
+      {selectedCategory === "Personal Finance" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 ml-1 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the button click event from triggering
+            handleCategorySelect(null); // Deselect the category
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      )}
+    </span>
+  </button> 
+        <button
+          type="button"
+          className={`relative px-3 py-1 m-1 text-sm border rounded-md shadow-sm sm:py-2 sm:text-base ring ring-transparent group md:px-4 hover:ring hover:ring-opacity-50 focus:ring-opacity-50 ${
+            selectedCategory === "Parenting and Family" ? "bg-blue-500 text-white" : ""
+          }`}
+          onClick={() => handleCategorySelect("Parenting and Family")}
+        >
+          
+          <span className="flex items-center">
+          Parenting and Family
+      {selectedCategory === "Parenting and Family" && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 ml-1 text-red-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          onClick={(e) => {
+            e.stopPropagation(); // Prevent the button click event from triggering
+            handleCategorySelect(null); // Deselect the category
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      )}
+    </span>
+  </button> 
                       </div>
                     </div>
                   </section>
