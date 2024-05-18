@@ -66,6 +66,11 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     setShowCreateUserBlog(true); // Update the route accordingly
   };
 
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setBlogSearch(""); // Clear the search input when a category is selected
+  };
+  
   useEffect(() => {
     console.log("setSelectedTypeitSpace", selectedTypeitSpace);
   }, [selectedTypeitSpace]);
