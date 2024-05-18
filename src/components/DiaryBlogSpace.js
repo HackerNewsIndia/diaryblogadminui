@@ -296,7 +296,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                         <input
                           type="search"
                           name="Search"
-                          placeholder="Search..."
+                          placeholder="Search by Blogname …"
                           value={blogSearch}
                           onChange={handleChange}
                           className="w-32 py-2 pl-10 bg-white border-2 text-sm text-slate-900 rounded-md sm:w-auto focus:outline "
