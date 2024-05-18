@@ -346,16 +346,19 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
                           style={{ borderWidth: "1vh" }}
                           className=" flex flex-col border-slate-200 rounded-md divide-slate-900  mb-4"
                         >
-                          <div className="flex flex-col space-y-1">
-                            <p>
-                              <strong>Created Date:</strong>
-                              {blogSpace.createDate
-                                ? new Date(
-                                    blogSpace.createDate
-                                  ).toLocaleDateString()
-                                : "Loading..."}
-                            </p>
-                          </div>
+                           {/* <div className="flex flex-col space-y-1">
+  <p>
+    <strong>Created Date:</strong>{" "}
+    {blogSpace.createDate
+      ? new Date(blogSpace.createDate).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })
+      : "Loading..."}
+  </p>
+</div> */}
+
                           <div>
                             <img
                               src={blogSpace.image_url}
@@ -372,9 +375,23 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
 
                           <div className="flex-grow flex flex-col justify-between bg-white dark:bg-slate-800 p-6">
                             <div className="flex-1">
+                            <div className="flex justify-between">
+
                               <h3 className="text-xl font-semibold leading-7 text-gray-900 dark:text-white ">
                                 {blogSpace.name}
                               </h3>
+                              <div className="flex flex-col space-y-1">
+        <p>
+          <strong>Created Date:</strong>{" "}
+          {blogSpace.createDate
+            ? new Date(blogSpace.createDate).toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })
+            : "Loading..."}
+        </p>
+      </div></div>
                               <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
                                <strong>description:</strong> {blogSpace.description.substring(0, 18)}{" "}
 
