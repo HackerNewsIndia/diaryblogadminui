@@ -532,10 +532,10 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
             : "Loading..."}
         </p>
       </div></div>
-                              <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                            {/*   <p className="mt-3 text-sm leading-6 text-gray-500 dark:text-gray-400">
                                <strong>description:</strong> {blogSpace.description.substring(0, 18)}{" "}
 
-                              </p>
+                              </p> */}
                               <p>
                                 <strong>category:</strong> {blogSpace.category}
                               </p>
