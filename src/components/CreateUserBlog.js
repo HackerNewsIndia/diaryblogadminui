@@ -47,7 +47,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name: title,
+            name: title.trim(), // Trim the title before sending
             description: description,
             image_url: image_Url,
             category: category,
