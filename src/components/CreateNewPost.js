@@ -40,6 +40,13 @@ const CreateNewPost = ({
   const [sendEmailClicked, setSendEmailClicked] = useState(false);
   const [updatedDraftPost, setUpdatedDraftPost] = useState(false);
   const [cacheKey, setCacheKey] = useState("");
+  const [titleError, setTitleError] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [contentError, setContentError] = useState("");
+  const [publishMessage, setPublishMessage] = useState("");
+  const [previewMessage, setPreviewMessage] = useState("");
+  const [draftMessage, setdraftMessage] = useState("");
+  const [updatedDraftMessage, setUpdatedDraftMessage] = useState("");
 
   console.log("Edit Post Data:", post);
 
@@ -79,6 +86,7 @@ const CreateNewPost = ({
   console.log("publishedPostData:", publishedPostData);
 
   const handleEditorChange = ({ html, text }) => {
+    setContentError("");
     setInputHtml(text);
     setDescription(text);
   };
@@ -101,25 +109,22 @@ const CreateNewPost = ({
 
     const titleWords = title.trim().split(/\s+/).filter(Boolean);
     if (titleWords.length < 3 || titleWords.length > 35) {
-      setValidationError("Title must be between 3 and 35 words.");
+      setTitleError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const validateImageUrl = (url) => {
+      const regex = /^https:\/\/.+$/;
+      return regex.test(url);
+    };
+    if (!validateImageUrl(imageUrl)) {
+      setImageError("URL must be in  https:// format");
       return;
     }
 
     const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
     if (descriptionWords.length < 100) {
-      setValidationError("Description must be at least 100 words.");
-      return;
-    }
-
-    if (
-      !title.trim() ||
-      !description.trim() ||
-      !imageUrl.trim() ||
-      !category.trim()
-    ) {
-      setValidationError(
-        "Title, Description, Image url and category are required!"
-      );
+      setContentError("Content must be at least 100 words.");
       return;
     }
 
@@ -139,7 +144,7 @@ const CreateNewPost = ({
           title: title,
           imageUrl: imageUrl,
           description: description,
-          category: category,
+          category: selectedCompany.category,
           status: "published",
         }),
       }
@@ -153,6 +158,7 @@ const CreateNewPost = ({
       .then((data) => {
         // addNewStory(data);
         setPublishedPostData(data);
+        setPublishMessage("Successfully Published.");
         // cancelCreatingPost();
       })
       .catch((error) => {
@@ -169,25 +175,22 @@ const CreateNewPost = ({
 
     const titleWords = title.trim().split(/\s+/).filter(Boolean);
     if (titleWords.length < 3 || titleWords.length > 35) {
-      setValidationError("Title must be between 3 and 35 words.");
+      setTitleError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const validateImageUrl = (url) => {
+      const regex = /^https:\/\/.+$/;
+      return regex.test(url);
+    };
+    if (!validateImageUrl(imageUrl)) {
+      setImageError("URL must be in  https:// format");
       return;
     }
 
     const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
     if (descriptionWords.length < 100) {
-      setValidationError("Description must be at least 100 words.");
-      return;
-    }
-
-    if (
-      !title.trim() ||
-      !description.trim() ||
-      !imageUrl.trim() ||
-      !category.trim()
-    ) {
-      setValidationError(
-        "Title, Description, Image url and category are required!"
-      );
+      setContentError("Content must be at least 100 words.");
       return;
     }
 
@@ -208,7 +211,7 @@ const CreateNewPost = ({
           title: title,
           description: description,
           imageUrl: imageUrl,
-          category: category,
+          category: selectedCompany.category,
           status: "preview",
           pkey: pkey,
         }),
@@ -219,6 +222,7 @@ const CreateNewPost = ({
         console.log("Success:", data);
         // addNewStory(data);
         setpreviewPostData(data);
+        setPreviewMessage("Success. Your post is on hold for review");
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -230,25 +234,22 @@ const CreateNewPost = ({
 
     const titleWords = title.trim().split(/\s+/).filter(Boolean);
     if (titleWords.length < 3 || titleWords.length > 35) {
-      setValidationError("Title must be between 3 and 35 words.");
+      setTitleError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const validateImageUrl = (url) => {
+      const regex = /^https:\/\/.+$/;
+      return regex.test(url);
+    };
+    if (!validateImageUrl(imageUrl)) {
+      setImageError("URL must be in  https:// format");
       return;
     }
 
     const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
     if (descriptionWords.length < 100) {
-      setValidationError("Description must be at least 100 words.");
-      return;
-    }
-
-    if (
-      !title.trim() ||
-      !description.trim() ||
-      !imageUrl.trim() ||
-      !category.trim()
-    ) {
-      setValidationError(
-        "Title, Description, Image url and category are required!"
-      );
+      setContentError("Content must be at least 100 words.");
       return;
     }
 
@@ -266,7 +267,7 @@ const CreateNewPost = ({
           title: title,
           imageUrl: imageUrl,
           description: description,
-          category: category,
+          category: selectedCompany.category,
           status: "draft",
         }),
       }
@@ -281,6 +282,7 @@ const CreateNewPost = ({
         // addNewStory(data);
         setDraftPostData(data);
         setUpdatedDraftPost(true);
+        setUpdatedDraftMessage("Success. Your post saved as Draft");
         // cancelCreatingPost();
       })
       .catch((error) => {
@@ -293,25 +295,22 @@ const CreateNewPost = ({
 
     const titleWords = title.trim().split(/\s+/).filter(Boolean);
     if (titleWords.length < 3 || titleWords.length > 35) {
-      setValidationError("Title must be between 3 and 35 words.");
+      setTitleError("Title must be between 3 and 35 words.");
+      return;
+    }
+
+    const validateImageUrl = (url) => {
+      const regex = /^https:\/\/.+$/;
+      return regex.test(url);
+    };
+    if (!validateImageUrl(imageUrl)) {
+      setImageError("URL must be in  https:// format");
       return;
     }
 
     const descriptionWords = description.trim().split(/\s+/).filter(Boolean);
-    if (descriptionWords.length < 50) {
-      setValidationError("Description must be at least 100 words.");
-      return;
-    }
-
-    if (
-      !title.trim() ||
-      !description.trim() ||
-      !imageUrl.trim() ||
-      !category.trim()
-    ) {
-      setValidationError(
-        "Title, Description, Image url and category are required!"
-      );
+    if (descriptionWords.length < 100) {
+      setContentError("Content must be at least 100 words.");
       return;
     }
 
@@ -331,7 +330,7 @@ const CreateNewPost = ({
           title: title,
           description: description,
           imageUrl: imageUrl,
-          category: category,
+          category: selectedCompany.category,
           status: "draft",
         }), // This will be available in request.get_json() in your backend
       }
@@ -341,6 +340,7 @@ const CreateNewPost = ({
         console.log("Draft saved:", data);
         setIsPostSavedasDraft(true);
         setDraftPostData(data);
+        setdraftMessage("Success. Your post saved as Draft");
         // cancelCreatingPost();
         // Maybe clear the form or show a notification to the user
       })
@@ -471,13 +471,52 @@ const CreateNewPost = ({
             className="container mx-auto py-10 px-4 mb-10 h-screen overflow-y-auto"
             style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
           >
+            {/* {!publishedPostData &&
+              !previewPostData &&
+              !draftPostData &&
+              validationError && (
+                // <div className="text-red-500 mb-4">{validationError}</div>
+                <div
+                  className="bg-red-50 border-4 border-red-500 p-4 "
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <span className="inline-flex justify-center items-center h-8 w-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 ">
+                        <svg
+                          className="flex-shrink-0 size-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M18 6 6 18" />
+                          <path d="m6 6 12 12" />
+                        </svg>
+                      </span>
+                    </div>
+                    <div className="ms-3">
+                      <h3 className="text-gray-800 font-semibold">Error!</h3>
+                      <p className="text-sm text-gray-700 ">
+                        {validationError}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )} */}
+
             <form onSubmit={handleSubmit}>
               <div className="flex flex-col items-center justify-between md:flex-row lg:flex-row space-y-2  mb-6">
                 <h1 className="text-3xl w-full flex-row font-bold">
                   Edit Post
                 </h1>
-                <div className="flex flex-col w-full items-center justify-center md:flex-row lg:flex-row space-y-2 md:space-y-0 lg:space-y-0 space-x-2">
-                  <select
+                <div className="flex flex-col w-full items-center justify-center md:flex-row lg:flex-row space-y-2 md:space-y-0 lg:space-y-0 space-x-4">
+                  {/* <select
                     className="flex-row border-2 border-slate-800 px-3 py-2 md:px-1 md:py-0 lg:px-1 lg:py-0 rounded"
                     placeholder="select category"
                     value={category}
@@ -490,7 +529,13 @@ const CreateNewPost = ({
                     <option value="History">LifeStyle</option>
                     <option value="Psychology">Travel</option>
                     <option value="others">others</option>
-                  </select>
+                  </select> */}
+                  <div className="flex flex-row items-center text-center font-bold space-x-2">
+                    <label className="text-l text-slate-900">Category:</label>
+                    <h3 className="text-l text-gray-400">
+                      {selectedCompany.category}
+                    </h3>
+                  </div>
                   <div className="w-auto flex flex-row items-center space-x-2">
                     <select
                       className="flex-row border-2 border-slate-800 px-3 py-2 rounded"
@@ -534,9 +579,15 @@ const CreateNewPost = ({
                       type="text"
                       id="title"
                       value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      onChange={(e) => {
+                        setTitleError("");
+                        setTitle(e.target.value);
+                      }}
                       className="border border-gray-300 px-3 py-2 rounded w-full"
                     />
+                    <div className="text-sm text-red-500 mt-2">
+                      {titleError}
+                    </div>
                   </div>
                   <div className="flex flex-row space-x-4">
                     <div className="flex flex-col mb-4 ">
@@ -547,9 +598,15 @@ const CreateNewPost = ({
                         type="url"
                         id="image"
                         value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
+                        onChange={(e) => {
+                          setImageError("");
+                          setImageUrl(e.target.value);
+                        }}
                         className="border border-gray-300 px-3 py-2 rounded w-full"
                       />
+                      <div className="text-sm text-red-500 mt-2">
+                        {imageError}
+                      </div>
                     </div>
                     <div className="flex flex-end items-center">
                       {imageUrl && (
@@ -567,49 +624,26 @@ const CreateNewPost = ({
                   onChange={handleEditorChange}
                   value={inputHtml}
                 />
+                <div className="text-sm text-red-500 mt-2">{contentError}</div>
               </div>
 
-              {!publishedPostData &&
-                !previewPostData &&
-                !draftPostData &&
-                validationError && (
-                  // <div className="text-red-500 mb-4">{validationError}</div>
-                  <div
-                    className="bg-red-50 border-4 border-red-500 p-4 "
-                    role="alert"
-                  >
-                    <div className="flex">
-                      <div className="flex-shrink-0">
-                        <span className="inline-flex justify-center items-center h-8 w-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 ">
-                          <svg
-                            className="flex-shrink-0 size-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M18 6 6 18" />
-                            <path d="m6 6 12 12" />
-                          </svg>
-                        </span>
-                      </div>
-                      <div className="ms-3">
-                        <h3 className="text-gray-800 font-semibold">Error!</h3>
-                        <p className="text-sm text-gray-700 ">
-                          {validationError}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
+              {titleError && (
+                <div className="my-4">
+                  <h3 className="text-gray-800 font-semibold dark:text-white">
+                    Oops! You got an issue in "Title".
+                  </h3>
+                </div>
+              )}
+              {imageError && (
+                <div className="my-4">
+                  <h3 className="text-gray-800 font-semibold dark:text-white">
+                    Oops! You got an issue in "Image Url".
+                  </h3>
+                </div>
+              )}
 
-              {publishedPostData && (
-                <div className="mb-4">
+              {publishedPostData && publishMessage && (
+                <div>
                   {/* <span>
                   <p className="mb-4" style={{ color: "#28a745" }}>
                     Your post published successfully!!! To view your published
@@ -652,7 +686,7 @@ const CreateNewPost = ({
                       </div>
                       <div className="ms-3">
                         <h3 className="text-gray-800 font-semibold dark:text-white">
-                          Successfully Published.
+                          {publishMessage}
                         </h3>
                         <p className="text-sm text-gray-700 dark:text-gray-400">
                           <a
@@ -674,8 +708,8 @@ const CreateNewPost = ({
                 </div>
               )}
 
-              {!publishedPostData && previewPostData && (
-                <div className="mb-4">
+              {!publishedPostData && previewPostData && previewMessage && (
+                <div>
                   {/* <span>
                   Your post is on hold for review. Your review link here:
                 </span>
@@ -727,7 +761,7 @@ const CreateNewPost = ({
                       </div>
                       <div className="ms-3">
                         <h3 className="text-gray-800 font-semibold dark:text-white">
-                          Success. Your post is on hold for review
+                          {previewMessage}
                         </h3>
                         <p className="text-sm text-gray-700 dark:text-gray-400">
                           <span>
@@ -768,10 +802,10 @@ const CreateNewPost = ({
               <p className="mb-4">Your post saved as Draft</p>
             )} */}
 
-              {updatedDraftPost && (
+              {updatedDraftPost && updatedDraftMessage && (
                 // <p className="mb-4">Your post saved as Draft</p>
 
-                <div className="mb-4">
+                <div>
                   <div
                     className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
                     role="alert"
@@ -798,7 +832,7 @@ const CreateNewPost = ({
                       </div>
                       <div className="ms-3">
                         <h3 className="text-gray-800 font-semibold dark:text-white">
-                          Success. Your post saved as Draft
+                          {updatedDraftMessage}
                         </h3>
                       </div>
                     </div>
@@ -910,13 +944,54 @@ const CreateNewPost = ({
           className="container mx-auto py-10 px-4 mb-10 h-screen overflow-y-auto"
           style={{ scrollbarWidth: "none", "-ms-overflow-style": "none" }}
         >
+          {/* {!publishedPostData &&
+            !previewPostData &&
+            !draftPostData &&
+            validationError && (
+              // <div className="text-red-500 mb-4"></div>
+              <div
+                className="bg-red-50 border-s-4 border-red-500 p-4 dark:bg-red-800/30"
+                role="alert"
+              >
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 dark:border-red-900 dark:bg-red-800 dark:text-red-400">
+                      <svg
+                        className="flex-shrink-0 size-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M18 6 6 18" />
+                        <path d="m6 6 12 12" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div className="ms-3">
+                    <h3 className="text-gray-800 font-semibold dark:text-white">
+                      Error!
+                    </h3>
+                    <p className="text-sm text-gray-700 dark:text-gray-400">
+                      {validationError}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )} */}
+
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col items-center justify-between md:flex-row lg:flex-row space-y-2  mb-6">
               <h1 className="text-3xl w-full flex-row font-bold">
                 Create New Post
               </h1>
-              <div className="flex flex-col w-full items-center justify-center md:flex-row lg:flex-row space-y-2 md:space-y-0 lg:space-y-0 space-x-2">
-                <select
+              <div className="flex flex-col w-full items-center justify-center md:flex-row lg:flex-row space-y-2 md:space-y-0 lg:space-y-0 space-x-4">
+                {/* <select
                   className="flex-row border-2 border-slate-800 px-3 py-2 md:px-1 md:py-0 lg:px-1 lg:py-0 rounded"
                   placeholder="select category"
                   value={category}
@@ -929,7 +1004,13 @@ const CreateNewPost = ({
                   <option value="History">LifeStyle</option>
                   <option value="Psychology">Travel</option>
                   <option value="others">others</option>
-                </select>
+                </select> */}
+                <div className="flex flex-row items-center text-center font-bold space-x-2">
+                  <label className="text-l text-slate-900">Category:</label>
+                  <h3 className="text-l text-gray-400">
+                    {selectedCompany.category}
+                  </h3>
+                </div>
 
                 <div className="w-auto flex flex-row items-center space-x-2">
                   <select
@@ -974,9 +1055,13 @@ const CreateNewPost = ({
                     type="text"
                     id="title"
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => {
+                      setTitleError("");
+                      setTitle(e.target.value);
+                    }}
                     className="border border-gray-300 px-3 py-2 rounded w-full"
                   />
+                  <div className="text-sm text-red-500 mt-2">{titleError}</div>
                 </div>
                 <div className="flex flex-row space-x-4">
                   <div className="flex flex-col mb-4">
@@ -987,9 +1072,15 @@ const CreateNewPost = ({
                       type="url"
                       id="image"
                       value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
+                      onChange={(e) => {
+                        setImageError("");
+                        setImageUrl(e.target.value);
+                      }}
                       className="border border-gray-300 px-3 py-2 rounded w-full"
                     />
+                    <div className="text-sm text-red-500 mt-2">
+                      {imageError}
+                    </div>
                   </div>
                   <div className="flex flex-end items-center">
                     {imageUrl && (
@@ -1000,58 +1091,33 @@ const CreateNewPost = ({
               </div>
             </div>
 
-            <div className="mb-4">
+            <div className=" flex flex-col mb-4">
               <MdEditor
                 style={{ height: "400px" }}
                 renderHTML={(text) => mdParser.render(text)}
                 onChange={handleEditorChange}
                 value={inputHtml}
               />
+              <div className="text-sm text-red-500 mt-2">{contentError}</div>
             </div>
 
-            {!publishedPostData &&
-              !previewPostData &&
-              !draftPostData &&
-              validationError && (
-                // <div className="text-red-500 mb-4"></div>
-                <div
-                  className="bg-red-50 border-s-4 border-red-500 p-4 dark:bg-red-800/30"
-                  role="alert"
-                >
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 dark:border-red-900 dark:bg-red-800 dark:text-red-400">
-                        <svg
-                          className="flex-shrink-0 size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M18 6 6 18" />
-                          <path d="m6 6 12 12" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="ms-3">
-                      <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Error!
-                      </h3>
-                      <p className="text-sm text-gray-700 dark:text-gray-400">
-                        {validationError}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
+            {titleError && (
+              <div className="my-4">
+                <h3 className="text-gray-800 font-semibold dark:text-white">
+                  Oops! You got an issue in "Title".
+                </h3>
+              </div>
+            )}
+            {imageError && (
+              <div className="my-4">
+                <h3 className="text-gray-800 font-semibold dark:text-white">
+                  Oops! You got an issue in "Image Url".
+                </h3>
+              </div>
+            )}
 
-            {publishedPostData && (
-              <div className="mb-4">
+            {publishedPostData && publishMessage && (
+              <div>
                 {/* <span>
                   <p className="mb-4" style={{ color: "#28a745" }}>
                     Your post published successfully!!! To view your published
@@ -1094,14 +1160,17 @@ const CreateNewPost = ({
                     </div>
                     <div className="ms-3">
                       <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Successfully Published.
+                        {publishMessage}
                       </h3>
                       <p className="text-sm text-gray-700 dark:text-gray-400">
                         <a
                           href={`https://diaryblog.connectingpeopletech.com/${publishedPostData.blogSpace}/${publishedPostData._id}/post`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ color: "teal", textDecoration: "underline" }}
+                          style={{
+                            color: "teal",
+                            textDecoration: "underline",
+                          }}
                         >
                           Click here
                         </a>{" "}
@@ -1113,8 +1182,8 @@ const CreateNewPost = ({
               </div>
             )}
 
-            {!publishedPostData && previewPostData && (
-              <div className="mb-4">
+            {!publishedPostData && previewPostData && previewMessage && (
+              <div>
                 {/* <span>
                   Your post is on hold for review. Your review link here:
                 </span>
@@ -1166,7 +1235,7 @@ const CreateNewPost = ({
                     </div>
                     <div className="ms-3">
                       <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Success. Your post is on hold for review
+                        {previewMessage}
                       </h3>
                       <p className="text-sm text-gray-700 dark:text-gray-400">
                         <span>
@@ -1189,42 +1258,45 @@ const CreateNewPost = ({
               </div>
             )}
 
-            {!publishedPostData && !previewPostData && draftPostData && (
-              // <p className="mb-4">Your post saved as Draft</p>
-              <div className="mb-4">
-                <div
-                  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
-                  role="alert"
-                >
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
-                        <svg
-                          className="flex-shrink-0 size-4"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-                          <path d="m9 12 2 2 4-4" />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="ms-3">
-                      <h3 className="text-gray-800 font-semibold dark:text-white">
-                        Success. Your post saved as Draft
-                      </h3>
+            {!publishedPostData &&
+              !previewPostData &&
+              draftPostData &&
+              draftMessage && (
+                // <p className="mb-4">Your post saved as Draft</p>
+                <div>
+                  <div
+                    className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30"
+                    role="alert"
+                  >
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <span className="inline-flex justify-center items-center size-8 rounded-full border-4 border-teal-100 bg-teal-200 text-teal-800 dark:border-teal-900 dark:bg-teal-800 dark:text-teal-400">
+                          <svg
+                            className="flex-shrink-0 size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                            <path d="m9 12 2 2 4-4" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className="ms-3">
+                        <h3 className="text-gray-800 font-semibold dark:text-white">
+                          {draftMessage}
+                        </h3>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
             <div className="flex flex-row space-x-2 sm:flex-row sm:justify-between items-center text-center">
               <button

@@ -12,19 +12,18 @@ function CreateUserBlog({ onClose, onNewBlog }) {
 
   function validateFields() {
     let validationErrors = {};
-  
+
     if (title.trim() === "") {
       validationErrors.title = "Title is required.";
     }
-  
+
     const urlPattern = /^https?:\/\/.+$/;
     if (image_Url.trim() !== "" && !urlPattern.test(image_Url)) {
-      validationErrors.image_Url = "Icon URL must be in http format."; // Changed from 'icon' to 'image_Url'
+      validationErrors.image_Url = " url must be in https format."; // Changed from 'icon' to 'image_Url'
     }
-  
+
     return validationErrors;
   }
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,7 +46,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name: title.trim(), // Trim the title before sending
+            name: title,
             description: description,
             image_url: image_Url,
             category: category,
@@ -62,6 +61,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
 
       setSuccess(true); // Set success state
       setLoading(false); // Stop loading state
+      onClose();
 
       const data = await response.json();
       // Update state or trigger any other action on success
@@ -100,9 +100,7 @@ function CreateUserBlog({ onClose, onNewBlog }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          {errors.title && (
-            <p className="error text-red-500">{errors.title}</p>
-          )}
+          {errors.title && <p className="error text-red-500">{errors.title}</p>}
           <label className="block text-gray-700 text-sm font-bold mb-1">
             Description:
           </label>
@@ -112,28 +110,34 @@ function CreateUserBlog({ onClose, onNewBlog }) {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           ></textarea>
-         <label className="block text-gray-700 text-sm font-bold mb-1">
-  Icon URL:
-</label>
-<div className="flex items-center"> {/* Added flex container */}
-  <input
-    type="text"
-    className="w-full p-2 border rounded-md"
-    placeholder="Icon URL"
-    value={image_Url}
-    onChange={(e) => setImageUrl(e.target.value)}
-    />
- {image_Url && ( // Updated variable name
-  <div className="ml-2">
-    <img
-      src={image_Url} // Updated variable name
-      alt="Icon Preview"
-      className="w-6 h-6 rounded-md mt-1" 
-    />
-  </div>
-)}
-</div>
-{errors.image_Url && <p className="error text-red-500">{errors.image_Url}</p>}
+          <label className="block text-gray-700 text-sm font-bold mb-1">
+            BlogSpace Image Url:
+          </label>
+          <div className="w-full flex flex-col">
+            {" "}
+            {/* Added flex container */}
+            <div className="flex flex-row space-x-2">
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                placeholder="BlogSpace Image Url:"
+                value={image_Url}
+                onChange={(e) => setImageUrl(e.target.value)}
+              />
+              {image_Url && ( // Updated variable name
+                <div className="flex items-center ml-2">
+                  <img
+                    src={image_Url} // Updated variable name
+                    alt="Icon Preview"
+                    className="w-10 h-8 rounded-md "
+                  />
+                </div>
+              )}
+            </div>
+            {errors.image_Url && (
+              <p className=" text-sm text-red-500">{errors.image_Url}</p>
+            )}
+          </div>
 
           <label className="block text-gray-700 text-sm font-bold mb-1">
             Category:
@@ -200,5 +204,3 @@ function CreateUserBlog({ onClose, onNewBlog }) {
 }
 
 export default CreateUserBlog;
-
-    

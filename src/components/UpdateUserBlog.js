@@ -56,12 +56,11 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
       validationErrors.title = "Title should be between 3 and 30 characters.";
     }
 
-   
     const urlPattern = /^https?:\/\/.+$/;
     if (image_Url.trim() !== "" && !urlPattern.test(image_Url)) {
-      validationErrors.image_Url = "Icon URL must be in http format."; // Changed from 'icon' to 'image_Url'
+      validationErrors.image_Url = "url must be in https format."; // Changed from 'icon' to 'image_Url'
     }
-  
+
     return validationErrors;
   }
 
@@ -88,7 +87,7 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name: title.trim(), // Trim the title before sending
+            name: title,
             description: description,
             image_url: image_Url,
             category: category,
@@ -109,7 +108,6 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
       setTimeout(() => {
         setSuccess(false);
       }, 3000);
-
     } catch (error) {
       console.error(
         "There was a problem with the fetch operation:",
@@ -137,113 +135,120 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col mb-2">
-        <label className="block text-gray-700 text-sm font-bold mb-1">Title:</label>
-        <input
-          type="text"
-          className="p-2 border rounded-md"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        {errors.title && <p className="text-red-500">{errors.title}</p>}
-      </div>
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              Title:
+            </label>
+            <input
+              type="text"
+              className="p-2 border rounded-md"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            {errors.title && <p className="text-red-500">{errors.title}</p>}
+          </div>
 
-      <div className="flex flex-col mb-2">
-      <label className="block text-gray-700 text-sm font-bold mb-1">
-            Description:
+          <div className="flex flex-col mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              Description:
+            </label>
+            <textarea
+              className="p-2 border rounded-md"
+              placeholder="Description (optional)"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+          <label className="block text-gray-700 text-sm font-bold mb-1">
+            BlogSpace Image Url:
           </label>
-          <textarea
-            className="p-2 border rounded-md"
-            placeholder="Description (optional)"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          ></textarea>
-      </div>
-      <label className="block text-gray-700 text-sm font-bold mb-1">
-  Icon URL:
-</label>
-      <div className="flex items-center"> {/* Added flex container */}
-          <input
-            type="text"
-            className="w-full p-2 border rounded-md"
-            placeholder="Icon URL"
-            value={image_Url}
-            onChange={(e) => setImageUrl(e.target.value)}
-          />
-           {image_Url && ( // Updated variable name
-  <div className="ml-2">
-    <img
-      src={image_Url} // Updated variable name
-      alt="Icon Preview"
-      className="w-6 h-6 rounded-md mt-1" 
-    />
-  </div>
-)}
-          {errors.image_Url && (
-            <p className="text-red-500">{errors.image_Url}</p>
-          )}
-      </div>
+          <div className="w-full flex flex-col">
+            {" "}
+            {/* Added flex container */}
+            <div className="flex flex-row space-x-2">
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                placeholder="BlogSpace Image Url:"
+                value={image_Url}
+                onChange={(e) => setImageUrl(e.target.value)}
+              />
+              {image_Url && ( // Updated variable name
+                <div className="flex items-center ml-2">
+                  <img
+                    src={image_Url} // Updated variable name
+                    alt="Icon Preview"
+                    className="w-10 h-8 rounded-md "
+                  />
+                </div>
+              )}
+            </div>
+            {errors.image_Url && (
+              <p className=" text-sm text-red-500">{errors.image_Url}</p>
+            )}
+          </div>
 
-      <div className="flex flex-col mb-2">
-        <label className="block text-gray-700 text-sm font-bold mb-1">Category:</label>
-        <select
-          className="p-2 border rounded-md"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          <option value="">Select a category</option>
-          <option value="Lifestyle">Lifestyle</option>
-          <option value="Travel">Technology</option>
-          <option value="Food and Recipes">Food and Recipes</option>
-          <option value="Personal Finance">Personal Finance</option>
-          <option value="Parenting and Family">Parenting and Family</option>
-        </select>
-        {errors.category && (
-          <p className="text-red-500">{errors.category}</p>
-        )}
-      </div>
+          <div className="flex flex-col mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-1">
+              Category:
+            </label>
+            <select
+              className="p-2 border rounded-md"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="">Select a category</option>
+              <option value="Lifestyle">Lifestyle</option>
+              <option value="Travel">Technology</option>
+              <option value="Food and Recipes">Food and Recipes</option>
+              <option value="Personal Finance">Personal Finance</option>
+              <option value="Parenting and Family">Parenting and Family</option>
+            </select>
+            {errors.category && (
+              <p className="text-red-500">{errors.category}</p>
+            )}
+          </div>
 
-      <div>
-  {loading ? (
-    <button
-      type="submit"
-      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-md font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-      disabled
-    >
-      <span className="flex items-center">
-        <span className="mr-2">Loading</span>
-        <svg
-          className="animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      </span>
-    </button>
-  ) : (
-    <button
-      type="submit"
-      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
-    >
-      Save
-    </button>
-  )}
-</div>
-
+          <div>
+            {loading ? (
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-md font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                disabled
+              >
+                <span className="flex items-center">
+                  <span className="mr-2">Loading</span>
+                  <svg
+                    className="animate-spin h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                </span>
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-full"
+              >
+                Save
+              </button>
+            )}
+          </div>
         </form>
       </div>
     </div>
