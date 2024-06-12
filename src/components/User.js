@@ -1,30 +1,96 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import jwt_decode from 'jwt-decode';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
+import {
+  FaLinkedin,
+  FaTwitter,
+  FaGithub,
+  FaReddit,
+  FaWhatsapp,
+  FaFacebook,
+  FaInstagram,
+  FaGlobe,
+} from "react-icons/fa";
+
+const ImageUploader = ({ onImageUpload }) => {
+  const uploadedImage = React.useRef(null);
+  const imageUploader = React.useRef(null);
+
+  const handleImageUpload = (e) => {
+    const [file] = e.target.files;
+    if (file) {
+      const reader = new FileReader();
+      const { current } = uploadedImage;
+      current.file = file;
+
+      reader.onload = (e) => {
+        current.src = e.target.result;
+
+        const base64Image = e.target.result.split(",")[1];
+        onImageUpload(base64Image);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <input
+        type="file"
+        accept="image/*,application/pdf,.pdf"
+        onChange={handleImageUpload}
+        ref={imageUploader}
+        className="hidden"
+      />
+      <div
+        className="h-60 w-60 border-2 border-dashed border-black"
+        onClick={() => imageUploader.current.click()}
+      >
+        <img
+          ref={uploadedImage}
+          className="w-full h-full object-cover"
+          alt="Uploaded"
+        />
+      </div>
+      <p
+        className="mt-2 cursor-pointer text-blue-500"
+        onClick={() => imageUploader.current.click()}
+      >
+        Click to upload Image
+      </p>
+    </div>
+  );
+};
+
+const socialMediaIcons = {
+  LinkedIn: <FaLinkedin style={{ color: '#0077B5' }} />, // LinkedIn color
+  Twitter: <FaTwitter style={{ color: '#1DA1F2' }} />, // Twitter color
+  GitHub: <FaGithub style={{ color: '#333' }} />, // GitHub color
+  Reddit: <FaReddit style={{ color: '#FF4500' }} />, // Reddit color
+  WhatsApp: <FaWhatsapp style={{ color: '#25D366' }} />, // WhatsApp color
+  Facebook: <FaFacebook style={{ color: '#1877F2' }} />, // Facebook color
+  Instagram: <FaInstagram style={{ color: '#E1306C' }} />, // Instagram color
+  Website: <FaGlobe style={{ color: '#000' }} />, // Website color (black)
+};
+
+const socialMediaOptions = [
+  { type: "LinkedIn", placeholder: "LinkedIn URL" },
+  { type: "Twitter", placeholder: "Twitter URL" },
+  { type: "GitHub", placeholder: "GitHub URL" },
+  { type: "Reddit", placeholder: "Reddit URL" },
+  { type: "Whatsapp", placeholder: "Whatsapp URL" },
+  { type: "Facebook", placeholder: "Facebook URL" },
+  { type: "Instagram", placeholder: "Instagram URL" },
+  { type: "Website", placeholder: "Website URL" },
+];
 
 const User = () => {
-  const token = localStorage.getItem('token');
-  const payload = jwt_decode(token);
-  const user_id = payload.user.id;
-
-  const [user, setUser] = useState({
-    user_id: '',
-    linkedin: '',
-    twitter: '',
-    github: '',
-    image_base64: null,
-  });
-
-  const [editMode, setEditMode] = useState({
-    linkedin: false,
-    twitter: false,
-    github: false,
-  });
-
-  const [successMessage, setSuccessMessage] = useState('');
-  const imageUploader = useRef(null);
+  const [users, setUsers] = useState([]);
+  const [profileLinks, setProfileLinks] = useState([{ type: "", url: "" }]);
+  const [newUserImage, setNewUserImage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isNewUser, setIsNewUser] = useState(false);
 
   useEffect(() => {
     fetchUserData();
@@ -32,104 +98,99 @@ const User = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`https://usermgtapi3.onrender.com/api/get_user/${user_id}`);
-      setUser(response.data);
+      const token = localStorage.getItem("token");
+      const payload = jwt_decode(token);
+      const userId = payload.user.id;
+
+      const response = await axios.get(`https://usermgtapi3.onrender.com/api/get_user/${userId}`);
+      console.log("User data from API:", response.data);
+
+      if (response.data && response.data.user_id) {
+        const profileLinks = response.data.profile_links.map(link => {
+          try {
+            return JSON.parse(link.replace(/'/g, '"'));
+          } catch (error) {
+            console.error("Error parsing profile link:", link, error);
+            return null;
+          }
+        }).filter(link => link !== null);
+
+        setUsers([response.data]);
+        setProfileLinks(profileLinks || [{ type: "", url: "" }]);
+        setNewUserImage(response.data.image_base64);
+        setIsNewUser(false);
+      } else {
+        setIsNewUser(true);
+      }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error("Error fetching user data:", error);
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (editMode[name]) {
-      setUser({ ...user, [name]: value });
+  const handleProfileLinkChange = (index, field, value) => {
+    const updatedLinks = [...profileLinks];
+    updatedLinks[index] = { ...updatedLinks[index], [field]: value };
+    setProfileLinks(updatedLinks);
+  };
+
+  const addProfileLink = () => {
+    if (profileLinks.length < 10) {
+      setProfileLinks([...profileLinks, { type: "", url: "" }]);
+    } else {
+      alert("You can only add up to 10 links.");
     }
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      fileToBase64(file, (base64Data) => {
-        const base64WithoutPrefix = base64Data.split(',')[1];
-        setUser({ ...user, image_base64: base64WithoutPrefix });
-        handleBase64Storage(base64WithoutPrefix);
-      });
-    }
+  const removeProfileLink = (index) => {
+    const updatedLinks = profileLinks.filter((_, i) => i !== index);
+    setProfileLinks(updatedLinks);
   };
 
-  const fileToBase64 = (file, callback) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      callback(reader.result);
-    };
-    reader.readAsDataURL(file);
+  const handleImageUpload = (base64Image) => {
+    setNewUserImage(base64Image);
   };
 
-  const handleBase64Storage = (base64Data) => {
-    console.log('Base64 Data:', base64Data);
-  };
+  const handleSaveUser = async (event) => {
+    event.preventDefault();
 
-  const toggleEditMode = (fieldName) => {
-    setEditMode((prevEditMode) => ({
-      ...prevEditMode,
-      [fieldName]: !prevEditMode[fieldName],
-    }));
-  };
-
-  const handleCreateUser = async () => {
     try {
-      const response = await axios.post('https://usermgtapi3.onrender.com/api/create_user', {
-        linkedin: user.linkedin,
-        twitter: user.twitter,
-        github: user.github,
-        image_base64: user.image_base64,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const token = localStorage.getItem("token");
+      const payload = jwt_decode(token);
+      const userId = payload.user.id;
 
-      console.log(response.data);
+      const userData = {
+        profile_links: profileLinks.map(link => ({ type: link.type, url: link.url })),
+        image_base64: newUserImage,
+      };
+
+      if (isNewUser) {
+        await axios.post(
+          `https://usermgtapi3.onrender.com/api/create_user`,
+          userData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setSuccessMessage("User created successfully");
+      } else {
+        await axios.put(
+          `https://usermgtapi3.onrender.com/api/update_user/${userId}`,
+          userData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setSuccessMessage("User updated successfully");
+      }
 
       fetchUserData();
-      setSuccessMessage('User created successfully');
-      console.log('User created successfully');
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.error("Error saving user:", error);
     }
-  };
-
-  const handleUpdateUser = async () => {
-    if (user_id) {
-      try {
-        const response = await axios.put(`https://usermgtapi3.onrender.com/api/update_user/${user_id}`, {
-          linkedin: user.linkedin,
-          twitter: user.twitter,
-          github: user.github,
-          image_base64: user.image_base64,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        console.log(response.data);
-
-        fetchUserData();
-        setSuccessMessage('User updated successfully');
-        console.log('User updated successfully');
-      } catch (error) {
-        console.error('Error updating user:', error);
-      }
-    } else {
-      console.error('User ID is undefined. Cannot update user.');
-    }
-  };
-
-  const handleSaveUser = async () => {
-    await handleUpdateUser();
-    await handleCreateUser();
   };
 
   return (
@@ -138,89 +199,93 @@ const User = () => {
       {successMessage && (
         <div className="mb-4 text-green-600 font-semibold">{successMessage}</div>
       )}
-      <div className="mb-4">
-        <label className="block text-sm font-semibold mb-2">LinkedIn:</label>
-        <div className="relative">
-          <input
-            className={`w-full p-2 border rounded-md ${editMode.linkedin ? 'bg-gray-100' : ''}`}
-            type="text"
-            name="linkedin"
-            value={user.linkedin}
-            onChange={handleInputChange}
-            readOnly={!editMode.linkedin}
-          />
-          <FontAwesomeIcon
-            icon={faPencilAlt}
-            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-            onClick={() => toggleEditMode('linkedin')}
-          />
-        </div>
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm font-semibold mb-2">Twitter:</label>
-        <div className="relative">
-          <input
-            className={`w-full p-2 border rounded-md ${editMode.twitter ? 'bg-gray-100' : ''}`}
-            type="text"
-            name="twitter"
-            value={user.twitter}
-            onChange={handleInputChange}
-            readOnly={!editMode.twitter}
-          />
-          <FontAwesomeIcon
-            icon={faPencilAlt}
-            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-            onClick={() => toggleEditMode('twitter')}
-          />
-        </div>
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm font-semibold mb-2">Github:</label>
-        <div className="relative">
-          <input
-            className={`w-full p-2 border rounded-md ${editMode.github ? 'bg-gray-100' : ''}`}
-            type="text"
-            name="github"
-            value={user.github}
-            onChange={handleInputChange}
-            readOnly={!editMode.github}
-          />
-          <FontAwesomeIcon
-            icon={faPencilAlt}
-            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-            onClick={() => toggleEditMode('github')}
-          />
-        </div>
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm font-semibold mb-2">Image upload:</label>
-        <input
-          type="file"
-          accept="image/*,application/pdf,.pdf"
-          onChange={handleImageUpload}
-          ref={imageUploader}
-          className="hidden"
-        />
+      <form onSubmit={handleSaveUser}>
+        {profileLinks.map((link, index) => (
+          <div key={index} className="mb-4">
+            <label className="block text-sm font-semibold mb-2">Profile Link Type:</label>
+            <select
+              value={link.type}
+              onChange={(e) => handleProfileLinkChange(index, "type", e.target.value)}
+              className="w-full border border-gray-300 rounded-md py-2 px-3 mb-2"
+            >
+              <option value="">Select</option>
+              {socialMediaOptions.map((option) => (
+                <option key={option.type} value={option.type}>
+                  {option.type}
+                </option>
+              ))}
+            </select>
+            <div className="flex items-center mb-2">
+              {link.type && socialMediaIcons[link.type]}
+              <input
+                type="text"
+                value={link.url}
+                onChange={(e) => handleProfileLinkChange(index, "url", e.target.value)}
+                placeholder={
+                  socialMediaOptions.find((option) => option.type === link.type)
+                   ?.placeholder || "Enter URL"
+                }
+                className="w-full border border-gray-300 rounded-md py-2 px-3 ml-2"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => removeProfileLink(index)}
+              className="mt-2 text-red-500"
+            >
+              Remove
+            </button>
+          </div>
+        ))}
         <button
-          onClick={() => imageUploader.current.click()}
-          className="bg-blue-500 text-white p-2 rounded-md mr-2"
+          type="button"
+          onClick={addProfileLink}
+          className="mb-4 bg-green-500 text-white py-2 px-4 rounded-md"
         >
-          Select File
+          Add Another Link
         </button>
-        {user.image_base64 && (
-          <img
-            className="mt-2 w-full h-auto rounded-md"
-            src={`data:image/jpeg;base64,${user.image_base64}`}
-            alt="User Preview"
-          />
-        )}
-      </div>
-      <div className="mb-4 flex justify-center">
-        <button
-          className="bg-blue-500 text-white p-2 rounded-md"
-          onClick={handleSaveUser}        >
-          Save
-        </button>
+
+        <ImageUploader onImageUpload={handleImageUpload} />
+
+        <div className="flex justify-center mt-4">
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+
+      <div className="mt-8">
+        {users.length > 0 && users.map((user) => (
+          <div key={user.user_id}>
+            <div className="flex flex-col items-center">
+              {user.profile_links.map((link, index) => (
+                <div key={index} className="flex items-center mb-2">
+                  {socialMediaIcons[link.type]}
+                  <a
+                    href={link.url}
+                    className="ml-2 text-blue-500 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.type}
+                  </a>
+                </div>
+              ))}
+            </div>
+            {user.image_base64 && (
+              <div className="mt-4">
+                <img
+                  src={`data:image/jpeg;base64,${user.image_base64}`}
+                  alt="User"
+                  className="w-full h-auto"
+                />
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
