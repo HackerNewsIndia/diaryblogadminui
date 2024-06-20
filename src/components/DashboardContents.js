@@ -670,7 +670,7 @@ const DashboardContent = () => {
                         <div>
                           <h2 class="text-xl font-bold">
                             {" "}
-                            {post.title.substring(0, 18)}{" "}
+                            {post.title.substring(0, 10)}{" "}
                           </h2>
                           <h3 class="text-sm font-medium">{post.category}</h3>
                           <time
@@ -1136,7 +1136,7 @@ const DashboardContent = () => {
                         <div>
                           <h2 class="text-xl font-bold">
                             {" "}
-                            {post.title.substring(0, 18)}{" "}
+                            {post.title.substring(0, 10)}{" "}
                           </h2>
                           <h3 class="text-sm font-medium">{post.category}</h3>
                           <time
