@@ -274,7 +274,7 @@ const DashboardContent = () => {
                     </div>
                     <div className=" w-full flex flex-row p-2 items-center text-center justify-center space-x-2">
                       <p className="text-2xl font-semibold">
-                        {engagement.total_love}
+                        {engagement.total_likes}
                       </p>
                       <p>Total love</p>
                     </div>
