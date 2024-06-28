@@ -20,7 +20,7 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
 
       try {
         const response = await fetch(
-          `https://diaryblogapi2.onrender.com/api/blogSpace/${blogSpace._id}`,
+          `https://diaryblogapi-eul3.onrender.com/api/blogSpace/${blogSpace._id}`,
           {
             method: "GET",
             headers: {
@@ -79,7 +79,7 @@ function UpdateUserBlog({ onClose, blog, onUpdateBlog, blogSpaceId }) {
 
     try {
       const response = await fetch(
-        `https://diaryblogapi2.onrender.com/api/blogSpace/${blogSpace._id}`,
+        `https://diaryblogapi-eul3.onrender.com/api/blogSpace/${blogSpace._id}`,
         {
           method: "PUT",
           headers: {

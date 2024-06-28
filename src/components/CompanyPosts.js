@@ -16,7 +16,7 @@ const CompanyPosts = ({ selectedCompany }) => {
       return;
     }
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}`
+      `https://diaryblogapi-eul3.onrender.com/api/posts/${selectedCompany.name}`
     )
       .then((response) => {
         if (!response.ok) {

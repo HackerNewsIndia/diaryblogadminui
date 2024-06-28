@@ -27,7 +27,7 @@ const EmailTemplateEditor = ({ marketSpace, onCampaignClose }) => {
     const campaignSpaceId = marketSpace._id;
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/get_digital_marketing_template?campaignSpace_id=${campaignSpaceId}`,
+      `https://diaryblogapi-eul3.onrender.com/api/get_digital_marketing_template?campaignSpace_id=${campaignSpaceId}`,
       // `http://127.0.0.1:5001/api/get_digital_marketing_template?campaignSpace_id=${campaignSpaceId}`,
       {
         method: "GET",
@@ -91,7 +91,7 @@ const EmailTemplateEditor = ({ marketSpace, onCampaignClose }) => {
           setExportedHtmlData(html);
           const token = localStorage.getItem("token");
           fetch(
-            "https://diaryblogapi2.onrender.com/api/create_digital_marketing_template",
+            "https://diaryblogapi-eul3.onrender.com/api/create_digital_marketing_template",
             // "http://127.0.0.1:5001/api/create_digital_marketing_template",
             {
               method: "POST",

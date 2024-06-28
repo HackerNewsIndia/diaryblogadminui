@@ -6,7 +6,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import CampaignSpace from "./CampaignSpace";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
-
 const DigitalMarketingSpace = () => {
   const [loading, setLoading] = useState(true);
   const [createButtonClicked, setCreateButtonClicked] = useState(false);
@@ -48,17 +47,17 @@ const DigitalMarketingSpace = () => {
     setShowDeleteModal(true);
   };
 
-
-
-
   const handleDeleteConfirm = () => {
     const token = localStorage.getItem("token");
-    fetch(`https://diaryblogapi2.onrender.com/api/digital_marketing_space/${spaceToDelete}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://diaryblogapi-eul3.onrender.com/api/digital_marketing_space/${spaceToDelete}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -66,12 +65,17 @@ const DigitalMarketingSpace = () => {
         return response.json();
       })
       .then((data) => {
-        setMarketSpaceData(marketSpaceData.filter((space) => space._id !== spaceToDelete));
+        setMarketSpaceData(
+          marketSpaceData.filter((space) => space._id !== spaceToDelete)
+        );
         setShowDeleteModal(false);
         setSpaceToDelete(null);
       })
       .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error.message);
+        console.error(
+          "There was a problem with the fetch operation:",
+          error.message
+        );
         setError(error.message);
         setShowDeleteModal(false);
         setSpaceToDelete(null);
@@ -115,7 +119,6 @@ const DigitalMarketingSpace = () => {
   //   }
   // };
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -127,7 +130,7 @@ const DigitalMarketingSpace = () => {
     const userId = user.id;
     fetch(
       // `http://127.0.0.1:5001/api/digital_marketing_space/${userId}`
-      `https://diaryblogapi2.onrender.com/api/digital_marketing_space/${userId}`,
+      `https://diaryblogapi-eul3.onrender.com/api/digital_marketing_space/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -223,7 +226,6 @@ const DigitalMarketingSpace = () => {
                 </div>
                 <div className="relative flex items-center justify-center w-full dark:text-gray-900">
                   <div className="flex items-center justify-start w-full h-full gap-6 py-2 mx-auto overflow-auto lg:gap-8">
-                
                     <div
                       className={`relative flex flex-shrink-0 w-full sm:w-auto 
                           `}
@@ -306,28 +308,26 @@ const DigitalMarketingSpace = () => {
                       </span>
                     </button>
                     <button
-                        aria-label="Delete this post"
-                        type="button"
-                        className="flex items-center p-1 space-x-2 cursor-pointer hover:bg-slate-500 rounded"
-                        //onClick={() => handleDelete(marketSpace._id)}
-                        onClick={() => handleDeleteClick(marketSpace._id)}
-
+                      aria-label="Delete this post"
+                      type="button"
+                      className="flex items-center p-1 space-x-2 cursor-pointer hover:bg-slate-500 rounded"
+                      //onClick={() => handleDelete(marketSpace._id)}
+                      onClick={() => handleDeleteClick(marketSpace._id)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-4 h-4 fill-current dark:text-violet-400"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          className="w-4 h-4 fill-current dark:text-violet-400"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M5 4a1 1 0 011-1h12a1 1 0 011 1v1h3a1 1 0 110 2h-1v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7H2a1 1 0 110-2h3V4zm2 3v11h10V7H7zm4 8a1 1 0 11-2 0v-5a1 1 0 112 0v5zm4 0a1 1 0 11-2 0v-5a1 1 0 112 0v5z"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                        {/* <span>Delete</span> */}
-                        
-                      </button>
+                        <path
+                          fillRule="evenodd"
+                          d="M5 4a1 1 0 011-1h12a1 1 0 011 1v1h3a1 1 0 110 2h-1v13a2 2 0 01-2 2H5a2 2 0 01-2-2V7H2a1 1 0 110-2h3V4zm2 3v11h10V7H7zm4 8a1 1 0 11-2 0v-5a1 1 0 112 0v5zm4 0a1 1 0 11-2 0v-5a1 1 0 112 0v5z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                      {/* <span>Delete</span> */}
+                    </button>
                     {/* <a
                           href={`https://diaryblog.connectingpeopletech.com/${
                             marketSpace._id
@@ -386,7 +386,7 @@ const DigitalMarketingSpace = () => {
           </div>
         </div>
       )}
-       <DeleteConfirmationModal
+      <DeleteConfirmationModal
         show={showDeleteModal}
         onHide={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}

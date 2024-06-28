@@ -33,7 +33,7 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
     const userId = user.id;
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
+      `https://diaryblogapi-eul3.onrender.com/api/diaryblog_space/user/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
           setLoading(true);
 
           const response = await fetch(
-            "https://diaryblogapi2.onrender.com/api/send_email_for_digital_marketing",
+            "https://diaryblogapi-eul3.onrender.com/api/send_email_for_digital_marketing",
             // "http://127.0.0.1:5001/api/send_email_for_digital_marketing",
             {
               method: "POST",
@@ -143,7 +143,7 @@ const SendEmail = ({ exportedHtmlData, emailPreviewClose }) => {
       }
 
       const response = await fetch(
-        `https://diaryblogapi2.onrender.com/api/followers/${blogSpace._id}/followers`
+        `https://diaryblogapi-eul3.onrender.com/api/followers/${blogSpace._id}/followers`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch followers");

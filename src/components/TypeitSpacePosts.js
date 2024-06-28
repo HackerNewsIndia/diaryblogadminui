@@ -27,7 +27,7 @@ const TypeitSpacePosts = ({ selectedTypeitSpace }) => {
       return;
     }
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedTypeitSpace.name}`
+      `https://diaryblogapi-eul3.onrender.com/api/posts/${selectedTypeitSpace.name}`
     )
       .then((response) => {
         if (!response.ok) {

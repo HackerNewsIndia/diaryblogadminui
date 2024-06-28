@@ -29,7 +29,7 @@ const DashboardContent = () => {
       try {
         const token = localStorage.getItem("token"); // Assuming you store the JWT token in localStorage
         const response = await fetch(
-          "https://diaryblogapi2.onrender.com/api/engagement",
+          "https://diaryblogapi-eul3.onrender.com/api/engagement",
           {
             method: "GET",
             headers: {
@@ -62,7 +62,7 @@ const DashboardContent = () => {
       try {
         const token = localStorage.getItem("token"); // Get the JWT token from localStorage
         const response = await fetch(
-          "https://diaryblogapi2.onrender.com/api/posts/analytics",
+          "https://diaryblogapi-eul3.onrender.com/api/posts/analytics",
           {
             method: "GET",
             headers: {
@@ -91,7 +91,7 @@ const DashboardContent = () => {
     const fetchLatestPosts = async () => {
       try {
         const response = await fetch(
-          "https://diaryblogapi2.onrender.com/api/latest_posts",
+          "https://diaryblogapi-eul3.onrender.com/api/latest_posts",
           {
             method: "GET",
             headers: {

@@ -104,7 +104,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
       if (userId) {
         try {
           const response = await fetch(
-            `https://usermgtapi3.onrender.com/api/get_user/${userId}`
+            `https://usermgtapi-msad.onrender.com/api/get_user/${userId}`
           );
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -125,7 +125,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
 
   useEffect(() => {
     const fetchBlogData = async () => {
-      fetch(`https://diaryblogapi2.onrender.com/api/blogSpace/${blogId}`, {
+      fetch(`https://diaryblogapi-eul3.onrender.com/api/blogSpace/${blogId}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -143,7 +143,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
   useEffect(() => {
     const followersEmails = async () => {
       fetch(
-        `https://diaryblogapi2.onrender.com/api/blogSpace/${blogId}/followers`,
+        `https://diaryblogapi-eul3.onrender.com/api/blogSpace/${blogId}/followers`,
         // `http://127.0.0.1:5001/api/blogSpace/${blogId}/followers`,
         {
           method: "GET",
@@ -188,7 +188,7 @@ const EmailTemplate = ({ draftPostData, cacheKey }) => {
       setLoading(true);
 
       const response = await fetch(
-        "https://diaryblogapi2.onrender.com/api/send_email_new_post",
+        "https://diaryblogapi-eul3.onrender.com/api/send_email_new_post",
         // "http://127.0.0.1:5001/api/send_email_new_post",
         {
           method: "POST",

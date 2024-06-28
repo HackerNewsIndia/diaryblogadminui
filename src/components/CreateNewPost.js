@@ -93,7 +93,7 @@ const CreateNewPost = ({
 
   useEffect(() => {
     console.log("Inside useEffect before fetch");
-    fetch("https://diaryblogapi2.onrender.com/api/md_templates")
+    fetch("https://diaryblogapi-eul3.onrender.com/api/md_templates")
       .then((response) => response.json())
       .then((data) => {
         console.log("Data fetched", data);
@@ -131,9 +131,9 @@ const CreateNewPost = ({
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${
-        draftPostData._id || previewPostData._id || post._id
-      }`,
+      `https://diaryblogapi-eul3.onrender.com/api/posts/${
+        selectedCompany.name
+      }/${draftPostData._id || previewPostData._id || post._id}`,
       {
         method: "PUT",
         headers: {
@@ -197,9 +197,9 @@ const CreateNewPost = ({
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}/${
-        draftPostData._id || post._id
-      }`,
+      `https://diaryblogapi-eul3.onrender.com/api/posts/${
+        selectedCompany.name
+      }/${draftPostData._id || post._id}`,
       // `http://127.0.0.1:5001/api/posts/${selectedCompany.name}`,
       {
         method: "PUT",
@@ -256,7 +256,7 @@ const CreateNewPost = ({
     const token = localStorage.getItem("token");
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedBlogspace.name}/${post._id}`,
+      `https://diaryblogapi-eul3.onrender.com/api/posts/${selectedBlogspace.name}/${post._id}`,
       {
         method: "PUT",
         headers: {
@@ -319,7 +319,7 @@ const CreateNewPost = ({
     console.log("Selected Company ID:", selectedCompany._id);
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/posts/${selectedCompany.name}`,
+      `https://diaryblogapi-eul3.onrender.com/api/posts/${selectedCompany.name}`,
       {
         method: "POST",
         headers: {
@@ -371,7 +371,7 @@ const CreateNewPost = ({
   const fetchMarkdownFromURL = (e, url) => {
     e.preventDefault();
     fetch(
-      `https://diaryblogapi2.onrender.com/api/fetch-content?url=${encodeURIComponent(
+      `https://diaryblogapi-eul3.onrender.com/api/fetch-content?url=${encodeURIComponent(
         url
       )}`
     )
@@ -397,7 +397,7 @@ const CreateNewPost = ({
   const handleSendEmail = (e, blogId) => {
     e.preventDefault();
     fetch(
-      `https://diaryblogapi2.onrender.com/api/email_preview`,
+      `https://diaryblogapi-eul3.onrender.com/api/email_preview`,
       // `http://127.0.0.1:5001/api/email_preview`,
       {
         method: "POST",

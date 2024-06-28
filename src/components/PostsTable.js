@@ -43,7 +43,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await fetch(
-          `https://diaryblogapi2.onrender.com/api/drafts/${blogSpaceId}`,
+          `https://diaryblogapi-eul3.onrender.com/api/drafts/${blogSpaceId}`,
           {
             method: "GET",
             headers: {
@@ -71,7 +71,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
       try {
         const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
         const response = await fetch(
-          `https://diaryblogapi2.onrender.com/api/preview/${blogSpaceId}`,
+          `https://diaryblogapi-eul3.onrender.com/api/preview/${blogSpaceId}`,
           {
             method: "GET",
             headers: {
@@ -104,7 +104,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
 
       try {
         const response = await fetch(
-          `https://diaryblogapi2.onrender.com/api/blogSpace/${blogSpaceId}`,
+          `https://diaryblogapi-eul3.onrender.com/api/blogSpace/${blogSpaceId}`,
           {
             method: "GET",
             headers: {
@@ -136,7 +136,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://diaryblogapi2.onrender.com/api/blogspace/${blogSpaceId}/posts`
+        `https://diaryblogapi-eul3.onrender.com/api/blogspace/${blogSpaceId}/posts`
         // `http://127.0.0.1:5001/api/blogspace/${blog_id}/posts`
       );
 
@@ -198,7 +198,7 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://diaryblogapi2.onrender.com/api/blogspace/${blogSpaceId}/5_more_posts?last_post_id=${lastPostId}`
+        `https://diaryblogapi-eul3.onrender.com/api/blogspace/${blogSpaceId}/5_more_posts?last_post_id=${lastPostId}`
         // `http://127.0.0.1:5001/api/blogspace/${blog_id}/5_more_posts?last_post_id=${lastPostId}`
       );
 
@@ -386,7 +386,6 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
           </div>
 
           <div class="flex flex-row flex-wrap-reverse mx-auto ">
-            
             <div
               className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow overflow-auto"
               style={{
@@ -460,8 +459,6 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                 </article>
               </div>
             </div>
-
-           
 
             <div
               className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow overflow-auto"
@@ -556,8 +553,6 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                 </article>
               </div>
             </div>
-            
-          
 
             <div
               className="flex w-full mb-8 sm:px-4 md:w-1/2 lg:w-1/3 lg:mb-0 rounded shadow overflow-auto"
@@ -709,8 +704,6 @@ const PostsTable = ({ selectedCompany, blog, startCreatingPost }) => {
                 </article>
               </div>
             </div>
-
-           
           </div>
         </section>
       )}

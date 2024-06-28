@@ -102,7 +102,7 @@ function DiaryBlogSpace({ isLoggedIn, setIsLoggedIn, selectedKey }) {
     const userId = user.id;
 
     fetch(
-      `https://diaryblogapi2.onrender.com/api/diaryblog_space/user/${userId}`,
+      `https://diaryblogapi-eul3.onrender.com/api/diaryblog_space/user/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
