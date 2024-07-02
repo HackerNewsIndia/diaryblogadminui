@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
 // import FacebookLogin from "@greatsumini/react-facebook-login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import jwtDecode from "jwt-decode";
 
 const FacebookTemplateEditor = () => {
@@ -18,6 +18,8 @@ const FacebookTemplateEditor = () => {
   const [postStatus, setPostStatus] = useState(false);
   const [postMessage, setPostMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingSubmit, setLoadingSubmit] = useState(false); // Loading state for handleSubmit
+  const [loadingPost, setLoadingPost] = useState(false); // Loading state for handleFacebookPost and handleFacebookPostReady
 
   const fetchUserData = async (userId) => {
     try {
@@ -65,6 +67,7 @@ const FacebookTemplateEditor = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoadingSubmit(true); // Set loading to true when submitting
     try {
       const response = await fetch(
         // "http://localhost:5001/api/exchange_token",
@@ -124,16 +127,18 @@ const FacebookTemplateEditor = () => {
         "Error during token exchange or user details update:",
         error
       );
+    } finally {
+      setLoadingSubmit(false); // Set loading to false after submission
     }
   };
 
   const handleFacebookPost = async (event) => {
     event.preventDefault();
+    setLoadingPost(true); // Set loading to true when posting
     try {
       const response = await fetch(
         // "http://localhost:5001/api/facebook_post",
         "https://diaryblogapi-eul3.onrender.com/api/facebook_post",
-
         {
           method: "POST",
           headers: {
@@ -157,13 +162,15 @@ const FacebookTemplateEditor = () => {
       if (data.id) {
         setPostStatus(true);
       } else {
-        setPostMessage("Post not successfull !");
+        setPostMessage("Post not successful!");
       }
 
       return data;
     } catch (error) {
       console.error("Error posting to Facebook:", error);
       return { error: error.message };
+    } finally {
+      setLoadingPost(false); // Set loading to false after posting
     }
   };
 
@@ -172,11 +179,11 @@ const FacebookTemplateEditor = () => {
     console.log("message:", message);
     console.log("page_id:", pageId);
     console.log("PermanentToken:", permanentToken);
+    setLoadingPost(true); // Set loading to true when posting
     try {
       const response = await fetch(
         // "http://localhost:5001/api/facebook_post",
         "https://diaryblogapi-eul3.onrender.com/api/facebook_post",
-
         {
           method: "POST",
           headers: {
@@ -200,12 +207,14 @@ const FacebookTemplateEditor = () => {
       if (data.id) {
         setPostStatus(true);
       } else {
-        setPostMessage("Post not successfull !");
+        setPostMessage("Post not successful!");
       }
       return data;
     } catch (error) {
       console.error("Error posting to Facebook:", error);
       return { error: error.message };
+    } finally {
+      setLoadingPost(false); // Set loading to false after posting
     }
   };
 
@@ -222,7 +231,7 @@ const FacebookTemplateEditor = () => {
       {userData.permanent_token ? (
         <div className="w-full max-w-md bg-white shadow-md rounded p-6">
           <div
-            className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
+            className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4 mb-2"
             role="alert"
           >
             <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
@@ -242,8 +251,9 @@ const FacebookTemplateEditor = () => {
             <button
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
+              disabled={loadingPost}
             >
-              Submit
+              {loadingPost ? <BeatLoader color="#fff" size={10} /> : "Submit"}
             </button>
           </form>
           {postStatus && (
@@ -321,15 +331,20 @@ const FacebookTemplateEditor = () => {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
+                disabled={loadingSubmit}
               >
-                Submit
+                {loadingSubmit ? (
+                  <BeatLoader color="#fff" size={10} />
+                ) : (
+                  "Submit"
+                )}
               </button>
             </div>
           </form>
           {permanentTokenGenerated && (
             <>
               <div
-                className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
+                className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4 mb-2"
                 role="alert"
               >
                 <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
@@ -350,8 +365,13 @@ const FacebookTemplateEditor = () => {
                   <button
                     className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="submit"
+                    disabled={loadingPost}
                   >
-                    Submit
+                    {loadingPost ? (
+                      <BeatLoader color="#fff" size={10} />
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                 </form>
                 {postStatus && (
