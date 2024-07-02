@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
-import FacebookLogin from "@greatsumini/react-facebook-login";
+// import FacebookLogin from "@greatsumini/react-facebook-login";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import jwtDecode from "jwt-decode";
