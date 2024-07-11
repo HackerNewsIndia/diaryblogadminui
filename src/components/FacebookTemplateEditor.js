@@ -65,72 +65,72 @@ const FacebookTemplateEditor = () => {
     }
   }, []);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoadingSubmit(true); // Set loading to true when submitting
-    try {
-      const response = await fetch(
-        // "http://localhost:5001/api/exchange_token",
-        "https://diaryblogapi-eul3.onrender.com/api/exchange_token",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            clientId: clientId,
-            clientSecret: clientSecret,
-            accessToken: accessToken,
-          }),
-        }
-      );
-      const json_data = await response.json();
-      console.log("data:", json_data);
-      console.log("permanent token:", json_data.data[0].access_token);
-      console.log("pageId:", json_data.data[0].id);
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   setLoadingSubmit(true); // Set loading to true when submitting
+  //   try {
+  //     const response = await fetch(
+  //       // "http://localhost:5001/api/exchange_token",
+  //       "https://diaryblogapi-eul3.onrender.com/api/exchange_token",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           clientId: clientId,
+  //           clientSecret: clientSecret,
+  //           accessToken: accessToken,
+  //         }),
+  //       }
+  //     );
+  //     const json_data = await response.json();
+  //     console.log("data:", json_data);
+  //     console.log("permanent token:", json_data.data[0].access_token);
+  //     console.log("pageId:", json_data.data[0].id);
 
-      if (json_data.data[0].access_token) {
-        setPermanentToken(json_data.data[0].access_token);
-        setPageId(json_data.data[0].id);
-        setPermanentTokenGenerated(true);
-      }
+  //     if (json_data.data[0].access_token) {
+  //       setPermanentToken(json_data.data[0].access_token);
+  //       setPageId(json_data.data[0].id);
+  //       setPermanentTokenGenerated(true);
+  //     }
 
-      if (
-        json_data.data[0].access_token &&
-        json_data.data[0].id &&
-        json_data.data[0].name
-      ) {
-        const response2 = await fetch(
-          // "http://localhost:5001/api/user_facebook_details",
-          "https://diaryblogapi-eul3.onrender.com/api/user_facebook_details",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              client_id: clientId,
-              client_secret: clientSecret,
-              permanent_token: json_data.data[0].access_token,
-              page_id: json_data.data[0].id,
-              page_name: json_data.data[0].name,
-              user_id: userId,
-            }),
-          }
-        );
-        const data2 = await response2.json();
-        console.log("data2:", data2);
-        return data2;
-      }
-    } catch (error) {
-      console.error(
-        "Error during token exchange or user details update:",
-        error
-      );
-    } finally {
-      setLoadingSubmit(false); // Set loading to false after submission
-    }
-  };
+  //     if (
+  //       json_data.data[0].access_token &&
+  //       json_data.data[0].id &&
+  //       json_data.data[0].name
+  //     ) {
+  //       const response2 = await fetch(
+  //         // "http://localhost:5001/api/user_facebook_details",
+  //         "https://diaryblogapi-eul3.onrender.com/api/user_facebook_details",
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             client_id: clientId,
+  //             client_secret: clientSecret,
+  //             permanent_token: json_data.data[0].access_token,
+  //             page_id: json_data.data[0].id,
+  //             page_name: json_data.data[0].name,
+  //             user_id: userId,
+  //           }),
+  //         }
+  //       );
+  //       const data2 = await response2.json();
+  //       console.log("data2:", data2);
+  //       return data2;
+  //     }
+  //   } catch (error) {
+  //     console.error(
+  //       "Error during token exchange or user details update:",
+  //       error
+  //     );
+  //   } finally {
+  //     setLoadingSubmit(false); // Set loading to false after submission
+  //   }
+  // };
 
   const handleFacebookPost = async (event) => {
     event.preventDefault();
@@ -227,15 +227,18 @@ const FacebookTemplateEditor = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center bg-gray-100 p-4">
       {userData.permanent_token ? (
         <div className="w-full max-w-md bg-white shadow-md rounded p-6">
           <div
-            className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4 mb-2"
+            className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mt-2 mb-2"
             role="alert"
           >
             <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
             <p className="font-bold">Facebook : LoggedIn</p>
+          </div>
+          <div className="flex items-center mt-1 mb-2 px-4 py-2">
+            <p className="font-bold">Page : {userData.page_name}</p>
           </div>
           <form onSubmit={handleFacebookPostReady} className="space-y-4">
             <textarea
@@ -247,6 +250,7 @@ const FacebookTemplateEditor = () => {
                 setPostStatus(false);
                 setPostMessage("");
               }}
+              rows="10"
             ></textarea>
             <button
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -277,125 +281,20 @@ const FacebookTemplateEditor = () => {
           )}
         </div>
       ) : (
-        <div className="w-full max-w-md bg-white shadow-md rounded p-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="clientId"
-              >
-                Client ID
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="clientId"
-                type="number"
-                placeholder="Client ID"
-                value={clientId}
-                onChange={(e) => setClientId(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="clientSecret"
-              >
-                Client Secret
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="clientSecret"
-                type="text"
-                placeholder="Client Secret"
-                value={clientSecret}
-                onChange={(e) => setClientSecret(e.target.value)}
-              />
-            </div>
-            <div className="mb-6">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="accessToken"
-              >
-                Access Token
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                id="accessToken"
-                type="text"
-                placeholder="Access Token"
-                value={accessToken}
-                onChange={(e) => setAccessToken(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
-                disabled={loadingSubmit}
-              >
-                {loadingSubmit ? (
-                  <BeatLoader color="#fff" size={10} />
-                ) : (
-                  "Submit"
-                )}
-              </button>
-            </div>
-          </form>
-          {permanentTokenGenerated && (
-            <>
-              <div
-                className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4 mb-2"
-                role="alert"
-              >
-                <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-                <p className="font-bold">Facebook : LoggedIn</p>
-              </div>
-              <div className="w-full mt-6">
-                <form onSubmit={handleFacebookPost} className="space-y-4">
-                  <textarea
-                    className="w-full p-2 border rounded"
-                    placeholder="Enter your message here"
-                    value={message}
-                    onChange={(e) => {
-                      setMessage(e.target.value);
-                      setPostStatus(false);
-                      setPostMessage("");
-                    }}
-                  ></textarea>
-                  <button
-                    className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit"
-                    disabled={loadingPost}
-                  >
-                    {loadingPost ? (
-                      <BeatLoader color="#fff" size={10} />
-                    ) : (
-                      "Submit"
-                    )}
-                  </button>
-                </form>
-                {postStatus && (
-                  <div
-                    className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
-                    role="alert"
-                  >
-                    <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-                    <p className="font-bold">Successfully Posted!!</p>
-                  </div>
-                )}
-                {postMessage && (
-                  <div
-                    className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
-                    role="alert"
-                  >
-                    <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
-                    <p className="font-bold">{postMessage}</p>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-        </div>
+        <>
+          <div
+            className="flex items-center bg-red-500 border border-green-400 text-white px-4 py-3 rounded mt-4 mb-2"
+            role="alert"
+          >
+            <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
+            <p className="font-bold">Facebook : Not LoggedIn</p>
+          </div>
+          <div>
+            <p className="flex items-center text-gray-600">
+              Go to "User" menu and complete Facebook Integration
+            </p>
+          </div>
+        </>
       )}
     </div>
   );
