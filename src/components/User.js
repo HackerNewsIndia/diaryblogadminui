@@ -39,7 +39,16 @@ const ImageUploader = ({ onImageUpload }) => {
         className="hidden"
       />
       <div
-        className="h-40 w-40 border-2 border-dashed border-gray-500 rounded-full cursor-pointer"
+        // className="h-40 w-40 border-2 border-dashed border-gray-500 rounded-full cursor-pointer"
+        style={{
+          height: "10rem", // 40 * 0.25rem = 10rem
+          width: "10rem", // 40 * 0.25rem = 10rem
+          borderWidth: "2px",
+          borderStyle: "dashed",
+          borderColor: "#6b7280", // gray-500 in Tailwind CSS
+          borderRadius: "50%",
+          cursor: "pointer",
+        }}
         onClick={() => imageUploader.current.click()}
       >
         <img
@@ -459,7 +468,16 @@ const User = () => {
                 <img
                   src={`data:image/jpeg;base64,${currentUser.image_base64}`}
                   alt="User"
-                  className="w-40 h-40 object-cover rounded-full mx-auto"
+                  // className="w-40 h-40 object-cover rounded-full mx-auto"
+                  style={{
+                    width: "10rem", // 40 * 0.25rem = 10rem
+                    height: "10rem", // 40 * 0.25rem = 10rem
+                    objectFit: "cover",
+                    borderRadius: "50%",
+                    display: "block",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}
                 />
               )}
             </div>
