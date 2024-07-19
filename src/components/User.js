@@ -94,6 +94,14 @@ const User = () => {
   const [userDetailsUpdated, setUserDetailsUpdated] = useState(false);
   const [fbError, setFbError] = useState(false);
   const [userDetailsError, setUserDetailsError] = useState(false);
+  const [isLinkedInInputsOpen, setIsLinkedInInputsOpen] = useState(false);
+  const [isLinkedInDetailsOpen, setIsLinkedInDetailsOpen] = useState(false);
+  const [linkedInAccessToken, setLinkedInAccessToken] = useState("");
+  const [loadingLinkedInSubmit, setLoadingLinkedInSubmit] = useState(false);
+  const [linkedInError, setLinkedInError] = useState(false);
+  const [isLinkedInDetailsUpdated, setIsLinkedInDetailsUpdated] =
+    useState(false);
+  const [linkedInTokenCopied, setLinkedInTokenCopied] = useState(false);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -276,6 +284,39 @@ const User = () => {
     }
   };
 
+  const handleLinkedInSubmit = async (event) => {
+    event.preventDefault();
+    setLoadingLinkedInSubmit(true); // Set loading to true when submitting
+    try {
+      const response = await fetch(
+        "https://diaryblogapi-eul3.onrender.com/api/user_linkedin_details",
+        // "http://127.0.0.1:5001/api/user_linkedin_details",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            linkedInAccessToken: linkedInAccessToken,
+            user_id: currentUserId,
+          }),
+        }
+      );
+      const json_data = await response.json();
+      console.log("data:", json_data);
+      if (!response.ok) {
+        setLinkedInError(true);
+      } else {
+        setIsLinkedInDetailsUpdated(true);
+      }
+    } catch (error) {
+      console.error("Error during linkedIn details update:", error);
+      setLinkedInError(true);
+    } finally {
+      setLoadingLinkedInSubmit(false); // Set loading to false after submission
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
       <div
@@ -447,6 +488,104 @@ const User = () => {
             </div>
           )}
         </div>
+        <div className="mt-6">
+          <h4
+            className="text-md font-semibold cursor-pointer flex items-center"
+            onClick={() => setIsLinkedInInputsOpen(!isLinkedInInputsOpen)}
+          >
+            LinkedIn Integration
+            {isLinkedInInputsOpen ? (
+              <FaChevronUp className="ml-2" />
+            ) : (
+              <FaChevronDown className="ml-2" />
+            )}
+          </h4>
+          {isLinkedInInputsOpen && (
+            <form onSubmit={handleLinkedInSubmit} className="space-y-4 mt-4">
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="clientId"
+                >
+                  LinkedIn Access Token
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="token"
+                  type="token"
+                  placeholder="access_token"
+                  value={linkedInAccessToken}
+                  onChange={(e) => setLinkedInAccessToken(e.target.value)}
+                />
+              </div>
+              {/* <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="clientSecret"
+                >
+                  Client Secret
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="clientSecret"
+                  type="text"
+                  placeholder="Client Secret"
+                  value={clientSecret}
+                  onChange={(e) => setClientSecret(e.target.value)}
+                />
+              </div>
+              <div className="mb-6">
+                <label
+                  className="block text-gray-700 text-sm font-bold mb-2"
+                  htmlFor="accessToken"
+                >
+                  Access Token
+                </label>
+                <input
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="accessToken"
+                  type="text"
+                  placeholder="Access Token"
+                  value={accessToken}
+                  onChange={(e) => setAccessToken(e.target.value)}
+                />
+              </div> */}
+              <div className="flex items-center justify-between">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
+                  disabled={loadingLinkedInSubmit}
+                >
+                  {loadingLinkedInSubmit ? (
+                    <BeatLoader color="#fff" size={10} />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
+          {isLinkedInDetailsUpdated == true && (
+            <div
+              className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4 mb-2"
+              role="alert"
+            >
+              <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
+              <p className="font-bold">LinkedIn Integration Complete</p>
+            </div>
+          )}
+          {linkedInError == true && (
+            <div
+              className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4 mb-2"
+              role="alert"
+            >
+              <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
+              <p className="font-bold">
+                Error updating the user. Please try again.
+              </p>
+            </div>
+          )}
+        </div>
       </div>
       <div
         className="w-1/2 p-8 bg-gray-100 overflow-auto"
@@ -579,6 +718,78 @@ const User = () => {
                               </button>
                             </CopyToClipboard>
                             {copied && (
+                              <span className="ml-2 text-green-500">
+                                Copied!
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              )}
+              {currentUser.LinkedIn_integration_details && (
+                <div className="mb-4">
+                  <h4
+                    className="text-md font-semibold cursor-pointer flex items-center"
+                    onClick={() =>
+                      setIsLinkedInDetailsOpen(!isLinkedInDetailsOpen)
+                    }
+                  >
+                    LinkedIn Integration Details
+                    {isLinkedInDetailsOpen ? (
+                      <FaChevronUp className="ml-2" />
+                    ) : (
+                      <FaChevronDown className="ml-2" />
+                    )}
+                  </h4>
+                  {isLinkedInDetailsOpen && (
+                    <table className="table-auto w-full mt-2">
+                      <tbody>
+                        <tr>
+                          <td className="border px-4 py-2 font-semibold">
+                            Profile Name
+                          </td>
+                          <td className="border px-4 py-2 text-gray-500 break-words">
+                            {
+                              currentUser.LinkedIn_integration_details
+                                .profile_name
+                            }
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td className="border px-4 py-2 font-semibold">
+                            URN_sub
+                          </td>
+                          <td className="border px-4 py-2 text-gray-500 break-words">
+                            {currentUser.LinkedIn_integration_details.URN_sub}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="border px-4 py-2 font-semibold">
+                            LinkedIn Access Token
+                          </td>
+                          <td className="border px-4 py-2 flex items-center text-gray-500 break-words">
+                            <span className="overflow-hidden text-ellipsis whitespace-normal break-all max-w-xs">
+                              {
+                                currentUser.LinkedIn_integration_details
+                                  .linkedIn_access_token
+                              }
+                            </span>
+                            <CopyToClipboard
+                              text={
+                                currentUser.LinkedIn_integration_details
+                                  .linkedIn_access_token
+                              }
+                              onCopy={() => setLinkedInTokenCopied(true)}
+                            >
+                              <button className="ml-2">
+                                <FaCopy />
+                              </button>
+                            </CopyToClipboard>
+                            {linkedInTokenCopied && (
                               <span className="ml-2 text-green-500">
                                 Copied!
                               </span>
