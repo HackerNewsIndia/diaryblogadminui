@@ -5,6 +5,8 @@ import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import jwtDecode from "jwt-decode";
 // import ReactQuill from "react-quill";
 // import "react-quill/dist/quill.snow.css";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
 
 const LinkedInTemplateEditor = () => {
   const [clientId, setClientId] = useState("");
@@ -22,6 +24,7 @@ const LinkedInTemplateEditor = () => {
   const [media, setMedia] = useState([]);
   const [mediaUrls, setMediaUrls] = useState([]);
   const [mediaInputType, setMediaInputType] = useState("file"); // default to file input
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const fetchUserData = async (userId) => {
     try {
@@ -148,6 +151,11 @@ const LinkedInTemplateEditor = () => {
     );
   }
 
+  const handleEmojiSelect = (emoji) => {
+    setMessage(message + emoji.native);
+    setShowEmojiPicker(false);
+  };
+
   return (
     <div className="flex flex-col items-center bg-gray-100 p-4">
       {userData.linkedIn_access_token ? (
@@ -177,17 +185,31 @@ const LinkedInTemplateEditor = () => {
                 <option value="media">Image/Video Post</option>
               </select>
             </div>
-            <textarea
-              className="w-full p-2 border rounded"
-              placeholder="Enter your message here"
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-                setPostStatus(false);
-                setPostMessage("");
-              }}
-              rows="5"
-            ></textarea>
+            <div className="relative mb-4">
+              <textarea
+                className="w-full p-2 border rounded"
+                placeholder="Enter your message here"
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  setPostStatus(false);
+                  setPostMessage("");
+                }}
+                rows="5"
+              ></textarea>
+              <button
+                type="button"
+                className="absolute right-2 top-2"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              >
+                😊
+              </button>
+              {showEmojiPicker && (
+                <div className="absolute z-10">
+                  <Picker data={data} onEmojiSelect={handleEmojiSelect} />
+                </div>
+              )}
+            </div>
             {/* <ReactQuill
               className="w-full p-2 border rounded"
               value={message}
