@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faXmark,
-  faUserCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import jwtDecode from "jwt-decode";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 
 const LinkedInTemplateEditor = () => {
   const [clientId, setClientId] = useState("");
-  //   const [redirectUri, setRedirectUri] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState({});
@@ -20,11 +17,15 @@ const LinkedInTemplateEditor = () => {
   const [loading, setLoading] = useState(true);
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
+  const [postType, setPostType] = useState("text"); // default post type
+  const [link, setLink] = useState("");
+  const [media, setMedia] = useState([]);
+  const [mediaUrls, setMediaUrls] = useState([]);
+  const [mediaInputType, setMediaInputType] = useState("file"); // default to file input
 
   const fetchUserData = async (userId) => {
     try {
       const response = await fetch(
-        // `http://127.0.0.1:5001/api/user_linkedin_details?user_id=${userId}`,
         `https://diaryblogapi-eul3.onrender.com/api/user_linkedin_details?user_id=${userId}`,
         {
           method: "GET",
@@ -55,7 +56,7 @@ const LinkedInTemplateEditor = () => {
     if (token) {
       const decodedToken = jwtDecode(token);
       console.log("decodedToken:", decodedToken);
-      const userId = decodedToken.user.id; // assuming the ID is stored in the `user.id` field
+      const userId = decodedToken.user.id;
       console.log("User ID:", userId);
       setUserId(userId);
       fetchUserData(userId);
@@ -65,63 +66,44 @@ const LinkedInTemplateEditor = () => {
     }
   }, []);
 
-  //   const handleOAuth = async () => {
-  //     const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=https://localhost:3000/&scope=r_liteprofile%20r_emailaddress%20w_member_social`;
-  //     window.location.href = authUrl;
-  //   };
-
-  //   const handleSubmit = async (event) => {
-  //     event.preventDefault();
-  //     setLoadingSubmit(true);
-  //     const urlParams = new URLSearchParams(window.location.search);
-  //     const code = urlParams.get("code");
-
-  //     try {
-  //       const response = await fetch(
-  //         "http://127.0.0.1:5001/api/linkedin_exchange_token",
-  //         {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           body: JSON.stringify({
-  //             clientId: clientId,
-  //             redirectUri: "https://localhost:3000/",
-  //             code: code,
-  //           }),
-  //         }
-  //       );
-
-  //       const json_data = await response.json();
-  //       console.log("data:", json_data);
-  //       setAccessToken(json_data.access_token);
-  //     } catch (error) {
-  //       console.error("Error during token exchange:", error);
-  //     } finally {
-  //       setLoadingSubmit(false);
-  //     }
-  //   };
-
   const handleLinkedInPost = async (event) => {
     event.preventDefault();
     setLoadingPost(true);
 
-    try {
-      const response = await fetch(
-        // "http://127.0.0.1:5001/api/linkedin_post",
-        "https://diaryblogapi-eul3.onrender.com/api/linkedin_post",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: message,
-            linkedIn_access_token: userData.linkedIn_access_token,
-            URN_sub: userData.URN_sub,
-          }),
+    let endpoint = "";
+    let body = new FormData();
+    body.append("message", message);
+    body.append("linkedIn_access_token", userData.linkedIn_access_token);
+    body.append("URN_sub", userData.URN_sub);
+
+    if (postType === "text") {
+      // endpoint = "http://127.0.0.1:5001/api/linkedin_post";
+      endpoint = "https://diaryblogapi-eul3.onrender.com/api/linkedin_post";
+    } else if (postType === "link") {
+      // endpoint = "http://127.0.0.1:5001/api/linkedin_link_post";
+      endpoint =
+        "https://diaryblogapi-eul3.onrender.com/api/linkedin_link_post";
+      body.append("link", link);
+    } else if (postType === "media") {
+      // endpoint = "http://127.0.0.1:5001/api/linkedin_media_post";
+      endpoint =
+        "https://diaryblogapi-eul3.onrender.com/api/linkedin_media_post";
+      if (mediaInputType === "file") {
+        for (let i = 0; i < media.length; i++) {
+          body.append("media", media[i]);
         }
-      );
+      } else if (mediaInputType === "url") {
+        for (let i = 0; i < mediaUrls.length; i++) {
+          body.append("mediaUrls", mediaUrls[i]);
+        }
+      }
+    }
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        body: body,
+      });
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
@@ -130,6 +112,9 @@ const LinkedInTemplateEditor = () => {
       const data = await response.json();
       console.log("Post successful:", data);
       setMessage("");
+      setLink("");
+      setMedia([]);
+      setMediaUrls([]);
       if (data.id) {
         setPostStatus(true);
       } else {
@@ -145,6 +130,16 @@ const LinkedInTemplateEditor = () => {
     }
   };
 
+  const handleMediaUrlsChange = (index, value) => {
+    const newMediaUrls = [...mediaUrls];
+    newMediaUrls[index] = value;
+    setMediaUrls(newMediaUrls);
+  };
+
+  const addMediaUrlField = () => {
+    setMediaUrls([...mediaUrls, ""]);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -154,124 +149,6 @@ const LinkedInTemplateEditor = () => {
   }
 
   return (
-    // <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-    //   {userData.linkedIn_access_token ? (
-    //     <div className="w-full max-w-md bg-white shadow-md rounded p-6">
-    //       <div
-    //         className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
-    //         role="alert"
-    //       >
-    //         <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-    //         <p className="font-bold">LinkedIn: Logged In</p>
-    //       </div>
-    //       <div className="flex space-x-4 mt-4">
-    //         <form onSubmit={handleLinkedInPost} className="w-1/2 space-y-4">
-    //           <textarea
-    //             className="w-full p-2 border rounded"
-    //             placeholder="Enter your message here"
-    //             value={message}
-    //             onChange={(e) => {
-    //               setMessage(e.target.value);
-    //               setPostStatus(false);
-    //               setPostMessage("");
-    //             }}
-    //           ></textarea>
-    //           <button
-    //             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    //             type="submit"
-    //             disabled={loadingPost}
-    //           >
-    //             {loadingPost ? <BeatLoader color="#fff" size={10} /> : "Submit"}
-    //           </button>
-    //         </form>
-    //         <div className="w-1/2 bg-gray-200 p-4 rounded">
-    //           <div className="bg-white p-2 rounded shadow-md linkedin-post-preview">
-    //             <div className="flex items-center mb-2">
-    //               <FontAwesomeIcon
-    //                 className="w-10 h-10 mr-2 text-blue-500"
-    //                 icon={faUserCircle}
-    //               />
-    //               <div>
-    //                 <div className="font-bold">Your LinkedIn Name</div>
-    //                 <div className="text-gray-500 text-sm">Just now</div>
-    //               </div>
-    //             </div>
-    //             <div className="text-gray-700">{message}</div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //       {postStatus && (
-    //         <div
-    //           className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
-    //           role="alert"
-    //         >
-    //           <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-    //           <p className="font-bold">Successfully Posted!</p>
-    //         </div>
-    //       )}
-    //       {postMessage && (
-    //         <div
-    //           className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
-    //           role="alert"
-    //         >
-    //           <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
-    //           <p className="font-bold">{postMessage}</p>
-    //         </div>
-    //       )}
-    //     </div>
-    //   ) : (
-    //     <div className="w-full max-w-md bg-white shadow-md rounded p-6">
-    //       <form onSubmit={handleSubmit} className="space-y-4">
-    //         <div className="mb-4">
-    //           <label
-    //             className="block text-gray-700 text-sm font-bold mb-2"
-    //             htmlFor="clientId"
-    //           >
-    //             Client ID
-    //           </label>
-    //           <input
-    //             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //             id="clientId"
-    //             type="text"
-    //             placeholder="Client ID"
-    //             value={clientId}
-    //             onChange={(e) => setClientId(e.target.value)}
-    //           />
-    //         </div>
-    //         <div className="mb-4">
-    //           <label
-    //             className="block text-gray-700 text-sm font-bold mb-2"
-    //             htmlFor="redirectUri"
-    //           >
-    //             Redirect URI
-    //           </label>
-    //           {/* <input
-    //             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-    //             id="redirectUri"
-    //             type="text"
-    //             placeholder="Redirect URI"
-    //             value={redirectUri}
-    //             onChange={(e) => setRedirectUri(e.target.value)}
-    //           /> */}
-    //         </div>
-    //         <div className="flex items-center justify-between">
-    //           <button
-    //             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-    //             type="button"
-    //             onClick={handleOAuth}
-    //             disabled={loadingSubmit}
-    //           >
-    //             {loadingSubmit ? (
-    //               <BeatLoader color="#fff" size={10} />
-    //             ) : (
-    //               "Login with LinkedIn"
-    //             )}
-    //           </button>
-    //         </div>
-    //       </form>
-    //     </div>
-    //   )}
-    // </div>
     <div className="flex flex-col items-center bg-gray-100 p-4">
       {userData.linkedIn_access_token ? (
         <div className="w-full max-w-md bg-white shadow-md rounded p-6">
@@ -283,9 +160,23 @@ const LinkedInTemplateEditor = () => {
             <p className="font-bold">LinkedIn : LoggedIn</p>
           </div>
           <div className="flex items-center mt-1 mb-2 px-4 py-2">
-            <p className="font-bold">Page : {userData.profile_name}</p>
+            <p className="font-bold">Profile/Page : {userData.profile_name}</p>
           </div>
           <form onSubmit={handleLinkedInPost} className="space-y-4">
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Post Type
+              </label>
+              <select
+                value={postType}
+                onChange={(e) => setPostType(e.target.value)}
+                className="w-full p-2 border rounded"
+              >
+                <option value="text">Text Post</option>
+                <option value="link">Link Post</option>
+                <option value="media">Image/Video Post</option>
+              </select>
+            </div>
             <textarea
               className="w-full p-2 border rounded"
               placeholder="Enter your message here"
@@ -295,8 +186,85 @@ const LinkedInTemplateEditor = () => {
                 setPostStatus(false);
                 setPostMessage("");
               }}
-              rows="10"
+              rows="5"
             ></textarea>
+            {/* <ReactQuill
+              className="w-full p-2 border rounded"
+              value={message}
+              onChange={(value) => {
+                setMessage(value);
+                setPostStatus(false);
+                setPostMessage("");
+              }}
+              placeholder="Enter your message here"
+              modules={{
+                toolbar: [
+                  [{ header: "1" }, { header: "2" }, { font: [] }],
+                  [{ size: [] }],
+                  ["bold", "italic", "underline", "strike", "blockquote"],
+                  [{ list: "ordered" }, { list: "bullet" }],
+                  ["link", "image", "video"],
+                  ["clean"],
+                ],
+              }}
+            /> */}
+            {postType === "link" && (
+              <input
+                type="text"
+                className="w-full p-2 border rounded"
+                placeholder="Enter link here"
+                value={link}
+                onChange={(e) => setLink(e.target.value)}
+              />
+            )}
+            {postType === "media" && (
+              <>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Media Input Type
+                  </label>
+                  <select
+                    value={mediaInputType}
+                    onChange={(e) => setMediaInputType(e.target.value)}
+                    className="w-full p-2 border rounded"
+                  >
+                    <option value="file">File Upload</option>
+                    <option value="url">Image URL</option>
+                  </select>
+                </div>
+                {mediaInputType === "file" && (
+                  <input
+                    type="file"
+                    className="w-full p-2 border rounded"
+                    onChange={(e) => setMedia(Array.from(e.target.files))}
+                    multiple
+                  />
+                )}
+                {mediaInputType === "url" && (
+                  <>
+                    {mediaUrls.map((url, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        className="w-full p-2 border rounded mb-2"
+                        placeholder={`Enter image URL ${index + 1}`}
+                        value={url}
+                        onChange={(e) =>
+                          handleMediaUrlsChange(index, e.target.value)
+                        }
+                      />
+                    ))}
+                    <button
+                      type="button"
+                      className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2"
+                      onClick={addMediaUrlField}
+                    >
+                      Add Another Image URL
+                    </button>
+                  </>
+                )}
+              </>
+            )}
             <button
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
@@ -314,10 +282,9 @@ const LinkedInTemplateEditor = () => {
               <p className="font-bold">Successfully Posted!!</p>
             </div>
           )}
-
           {postMessage && (
             <div
-              className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
+              className="flex items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4"
               role="alert"
             >
               <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
