@@ -227,31 +227,42 @@ const FacebookTemplateEditor = () => {
   }
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 p-4">
+    <div className="p-4 px-5 mx-auto">
       {userData.permanent_token ? (
-        <div className="w-full max-w-md bg-white shadow-md rounded p-6">
-          <div
-            className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mt-2 mb-2"
-            role="alert"
-          >
-            <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-            <p className="font-bold">Facebook : LoggedIn</p>
+        <div className="w-full sm:w-3/4 bg-white p-6 px-10 mx-auto space-y-4">
+          {/* Flex container for Facebook status and Page name */}
+          <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex items-center mt-1 mb-2 py-2">
+              <p className="font-bold text-lg">Page: {userData.page_name}</p>
+            </div>
+            <div
+              className="flex items-center text-green-700 px-4 py-2 rounded"
+              role="alert"
+            >
+              <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
+              <p className="font-bold">Facebook: Logged In</p>
+            </div>
           </div>
-          <div className="flex items-center mt-1 mb-2 px-4 py-2">
-            <p className="font-bold">Page : {userData.page_name}</p>
-          </div>
+
+          {/* Form */}
           <form onSubmit={handleFacebookPostReady} className="space-y-4">
-            <textarea
-              className="w-full p-2 border rounded"
-              placeholder="Enter your message here"
-              value={message}
-              onChange={(e) => {
-                setMessage(e.target.value);
-                setPostStatus(false);
-                setPostMessage("");
-              }}
-              rows="10"
-            ></textarea>
+            <div className="relative">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Write Your Post Here
+              </label>
+              <textarea
+                className="w-full p-2 border rounded"
+                placeholder="Enter your message here"
+                value={message}
+                onChange={(e) => {
+                  setMessage(e.target.value);
+                  setPostStatus(false);
+                  setPostMessage("");
+                }}
+                rows="7"
+              ></textarea>
+            </div>
+
             <button
               className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="submit"
@@ -260,6 +271,7 @@ const FacebookTemplateEditor = () => {
               {loadingPost ? <BeatLoader color="#fff" size={10} /> : "Submit"}
             </button>
           </form>
+
           {postStatus && (
             <div
               className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
@@ -272,7 +284,7 @@ const FacebookTemplateEditor = () => {
 
           {postMessage && (
             <div
-              className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
+              className="flex items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4"
               role="alert"
             >
               <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
@@ -287,10 +299,10 @@ const FacebookTemplateEditor = () => {
             role="alert"
           >
             <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
-            <p className="font-bold">Facebook : Not LoggedIn</p>
+            <p className="font-bold">Facebook: Not Logged In</p>
           </div>
           <div>
-            <p className="flex items-center text-gray-600">
+            <p className="text-gray-600">
               Go to "User" menu and complete Facebook Integration
             </p>
           </div>

@@ -3,8 +3,6 @@ import { BeatLoader } from "react-spinners";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
 import jwtDecode from "jwt-decode";
-// import ReactQuill from "react-quill";
-// import "react-quill/dist/quill.snow.css";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
@@ -80,15 +78,12 @@ const LinkedInTemplateEditor = () => {
     body.append("URN_sub", userData.URN_sub);
 
     if (postType === "text") {
-      // endpoint = "http://127.0.0.1:5001/api/linkedin_post";
       endpoint = "https://diaryblogapi-eul3.onrender.com/api/linkedin_post";
     } else if (postType === "link") {
-      // endpoint = "http://127.0.0.1:5001/api/linkedin_link_post";
       endpoint =
         "https://diaryblogapi-eul3.onrender.com/api/linkedin_link_post";
       body.append("link", link);
     } else if (postType === "media") {
-      // endpoint = "http://127.0.0.1:5001/api/linkedin_media_post";
       endpoint =
         "https://diaryblogapi-eul3.onrender.com/api/linkedin_media_post";
       if (mediaInputType === "file") {
@@ -157,21 +152,28 @@ const LinkedInTemplateEditor = () => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-gray-100 p-4">
+    <div className="p-4 px-5 mx-auto sm:p-6 sm:px-10">
       {userData.linkedIn_access_token ? (
-        <div className="w-full max-w-md bg-white shadow-md rounded p-6">
-          <div
-            className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mt-2 mb-2"
-            role="alert"
-          >
-            <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-            <p className="font-bold">LinkedIn : LoggedIn</p>
+        <div className="w-full sm:w-3/4 bg-white p-6 px-10 mx-auto space-y-4">
+          {/* Flex container for Profile/Page and LinkedIn status */}
+          <div className="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex items-center mt-1 mb-2 py-2">
+              <p className="font-bold text-lg">
+                Profile/Page: {userData.profile_name}
+              </p>
+            </div>
+            <div
+              className="flex items-center text-green-700 py-2 mt-2 sm:mt-0 mb-2 sm:mb-0"
+              role="alert"
+            >
+              <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
+              <p className="font-bold">LinkedIn: Logged In</p>
+            </div>
           </div>
-          <div className="flex items-center mt-1 mb-2 px-4 py-2">
-            <p className="font-bold">Profile/Page : {userData.profile_name}</p>
-          </div>
+
+          {/* Form */}
           <form onSubmit={handleLinkedInPost} className="space-y-4">
-            <div className="mb-4">
+            <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Post Type
               </label>
@@ -185,7 +187,11 @@ const LinkedInTemplateEditor = () => {
                 <option value="media">Image/Video Post</option>
               </select>
             </div>
-            <div className="relative mb-4">
+
+            <div className="relative">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Write Your Post Here
+              </label>
               <textarea
                 className="w-full p-2 border rounded"
                 placeholder="Enter your message here"
@@ -195,7 +201,7 @@ const LinkedInTemplateEditor = () => {
                   setPostStatus(false);
                   setPostMessage("");
                 }}
-                rows="5"
+                rows="7"
               ></textarea>
               <button
                 type="button"
@@ -210,26 +216,7 @@ const LinkedInTemplateEditor = () => {
                 </div>
               )}
             </div>
-            {/* <ReactQuill
-              className="w-full p-2 border rounded"
-              value={message}
-              onChange={(value) => {
-                setMessage(value);
-                setPostStatus(false);
-                setPostMessage("");
-              }}
-              placeholder="Enter your message here"
-              modules={{
-                toolbar: [
-                  [{ header: "1" }, { header: "2" }, { font: [] }],
-                  [{ size: [] }],
-                  ["bold", "italic", "underline", "strike", "blockquote"],
-                  [{ list: "ordered" }, { list: "bullet" }],
-                  ["link", "image", "video"],
-                  ["clean"],
-                ],
-              }}
-            /> */}
+
             {postType === "link" && (
               <input
                 type="text"
@@ -239,9 +226,10 @@ const LinkedInTemplateEditor = () => {
                 onChange={(e) => setLink(e.target.value)}
               />
             )}
+
             {postType === "media" && (
-              <>
-                <div className="mb-4">
+              <div className="space-y-4">
+                <div>
                   <label className="block text-gray-700 text-sm font-bold mb-2">
                     Media Input Type
                   </label>
@@ -263,13 +251,13 @@ const LinkedInTemplateEditor = () => {
                   />
                 )}
                 {mediaInputType === "url" && (
-                  <>
+                  <div className="space-y-2">
                     {mediaUrls.map((url, index) => (
                       <input
                         key={index}
                         type="text"
-                        className="w-full p-2 border rounded mb-2"
-                        placeholder={`Enter image URL ${index + 1}`}
+                        className="w-full p-2 border rounded"
+                        placeholder="Enter image URL"
                         value={url}
                         onChange={(e) =>
                           handleMediaUrlsChange(index, e.target.value)
@@ -278,57 +266,51 @@ const LinkedInTemplateEditor = () => {
                     ))}
                     <button
                       type="button"
-                      className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2"
+                      className="p-2 bg-gray-200 rounded"
                       onClick={addMediaUrlField}
                     >
-                      Add Another Image URL
+                      Add More URL
                     </button>
-                  </>
+                  </div>
                 )}
-              </>
+              </div>
             )}
-            <button
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              disabled={loadingPost}
-            >
-              {loadingPost ? <BeatLoader color="#fff" size={10} /> : "Submit"}
-            </button>
-          </form>
-          {postStatus && (
-            <div
-              className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4"
-              role="alert"
-            >
-              <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faCheck} />
-              <p className="font-bold">Successfully Posted!!</p>
+
+            <div className="flex items-center justify-center">
+              <button
+                type="submit"
+                disabled={loadingPost}
+                className="w-full sm:w-1/2 bg-blue-500 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+              >
+                {loadingPost ? (
+                  <BeatLoader color="#fff" size={10} />
+                ) : (
+                  "Post to LinkedIn"
+                )}
+              </button>
             </div>
-          )}
+          </form>
+
           {postMessage && (
             <div
-              className="flex items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-4"
-              role="alert"
+              className={`mt-4 ${
+                postStatus ? "text-green-600" : "text-red-600"
+              }`}
             >
-              <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
-              <p className="font-bold">{postMessage}</p>
+              <FontAwesomeIcon
+                className="w-5 h-5 mr-2"
+                icon={postStatus ? faCheck : faXmark}
+              />
+              <p className="inline font-bold">{postMessage}</p>
             </div>
           )}
         </div>
       ) : (
-        <>
-          <div
-            className="flex items-center bg-red-500 border border-green-400 text-white px-4 py-3 rounded mt-4 mb-2"
-            role="alert"
-          >
-            <FontAwesomeIcon className="w-5 h-5 mr-2" icon={faXmark} />
-            <p className="font-bold">LinkedIn : Not LoggedIn</p>
-          </div>
-          <div>
-            <p className="flex items-center text-gray-600">
-              Go to "User" menu and complete LinkedIn Integration
-            </p>
-          </div>
-        </>
+        <div className="flex items-center justify-center min-h-screen">
+          <p className="text-red-600 font-bold text-lg">
+            Please connect your LinkedIn account.
+          </p>
+        </div>
       )}
     </div>
   );

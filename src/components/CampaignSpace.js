@@ -61,7 +61,7 @@ const CampaignSpace = ({ onCampaignClose, marketSpace }) => {
           </div>
         </div>
       </div>
-      <div className="mx-2 my-1 p-1">
+      <div className="w-2/3 mx-5 my-1 p-1 px-5">
         {isEmailTabActive && (
           <EmailTemplateEditor
             marketSpace={marketSpace}
