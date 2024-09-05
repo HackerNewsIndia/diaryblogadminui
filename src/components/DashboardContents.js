@@ -226,7 +226,7 @@ const DashboardContent = () => {
                     </div>
                     <div className=" w-full flex flex-row p-2 items-center text-center justify-center space-x-2">
                       <p className="text-2xl font-semibold">
-                        {engagement.total_comments}
+                        {engagement.total_comments_count}
                       </p>
                       <p>Total Comments</p>
                     </div>
